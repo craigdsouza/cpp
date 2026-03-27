@@ -1,0 +1,5 @@
+Loading 3 map tiles...
+ -> integer 1
+ -> integer 2
+ -> integer 3
+Odd number of tiles

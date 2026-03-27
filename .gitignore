@@ -1,0 +1,19 @@
+# Compiled object files and libraries
+*.o
+*.a
+*.so
+*.out
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.swp
+
+# 001_hello_map
+projects/001_hello_map/hello_map
+
+# 002_ref_and_pointers
+projects/002_ref_and_pointers/references

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wsl --version)",
+      "Bash(wsl -e bash -c \"echo WSL available\")",
+      "Bash(wsl:*)",
+      "Bash(xargs file:*)",
+      "Bash(mkdir -p \"/c/Users/CRAIG-DSOUZA/Code/c++/projects/hello_map\")",
+      "Bash(mv \"/c/Users/CRAIG-DSOUZA/Code/c++/hello_map.cpp\" \"/c/Users/CRAIG-DSOUZA/Code/c++/projects/hello_map/\")",
+      "Bash(mv \"/c/Users/CRAIG-DSOUZA/Code/c++/Makefile\" \"/c/Users/CRAIG-DSOUZA/Code/c++/projects/hello_map/\")",
+      "Bash(mv \"/c/Users/CRAIG-DSOUZA/Code/c++/hello_map\" \"/c/Users/CRAIG-DSOUZA/Code/c++/projects/hello_map/\")",
+      "Bash(mv \"/c/Users/CRAIG-DSOUZA/Code/c++/output.txt\" \"/c/Users/CRAIG-DSOUZA/Code/c++/projects/hello_map/\")"
+    ]
+  }
+}
