@@ -1,31 +1,8 @@
-# C++ Exercises
-
----
-
-## Day 1 — Vectors, Types, Control Flow
-
-**Goal:** Get the environment working and write your first real C++ program.
-
-### Exercise
-
-Modify `hello_map.cpp` so that:
-
-1. Instead of hardcoded strings, the vector holds `int` tile IDs (integers: 1, 2, 3, 4, 5)
-2. The program prints the total number of tiles
-3. The program prints whether the total is even or odd (use an `if` statement)
-4. Compile with `-Wall -Wextra` — zero warnings allowed
-
-### Checkpoint
-
-You've passed Day 1 when your program compiles clean and prints the correct even/odd result.
-
----
-
-## Day 2 — References and Pointers
+# Day 2 — References and Pointers
 
 **Goal:** Understand the single most important concept in C++. Everything else builds on this.
 
-### Background
+## Background
 
 In Python, variables are labels. When you write `x = [1, 2, 3]` and then `y = x`, both `x` and `y` point to the same list. There is no explicit syntax to say "give me a direct alias" vs "give me a copy" — Python decides for you based on the type.
 
@@ -36,7 +13,7 @@ In C++ you make that choice explicitly, every time, with two tools:
 
 Both give you access to data without copying it. They differ in flexibility, safety, and intent.
 
-### Exercise 1 — References
+## Exercise 1 — References
 
 Create a new file `references.cpp`.
 
@@ -50,7 +27,7 @@ In `main`, create a `std::string` with value `"007"`, call `add_prefix` on it, t
 
 **What to observe:** The function modifies the original variable in `main`. No copy was made. No return value was needed.
 
-### Exercise 2 — Const references in functions
+## Exercise 2 — Const references in functions
 
 Write a second function called `print_tile` that takes a `const std::string&` and prints it.
 
@@ -60,7 +37,7 @@ Call it with your modified string from Exercise 1.
 
 **The rule to internalize:** Pass by `const T&` when the function only needs to read. Pass by `T&` when the function needs to write. Pass by value (`T`) when the type is a primitive (`int`, `double`, `bool`, `char`).
 
-### Exercise 3 — Pointers
+## Exercise 3 — Pointers
 
 Create a new file `pointers.cpp`.
 
@@ -75,7 +52,7 @@ In `main`:
 
 **What to observe:** `p` holds a memory address. `*p` reads or writes the value at that address. The variable `tile_id` and the expression `*p` refer to exactly the same 4 bytes of memory.
 
-### Exercise 4 — The nullptr
+## Exercise 4 — The nullptr
 
 Add to `pointers.cpp`:
 
@@ -85,7 +62,7 @@ Add to `pointers.cpp`:
 
 **What to observe:** Dereferencing a null pointer is undefined behavior — your program will crash or corrupt memory silently. In production C++ (and especially in safety-critical AV software) every pointer that could be null must be checked before use. References avoid this problem entirely because they can never be null.
 
-### Exercise 5 — Putting it together
+## Exercise 5 — Putting it together
 
 Create a function `swap_tiles` that takes two `int` references and swaps their values — without returning anything and without using a temporary variable stored outside the function.
 
@@ -98,7 +75,19 @@ swap_tiles(a, b);
 
 Write a `main` that demonstrates the swap worked.
 
-### Checkpoint
+## Exercise Results — 2026-03-27
+
+| Exercise | Result | Note |
+|----------|--------|------|
+| Exercise 1 — References | Pass | `add_prefix` correctly modifies string in place via `std::string&` |
+| Exercise 2 — Const references | Pass | `print_tile` uses `const std::string&`; const-violation test confirmed with commented line |
+| Exercise 3 — Pointers | Pass | Declares pointer, dereferences, mutates through pointer correctly |
+| Exercise 4 — nullptr | Fail | `q` was assigned `&tile_id` immediately — never initialized to `nullptr`, so the null-check branch never executes |
+| Exercise 5 — swap_tiles | Pass | Swap works correctly; local temp inside function satisfies the constraint |
+
+---
+
+## Checkpoint
 
 You've passed Day 2 when you can answer these without looking anything up:
 

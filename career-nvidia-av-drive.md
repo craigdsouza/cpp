@@ -26,6 +26,70 @@
 
 ---
 
+## Portfolio Project Track (Parallel to C++ Study)
+
+> **Strategy:** Your June 1st application needs proof you can bridge geospatial expertise into AV mapping. These three projects run alongside your C++ fundamentals work. Each one is scoped to ~2 weeks and produces a GitHub-ready artifact. Start in Python where needed — the goal is *domain signal*, not language purity.
+
+### Project 1: GeoJSON → Road Graph Engine (Weeks 2–3)
+**What:** Ingest OpenStreetMap GeoJSON exports, build a road network graph in C++, and run shortest-path queries (Dijkstra's, A*).
+
+**Why this matters for NVIDIA:** The DRIVE Mapping team builds "scalable map-building workflows." This shows you can go from raw spatial data → structured graph — the exact pipeline shape they work with. It also doubles as your C++ data structures practice.
+
+**Deliverables:**
+- C++ library that parses GeoJSON road segments into an adjacency list
+- Dijkstra's and A* implementations on the road graph
+- Python wrapper script that visualizes routes on a Folium/Leaflet map
+- README documenting coordinate system handling (your GIS expertise shines here)
+
+**Skills practiced:** C++ STL containers, file I/O, graph algorithms, memory management, CMake build system
+
+---
+
+### Project 2: Point Cloud Spatial Index (Weeks 4–6)
+**What:** Build a k-d tree in C++ that indexes 3D point cloud data (lidar-style), supports nearest-neighbor queries, and serves results over a simple interface.
+
+**Why this matters for NVIDIA:** Map-based localization matches lidar scans against map features. Point cloud indexing is a core primitive. Building one from scratch shows you understand spatial data structures at the low level — a direct bridge from your raster/vector GIS background into 3D AV territory.
+
+**Deliverables:**
+- C++ k-d tree implementation for 3D points (insert, k-nearest-neighbor, radius search)
+- Benchmark: your k-d tree vs brute force on 1M+ points (shows performance awareness)
+- Python script that generates synthetic point cloud data and visualizes query results
+- Optional: load a real lidar dataset from KITTI or nuScenes open data
+
+**Skills practiced:** Pointers, recursion, memory layout / cache friendliness, modern C++ (smart pointers, move semantics), benchmarking
+
+---
+
+### Project 3: HD Map Tile Server (Weeks 6–9)
+**What:** A tile-based map server that stores road geometry in a spatial grid, serves tiles on demand, and handles coordinate transforms between UTM and WGS84.
+
+**Why this matters for NVIDIA:** The job description says "deliver SD maps to all in-car consumers." A tile server is the exact architectural pattern — you're demonstrating you understand tiled spatial data delivery, something most C++ engineers have never built but you already grasp from your SaaS work.
+
+**Deliverables:**
+- C++ tile index with spatial hashing (tile key = zoom/x/y)
+- Protocol Buffers (protobuf) schema for map tiles (road segments, attributes, topology)
+- gRPC service that accepts a bounding box query and streams back relevant tiles
+- Python client that requests tiles along a route and renders them
+- Health monitoring endpoint (the job listing specifically mentions "health monitors")
+
+**Skills practiced:** gRPC, protobuf, multithreading (serving concurrent requests), serialization, network programming, system design
+
+---
+
+### How the Projects Stack
+
+| Week | C++ Study | Project Work | Portfolio Signal |
+|------|-----------|-------------|-----------------|
+| 1 | Basics, types, control flow | (study only) | — |
+| 2–3 | STL, references, pointers | **Project 1:** Road Graph | "I build spatial data pipelines in C++" |
+| 4–5 | Classes, RAII, smart pointers | **Project 2:** Point Cloud Index | "I understand 3D spatial indexing for AV" |
+| 6–7 | Templates, move semantics | **Project 2 polish + Project 3 start** | — |
+| 8–9 | Concurrency, networking | **Project 3:** Tile Server | "I've built the exact architecture pattern this role needs" |
+
+> **By application day (June 1):** Your GitHub has three projects that tell a clear story — *"I'm a geospatial engineer who already thinks in the data structures and system patterns your team builds, and I'm writing them in C++."* That's a stronger signal than being marginally better at LeetCode.
+
+---
+
 ## Level 3 → 4: Foundations Reset (Weeks 1–6)
 
 **Goal:** Establish the CS fundamentals this role assumes you already have as a "4+ years with BS CS" candidate.
