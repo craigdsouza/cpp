@@ -23,3 +23,6 @@ projects/003_classes_and_structs/maptile
 
 # 004_stl_containers
 # (add binary names here as .cpp files are created)
+
+# 005_raii_and_destructors
+# (add binary names here as .cpp files are created)

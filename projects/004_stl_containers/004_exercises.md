@@ -99,6 +99,18 @@ In `main`, create a route with at least 5 IDs (including one that doesn't exist 
 
 ---
 
+## Exercise Results — 2026-03-31
+
+| Exercise | Result | Note |
+|----------|--------|------|
+| Exercise 1 — std::map | Pass | 4 tiles inserted out of order, iterated and printed correctly |
+| Exercise 2 — std::unordered_map | Pass | Cache built and iterated; arbitrary order demonstrated |
+| Exercise 3 — Iterators and find() | Pass | find() used with end() check; iterator used to read and modify value |
+| Exercise 4 — Erase and update | Pass | erase() used correctly; update done via find()+iterator (safer than prescribed operator[]) |
+| Exercise 5 — Choosing the right container | Pass | Correct signature, vector+unordered_map pattern, missing tile handled |
+
+---
+
 ## Checkpoint
 
 You've passed Day 4 when you can:

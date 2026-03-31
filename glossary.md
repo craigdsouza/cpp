@@ -43,3 +43,22 @@
 - `const` member function
 - invariant
 - `std::vector<T>`
+
+## Day 4
+- STL (Standard Template Library)
+- `std::map<K, V>`
+- `std::unordered_map<K, V>`
+- iterator
+- `begin()`
+- `end()` (sentinel / past-the-end)
+- `find()`
+- `erase()`
+- `operator[]` (map)
+- default-constructed value
+- ghost tile (silent insertion via `operator[]`)
+- O(log n) vs O(1) lookup
+- hash map
+- red-black tree
+- range-for over a map (`auto& item`)
+- `it->first` / `it->second`
+- sentinel value

@@ -6,7 +6,7 @@
 
 **Colleague B is right — `std::unordered_map<int, MapTile>`.**
 
-For 50 lookups per frame at real-time rates (60+ Hz), O(1) average hash lookup beats O(log n) tree lookup decisively. At n=50, log₂(50) ≈ 6 comparisons per lookup vs ~1 for a hash map. Multiply by 50 lookups × 60 frames = 3000 comparisons per second saved.
+For 50 lookups per frame at real-time rates (60+ Hz), O(1) average hash lookup beats O(log n) tree lookup decisively. If the MapTile store has n=1e6 tiles, log₂(1e6) ≈ 20 comparisons per lookup vs ~1 for a hash map. Multiply by 50 lookups × 60 frames = 60,000 comparisons per second saved.
 
 What `std::map` gives you that `unordered_map` doesn't: **sorted iteration**. If you ever need to process tiles in ID order — e.g. for deterministic logging, range queries ("give me all tiles with ID between 100 and 200"), or sequential pipeline stages — `map` wins. For a pure lookup cache, it's the wrong tool.
 

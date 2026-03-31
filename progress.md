@@ -127,3 +127,36 @@ See [copy-vs-reference.md](./copy-vs-reference.md).
 
 ### Carry-Forward
 - **Repeat Exercise — nullptr (Fail):** `nullptr_check.cpp` redeclares `int* q` on line 20 — fix to `q = &tile_id` (drop the type)
+
+---
+
+## 2026-03-31 — Day 4: STL Containers
+
+### Quiz Score
+4.0 / 5.0 — Strong on lookup mechanics and safe iterator patterns; gap in explaining the internals of unordered_map and confusion on what "ordered" means for vector.
+
+| Q | Score | Note |
+|---|-------|------|
+| Q1 | 0.75 | Correct pick + O(1) reasoning; missed what `map` gives you (sorted iteration, range queries) |
+| Q2 | 1.0 | Ghost tile identified, danger explained, correct fix with code |
+| Q3 | 0.75 | Correct outputs for both; didn't explain hash buckets as the reason for unordered_map's arbitrary order |
+| Q4 | 0.5 | Correct container chosen, but confused insertion-order (vector) with sorted-order (map) — undermined own reasoning |
+| Q5 | 1.0 | Complete: first/second explained, undefined behavior on end() called out, Day 2 nullptr analogy made cleanly |
+
+### Exercises
+| Exercise | Result |
+|----------|--------|
+| Exercise 1 — std::map | Pass |
+| Exercise 2 — std::unordered_map | Pass |
+| Exercise 3 — Iterators and find() | Pass |
+| Exercise 4 — Erase and update | Pass |
+| Exercise 5 — Choosing the right container | Pass |
+
+### Concepts Confirmed
+- Understands O(1) vs O(log n) and when unordered_map wins over map for real-time lookup
+- Understands the ghost tile danger of `operator[]` and can write the correct find()+end() alternative
+- Understands that map yields sorted iteration (BST) and unordered_map yields arbitrary order
+- Understands iterators as pointer-like objects: `it->first`/`it->second`, and that end() is a sentinel analogous to nullptr
+
+### Carry-Forward
+- **Q4 (0.5):** Confusion between insertion-order (vector preserves sequence) vs sorted-order (map sorts by key) — revisit what "ordered" means for each container type
