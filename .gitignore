@@ -26,3 +26,6 @@ projects/003_classes_and_structs/maptile
 
 # 005_raii_and_destructors
 # (add binary names here as .cpp files are created)
+
+# 006_smart_pointers
+# (add binary names here as .cpp files are created)
