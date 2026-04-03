@@ -64,8 +64,11 @@ With unordered map there is no particular order since iteration doesn't matter, 
 
 You need to store the sequence of tile IDs along a planned route. The route is ordered (tile 3 comes before tile 7), and the same tile can appear multiple times (the route loops back through an intersection). Which STL container do you use, and why does `std::map` not work here even though it also stores tile IDs?
 
-## Answer 4
+## Answer 4 - 2026-03-31
 I think I would use a std::vector<int> because it meets both criteria, it allows repeated entries and second it is ordered. But then I'm not sure, because, if it is ordered and the sequence of tiles is {1,2,3,4,5,6,7,3} // i.e. 3 repeats, isn't this now out of order?
+
+## Answer 4 - 2026-04-01
+I would use std::vector<int> because it meets both criteria, it maintains the order of insertion, thus the fixed order of the route is maintained. It also allows repetition, thus you can "revisit the intersection" . "std::map" wouldn't work because it changes insertion order to be sorted in ascending order, and it also doesn't allow repetition of tile IDs, since keys have to be unique.
 
 ---
 

@@ -160,3 +160,38 @@ See [copy-vs-reference.md](./copy-vs-reference.md).
 
 ### Carry-Forward
 - **Q4 (0.5):** Confusion between insertion-order (vector preserves sequence) vs sorted-order (map sorts by key) — revisit what "ordered" means for each container type
+
+---
+
+## 2026-04-03 — Day 5: RAII and Destructors
+
+### Quiz Score
+4.0 / 6.0 — Strong on core RAII concepts and practical application; Q5 unanswered, minor gaps in C analogy and quantifying leak severity.
+
+| Q | Score | Note |
+|---|-------|------|
+| QR1 | 1.0 | Both disqualifying reasons for map correctly identified |
+| Q1 | 0.75 | Correct destructor reasoning; said "try/catch" for C but C has no exceptions — manual cleanup on every exit path is the right answer |
+| Q2 | 0.75 | Correct order and LIFO analogy; missed dependency preservation as the reason for reverse order |
+| Q3 | 0.75 | Correct leak + correct destructor; math error (wrote 60,000 instead of 6,000) and total leaked objects not quantified |
+| Q4 | 0.75 | Correct + composability noted unprompted; missed opt-in vs automatic distinction |
+| Q5 | 0.0 | Unanswered — partially constructed object destructor semantics |
+
+### Exercises
+| Exercise | Result |
+|----------|--------|
+| Exercise 1 — Writing a destructor | Pass |
+| Exercise 2 — RAII file handle | Pass |
+| Exercise 3 — Destruction order in a vector | Pass |
+| Exercise 4 — RAII sensor handle | Pass |
+| Exercise 5 — Spot the resource leak | Pass |
+| Repeat Exercise — nullptr | Pass |
+
+### Concepts Confirmed
+- Understands RAII: resource tied to object lifetime, constructor acquires, destructor releases
+- Understands stack unwinding triggers destructors on exception — and that a catch is needed somewhere for unwinding to occur
+- Understands heap vs stack memory: heap requires explicit `delete[]`, RAII wraps this in a destructor
+- Understands why RAII beats Python's `with`: automatic at every call site, composable across nested objects
+
+### Carry-Forward
+- **Q5 (0.0):** Partially constructed object semantics — if `b`'s constructor throws, `b`'s destructor does NOT run, but `a`'s does. Revisit in Day 6 context.

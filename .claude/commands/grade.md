@@ -76,6 +76,30 @@ Read `progress.md`. Append a new dated entry at the end of the file in this form
 
 ---
 
+## Part 4 — Update memory.md
+
+Read `memory.md` at the repo root. Update it to reflect what was learned and observed this session. This is not a log — it is a **living snapshot** of the student's current state. Rewrite sections in place rather than appending.
+
+Apply the following updates:
+
+1. **Update "Last updated"** to today's date and day number.
+
+2. **Promote concepts to "What is solid"** if quiz answers or exercises this session demonstrated clear understanding — correct answer + complete reasoning (score 1.0), or correct code written without prompting.
+
+3. **Remove gaps that are now closed** — if a gap listed under "Known gaps" was addressed this session (correct answer on a previously missed concept, or demonstrated in an exercise), move it to solid or remove it.
+
+4. **Add new gaps** surfaced this session — any concept where the student scored 0.0 or 0.5, showed confusion, or asked a clarifying question that revealed a missing foundation. Note *what specifically* was missing, not just the topic.
+
+5. **Update "Curriculum position"** — mark the just-completed day as Complete and update the "Next" row.
+
+6. **Update "Coming into Day N+1"** — summarise what the student is carrying into the next day: what's solid, what's a gap, and any specific concept from carry-forward that will be relevant.
+
+7. **Update "Recommendations"** — revise or add recommendations based on patterns observed this session. Remove recommendations that are no longer relevant.
+
+Do not append dated log entries — `progress.md` handles the log. `memory.md` should always read as a current snapshot, not a history.
+
+---
+
 ## Tone
 
 Encouraging. Point out what was done well before noting gaps. The carry-forward section is framed as "things to revisit" not "things you got wrong."

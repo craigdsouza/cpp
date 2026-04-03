@@ -65,6 +65,24 @@ If `progress.md` has no graded entries yet, skip this step.
 
 ---
 
+## Step 2b — Read the student understanding snapshot
+
+Read `memory.md` at the repo root. This file documents:
+- What C++ concepts the student currently understands solidly
+- Known gaps in CS fundamentals and "why" reasoning
+- Learning patterns and what kinds of explanations land well
+- Carry-forward items not yet captured in `progress.md`
+- Specific recommendations for upcoming days
+
+Use this to calibrate:
+- **Background section depth** — if a CS fundamental is listed as a gap, introduce it explicitly rather than assuming it
+- **Exercise scaffolding** — lean toward more or less guidance based on the student's applied vs conceptual balance
+- **Quiz question framing** — target question types that address noted gaps (e.g. "why" questions if reasoning lags application)
+- **Python analogies** — use them where noted to be effective
+- **Concept explainers** — if `memory.md` recommends pre-reading a `concepts/` file, link to it in the Background section
+
+---
+
 ## Step 3 — Determine the next topic
 
 Read `progress.md` to see what has been covered and the most recent Carry-Forward state.

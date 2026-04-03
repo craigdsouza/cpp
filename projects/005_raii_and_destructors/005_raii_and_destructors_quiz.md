@@ -11,6 +11,8 @@ You need to store the sequence of tile IDs along a planned route. The route is o
 Focus specifically on clarifying what "ordered" means for `std::vector` vs `std::map` — they are ordered in *different* senses.
 
 ## Answer QR1
+std::map wouldn't work because it has to have unique keys, thus a route with a tile that appears twice would have duplicate IDs which makes it not compatible with this use case. Similarly map would not preserve insertion order of tiles which is required for a planned route.
+A vector on the other hand, would take care of preservation of insertion order and it also allows duplicate tile IDs.
 
 ---
 
@@ -32,6 +34,8 @@ void process_frame() {
 If `data.empty()` is true and the exception is thrown, is the LiDAR sensor released? Explain why. What would happen in a language without RAII (e.g. C) if you wanted the same guarantee?
 
 ## Answer 1
+The LiDAR sensor is released, because the SensorHandle class' destructor function releases it. Thus when the exception is thrown the destructor function runs and releases the LIDAR sensor. 
+To get the same guarantee in C, you would need a try/catch block to explicitly release the sensor if data is empty. 
 
 ---
 
@@ -50,6 +54,8 @@ Given this code:
 In what order are the destructors called, and why? Connect this to how a call stack unwinds.
 
 ## Answer 2
+The destructors are called in reverse order, Gamma, then Beta , then Alpha. 
+This is similar to how a call stack unwinds, the last variable in the stack is pushed out first.
 
 ---
 
@@ -80,6 +86,14 @@ void localization_tick() {
 What happens on each call to `localization_tick()`? How bad does this get after 60 seconds? Write the destructor that fixes it.
 
 ## Answer 3
+On each call to `localization_tick()` heap memory is allocated for 50 tiles, but because there is no destructor that memory isn't released after the scope ends, thus after 60 seconds, the code would have run 60*100Hz = 6000 times. This means an enormous amount of memory (6000*50 tiles) is locked away and unusable.
+
+A simple destructor is sufficient to ensure the memory is released each time the cache goes out of scope.
+```
+~TileCache() {
+    delete[] tiles;
+}
+```
 
 ---
 
@@ -96,6 +110,10 @@ with open("tiles.log", "w") as f:
 A C++ colleague says: "RAII is strictly more powerful than Python's `with` statement." Are they right? Explain the difference — specifically what RAII gives you that `with` does not.
 
 ## Answer 4
+Yes my colleague is right. With RAII I don't need to specify a with statement anywhere.
+The RAII pattern automatically takes care of releasing any resource (object or file or connection) on the stack when not used anymore.  
+The RAII patterns also has the property of composability, ie nested objects within an object that is destroyed are also destroyed.
+In Python, explicit destruction is needed and with statements are necessary at the call site everywhere.
 
 ---
 
@@ -112,7 +130,21 @@ TileLogger c("log_c.txt");
 Then the program exits normally. Then you test what happens if `b`'s constructor throws (the file can't be opened). Which logs are closed, and which aren't — and why? Connect this to the Day 2 concept of undefined behavior and why defensive programming matters at construction time.
 
 ## Answer 5
+No clue.
 
 ---
 
 ## Grade Log
+
+### 2026-04-03
+
+| Q | Score | Note |
+|---|-------|------|
+| QR1 | 1.0 | Correct on both counts — unique keys and insertion-order vs sort-order clearly distinguished |
+| Q1 | 0.75 | Correct + destructor reasoning; said "try/catch" for C but C has no exceptions — should be manual cleanup on every exit path |
+| Q2 | 0.75 | Correct order and LIFO connection; missed why reverse order matters (dependency preservation) |
+| Q3 | 1 | Correct leak identified, correct destructor written|
+| Q4 | 0.75 | Correct + composability noted (impressive); missed that `with` is opt-in — RAII protects even if caller doesn't know about it |
+| Q5 | 0.0 | Unanswered |
+
+**Total: 4.25 / 6.0**

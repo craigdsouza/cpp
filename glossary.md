@@ -62,3 +62,24 @@
 - range-for over a map (`auto& item`)
 - `it->first` / `it->second`
 - sentinel value
+
+## Day 5
+- RAII (Resource Acquisition Is Initialization)
+- destructor (`~ClassName()`)
+- destructor firing order (reverse construction order)
+- scope / block scope
+- stack unwinding
+- exception safety
+- `std::ofstream` (output file stream)
+- `std::ifstream` (input file stream)
+- `file.open()` / `file.close()`
+- `std::getline()`
+- buffer (I/O buffering)
+- flush
+- heap allocation (`new`)
+- heap deallocation (`delete`, `delete[]`)
+- memory leak
+- raw array (`int* data`, `new int[size]`)
+- initializer list (`: member(value)`)
+- `std::runtime_error`
+- `try` / `catch` / `throw`

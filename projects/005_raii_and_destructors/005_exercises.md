@@ -1,6 +1,6 @@
 # Day 5 — RAII and Destructors
 
-**Goal:** Understand how C++ uses constructors and destructors to manage resources automatically — the pattern that makes C++ safe without a garbage collector, and the foundation of every resource-owning class in the NVIDIA DRIVE stack.
+**Goal:** Understand how C++uses constructors and destructors to manage resources automatically — the pattern that makes C++ safe without a garbage collector, and the foundation of every resource-owning class in the NVIDIA DRIVE stack.
 
 ## Active Recall Warm-Up
 
@@ -34,6 +34,7 @@ The Python analogy: a C++ destructor is like `__exit__` in a context manager, ex
 **File:** Create `projects/005_raii_and_destructors/tile_lifetime.cpp` (new file).
 
 Copy your `MapTile` struct from Day 4. Add two things:
+
 1. A print statement at the end of the constructor: `"MapTile NNN created"`
 2. A destructor that prints: `"MapTile NNN destroyed"`
 
@@ -130,6 +131,7 @@ void vector_test() {
 Model a sensor connection as a RAII class. The sensor is "acquired" (constructor prints `"LiDAR sensor acquired"`) and "released" (destructor prints `"LiDAR sensor released"`). Add a `read()` method that prints `"reading sensor data"`.
 
 Write a function `void run_localization()` that:
+
 1. Creates a `SensorHandle` on the stack
 2. Calls `read()` three times
 3. Returns normally
@@ -150,7 +152,7 @@ void run_localization_with_error() {
 }
 ```
 
-**What to observe:** This is the core value proposition of RAII. In a language without it (C, early Java), you'd need `try/finally` blocks everywhere to guarantee cleanup. In C++, the destructor fires regardless of how the scope is exited — return, exception, or fall-off.
+**What to observe:** This is the core value proposition of RAII. In a language without it (C, early Java), you'd need `try/finally` blocks everywhere to guarantee cleanup. In C++, the destructor fires regardless of how the scope is exited — return, exception, or fall-off. - as long as the exception is caught somewhere up the call stack.
 
 ---
 
@@ -195,9 +197,22 @@ This is the problem that smart pointers (Day 6) solve automatically — but unde
 
 **File:** `projects/002_ref_and_pointers/nullptr_check.cpp`
 
-This exercise has been incomplete since Day 2. Open the file and fix the bug: on the line where `q` is re-pointed to `tile_id`, you are redeclaring `q` with `int*` instead of just reassigning it. The fix is one character — drop the `int*` type prefix on that line.
+This exercise has been incomplete since Day 2. Open the file and fix the bug: on the line where `q` is re-pointed to `tile_id`, you are redeclaring `q` with `int`* instead of just reassigning it. The fix is one character — drop the `int*` type prefix on that line.
 
 Compile and run. Confirm both the null branch and the non-null branch print output.
+
+---
+
+## Exercise Results — 2026-04-03
+
+| Exercise | Result | Note |
+|----------|--------|------|
+| Exercise 1 — Writing a destructor | Pass | Constructor/destructor with print statements, block scope observed |
+| Exercise 2 — RAII file handle | Pass | TileLogger with ofstream, ifstream read-back with getline loop |
+| Exercise 3 — Destruction order in a vector | Pass | vector_test() with push_back, destruction order observed |
+| Exercise 4 — RAII sensor handle | Pass | try/catch in main added correctly to allow stack unwinding |
+| Exercise 5 — Spot the resource leak | Pass | Correct destructor with delete[] |
+| Repeat Exercise — nullptr | Pass | Fixed redeclaration bug on line 20 |
 
 ---
 
@@ -206,8 +221,15 @@ Compile and run. Confirm both the null branch and the non-null branch print outp
 You've passed Day 5 when you can:
 
 - Write a destructor and explain exactly when it fires
+[2026-04-03] When scope is exited, or an exception occurs as long as the exception is caught somewhere in the call stack
 - Explain RAII in one sentence and give a concrete example
+[2026-04-03] RAII is a C++ principle which ensures that a resource (file, memory, connection etc) is created when initialized and destroyed immediately after. thus resources are freed up when not in use.
 - Explain why RAII is more powerful than Python's `with` statement
+[2026-04-03] in Python `with` is required to be explicitly stated at the call site to ensure leakage doesn't occur. In C++ , every object is guaranteed to not leak, by the language itself, without explicit statements. 
 - Explain destruction order for stack objects and vector elements
+[2026-04-03] stack objects are destroyed in the reverse order of their creation and vector elements are destroyed starting with the first index
 - Explain what a resource leak is and write the destructor that prevents it
+[2026-04-03] Heap memory doesn't automatically get destroyed once out of scope or on exception, thus a class can explicitly define a destructor function for this purpose
 - Explain why exception safety comes "for free" with RAII
+[2026-04-03] because you don't have to explicitly think about freeing up resources, at least for stack objects, even a destructor function isn't necessary.
+
