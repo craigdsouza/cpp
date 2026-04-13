@@ -12,20 +12,5 @@ Thumbs.db
 .vscode/
 *.swp
 
-# 001_hello_map
-projects/001_hello_map/hello_map
-
-# 002_ref_and_pointers
-projects/002_ref_and_pointers/references
-
-# 003_classes_and_structs
-projects/003_classes_and_structs/maptile
-
-# 004_stl_containers
-# (add binary names here as .cpp files are created)
-
-# 005_raii_and_destructors
-# (add binary names here as .cpp files are created)
-
-# 006_smart_pointers
-# (add binary names here as .cpp files are created)
+# Compiled executables
+*.exe

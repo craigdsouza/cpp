@@ -2,11 +2,11 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra
 
 SRCS = $(wildcard *.cpp)
-TARGETS = $(SRCS:.cpp=)
+TARGETS = $(SRCS:.cpp=.exe)
 
 all: $(TARGETS)
 
-%: %.cpp
+%.exe: %.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
 clean:

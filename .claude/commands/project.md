@@ -15,11 +15,11 @@ CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wextra
 
 SRCS = $(wildcard *.cpp)
-TARGETS = $(SRCS:.cpp=)
+TARGETS = $(SRCS:.cpp=.exe)
 
 all: $(TARGETS)
 
-%: %.cpp
+%.exe: %.cpp
 	$(CXX) $(CXXFLAGS) -o $@ $<
 
 clean:
@@ -28,18 +28,7 @@ clean:
 .PHONY: all clean
 ```
 
-4. Update `.gitignore` at the repo root:
-   - Read the current `.gitignore`.
-   - If an entry block for this project already exists, skip.
-   - Otherwise append at the end:
-
-```
-# NNN_name
-projects/NNN_name/binary_name_1
-projects/NNN_name/binary_name_2
-```
-
-(Use the actual folder name. If no `.cpp` files exist yet, leave a placeholder comment.)
+4. The `.gitignore` already has a `*.exe` rule, so no per-project entries are needed.
 
 ---
 

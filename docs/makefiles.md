@@ -29,11 +29,11 @@ CXX = g++                          # the compiler to use
 CXXFLAGS = -std=c++17 -Wall -Wextra  # flags passed to every compile command
 
 SRCS = $(wildcard *.cpp)           # finds all .cpp files in the folder
-TARGETS = $(SRCS:.cpp=)            # strips .cpp → gives you the binary names
+TARGETS = $(SRCS:.cpp=.exe)        # strips .cpp, adds .exe → gives you the binary names
 
 all: $(TARGETS)                    # "make" with no args builds everything
 
-%: %.cpp                           # pattern rule: any binary depends on its .cpp
+%.exe: %.cpp                       # pattern rule: any .exe depends on its .cpp
     $(CXX) $(CXXFLAGS) -o $@ $<   # $@ = the target name, $< = the source file
 
 clean:
@@ -42,7 +42,7 @@ clean:
 .PHONY: all clean                  # tells make these aren't real files
 ```
 
-The pattern rule `%: %.cpp` is the key line. It's saying: *"to build any binary, compile the `.cpp` file with the same name."* The `$@` and `$<` are automatic variables — shorthand for "the thing I'm building" and "the thing I'm building it from".
+The pattern rule `%.exe: %.cpp` is the key line. It's saying: *"to build any `.exe`, compile the `.cpp` file with the same name."* The `$@` and `$<` are automatic variables — shorthand for "the thing I'm building" and "the thing I'm building it from".
 
 ---
 
@@ -51,10 +51,10 @@ The pattern rule `%: %.cpp` is the key line. It's saying: *"to build any binary,
 Your Day 2 folder will have `references.cpp` and `pointers.cpp`. Running:
 
 ```bash
-make              # builds both ./references and ./pointers
-make references   # builds just ./references
-make clean        # deletes both binaries
-./references      # run it
+make                  # builds both references.exe and pointers.exe
+make references.exe   # builds just references.exe
+make clean            # deletes all .exe files
+./references.exe      # run it
 ```
 
 ---

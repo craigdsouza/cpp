@@ -64,32 +64,40 @@ See [copy-vs-reference.md](./copy-vs-reference.md).
 ## 2026-03-27 — Day 2: References and Pointers
 
 ### Quiz Score
+
 4.25 / 5.0 — Strong intuition on all questions; gaps in fully ruling out the non-chosen alternatives.
 
-| Q | Score | Note |
-|---|-------|------|
-| Q1 | 0.75 | Correct + reason, but missed the no-copy efficiency benefit of `&` |
-| Q2 | 1.0  | Excellent — ruled out all three alternatives with clear reasoning |
-| Q3 | 0.75 | Correct + reason, but didn't explain why a reference can't represent a missing parent |
-| Q4 | 0.75 | Correct + reason, but didn't explain why `TileNode`, `TileNode&`, `const TileNode&` all fail |
-| Q5 | 1.0  | Outstanding — dangling reference diagnosed, two solutions given, RVO explained correctly |
+
+| Q   | Score | Note                                                                                         |
+| --- | ----- | -------------------------------------------------------------------------------------------- |
+| Q1  | 0.75  | Correct + reason, but missed the no-copy efficiency benefit of `&`                           |
+| Q2  | 1.0   | Excellent — ruled out all three alternatives with clear reasoning                            |
+| Q3  | 0.75  | Correct + reason, but didn't explain why a reference can't represent a missing parent        |
+| Q4  | 0.75  | Correct + reason, but didn't explain why `TileNode`, `TileNode&`, `const TileNode&` all fail |
+| Q5  | 1.0   | Outstanding — dangling reference diagnosed, two solutions given, RVO explained correctly     |
+
 
 ### Exercises
-| Exercise | Result |
-|----------|--------|
-| Exercise 1 — References | Pass |
-| Exercise 2 — Const references | Pass |
-| Exercise 3 — Pointers | Pass |
-| Exercise 4 — nullptr | Fail |
-| Exercise 5 — swap_tiles | Pass |
+
+
+| Exercise                      | Result |
+| ----------------------------- | ------ |
+| Exercise 1 — References       | Pass   |
+| Exercise 2 — Const references | Pass   |
+| Exercise 3 — Pointers         | Pass   |
+| Exercise 4 — nullptr          | Fail   |
+| Exercise 5 — swap_tiles       | Pass   |
+
 
 ### Concepts Confirmed
+
 - Understands `const T&` for read-only parameters: no copy, no mutation
 - Understands `T&` for in-place mutation and can correctly rule out `T`, `const T&`, and `T*` when tiles always exist
 - Understands `T*` as the only type that can represent both "found" and "not found" (`nullptr`)
 - Understands dangling references, the `static` trade-off, and return-by-value with RVO
 
 ### Carry-Forward
+
 - **Exercise 4 (Fail):** `nullptr` — redo with `q` initialized to `nullptr` first, then re-pointed to `tile_id`
 
 *(Q1, Q3, Q4 scored 0.75 — partial credit, not carried forward)*
@@ -99,33 +107,41 @@ See [copy-vs-reference.md](./copy-vs-reference.md).
 ## 2026-03-29 — Day 3: Classes and Structs
 
 ### Quiz Score
+
 4.75 / 5.0 — Excellent across the board; only gap was a precision detail on constructor semantics.
 
-| Q | Score | Note |
-|---|-------|------|
-| Q1 | 1.0 | Correct technical difference + strong AV examples |
-| Q2 | 1.0 | Identified missing `const`, explained why compiler requires it |
-| Q3 | 1.0 | Correct diagnosis (copy not reference) and correct one-word fix |
-| Q4 | 0.75 | Constructor code correct, but missed implicit invocation and `const std::string&` on parameter |
-| Q5 | 1.0 | Correct signature and clear reasoning |
+
+| Q   | Score | Note                                                                                           |
+| --- | ----- | ---------------------------------------------------------------------------------------------- |
+| Q1  | 1.0   | Correct technical difference + strong AV examples                                              |
+| Q2  | 1.0   | Identified missing `const`, explained why compiler requires it                                 |
+| Q3  | 1.0   | Correct diagnosis (copy not reference) and correct one-word fix                                |
+| Q4  | 0.75  | Constructor code correct, but missed implicit invocation and `const std::string&` on parameter |
+| Q5  | 1.0   | Correct signature and clear reasoning                                                          |
+
 
 ### Exercises
-| Exercise | Result |
-|----------|--------|
-| Exercise 1 — Define a struct | Pass |
-| Exercise 2 — Functions that take structs | Pass |
-| Exercise 3 — Constructor | Pass |
-| Exercise 4 — A vector of structs | Pass |
-| Exercise 5 — A member function | Pass |
-| Repeat Exercise — nullptr | Fail |
+
+
+| Exercise                                 | Result |
+| ---------------------------------------- | ------ |
+| Exercise 1 — Define a struct             | Pass   |
+| Exercise 2 — Functions that take structs | Pass   |
+| Exercise 3 — Constructor                 | Pass   |
+| Exercise 4 — A vector of structs         | Pass   |
+| Exercise 5 — A member function           | Pass   |
+| Repeat Exercise — nullptr                | Fail   |
+
 
 ### Concepts Confirmed
+
 - Understands the only technical difference between `struct` and `class` (default access level) and when to choose each
 - Understands `const` on a member function — same contract as `const T&`: promises no modification, required when called on a const reference
 - Understands that range-for without `&` makes copies, and mutation requires `MapTile&`
 - Understands constructors: same name as struct, no return type, parameters assigned to fields via `this->`
 
 ### Carry-Forward
+
 - **Repeat Exercise — nullptr (Fail):** `nullptr_check.cpp` redeclares `int* q` on line 20 — fix to `q = &tile_id` (drop the type)
 
 ---
@@ -133,32 +149,40 @@ See [copy-vs-reference.md](./copy-vs-reference.md).
 ## 2026-03-31 — Day 4: STL Containers
 
 ### Quiz Score
+
 4.0 / 5.0 — Strong on lookup mechanics and safe iterator patterns; gap in explaining the internals of unordered_map and confusion on what "ordered" means for vector.
 
-| Q | Score | Note |
-|---|-------|------|
-| Q1 | 0.75 | Correct pick + O(1) reasoning; missed what `map` gives you (sorted iteration, range queries) |
-| Q2 | 1.0 | Ghost tile identified, danger explained, correct fix with code |
-| Q3 | 0.75 | Correct outputs for both; didn't explain hash buckets as the reason for unordered_map's arbitrary order |
-| Q4 | 0.5 | Correct container chosen, but confused insertion-order (vector) with sorted-order (map) — undermined own reasoning |
-| Q5 | 1.0 | Complete: first/second explained, undefined behavior on end() called out, Day 2 nullptr analogy made cleanly |
+
+| Q   | Score | Note                                                                                                               |
+| --- | ----- | ------------------------------------------------------------------------------------------------------------------ |
+| Q1  | 0.75  | Correct pick + O(1) reasoning; missed what `map` gives you (sorted iteration, range queries)                       |
+| Q2  | 1.0   | Ghost tile identified, danger explained, correct fix with code                                                     |
+| Q3  | 0.75  | Correct outputs for both; didn't explain hash buckets as the reason for unordered_map's arbitrary order            |
+| Q4  | 0.5   | Correct container chosen, but confused insertion-order (vector) with sorted-order (map) — undermined own reasoning |
+| Q5  | 1.0   | Complete: first/second explained, undefined behavior on end() called out, Day 2 nullptr analogy made cleanly       |
+
 
 ### Exercises
-| Exercise | Result |
-|----------|--------|
-| Exercise 1 — std::map | Pass |
-| Exercise 2 — std::unordered_map | Pass |
-| Exercise 3 — Iterators and find() | Pass |
-| Exercise 4 — Erase and update | Pass |
-| Exercise 5 — Choosing the right container | Pass |
+
+
+| Exercise                                  | Result |
+| ----------------------------------------- | ------ |
+| Exercise 1 — std::map                     | Pass   |
+| Exercise 2 — std::unordered_map           | Pass   |
+| Exercise 3 — Iterators and find()         | Pass   |
+| Exercise 4 — Erase and update             | Pass   |
+| Exercise 5 — Choosing the right container | Pass   |
+
 
 ### Concepts Confirmed
+
 - Understands O(1) vs O(log n) and when unordered_map wins over map for real-time lookup
 - Understands the ghost tile danger of `operator[]` and can write the correct find()+end() alternative
 - Understands that map yields sorted iteration (BST) and unordered_map yields arbitrary order
 - Understands iterators as pointer-like objects: `it->first`/`it->second`, and that end() is a sentinel analogous to nullptr
 
 ### Carry-Forward
+
 - **Q4 (0.5):** Confusion between insertion-order (vector preserves sequence) vs sorted-order (map sorts by key) — revisit what "ordered" means for each container type
 
 ---
@@ -166,32 +190,47 @@ See [copy-vs-reference.md](./copy-vs-reference.md).
 ## 2026-04-03 — Day 5: RAII and Destructors
 
 ### Quiz Score
+
 4.0 / 6.0 — Strong on core RAII concepts and practical application; Q5 unanswered, minor gaps in C analogy and quantifying leak severity.
 
-| Q | Score | Note |
-|---|-------|------|
-| QR1 | 1.0 | Both disqualifying reasons for map correctly identified |
-| Q1 | 0.75 | Correct destructor reasoning; said "try/catch" for C but C has no exceptions — manual cleanup on every exit path is the right answer |
-| Q2 | 0.75 | Correct order and LIFO analogy; missed dependency preservation as the reason for reverse order |
-| Q3 | 0.75 | Correct leak + correct destructor; math error (wrote 60,000 instead of 6,000) and total leaked objects not quantified |
-| Q4 | 0.75 | Correct + composability noted unprompted; missed opt-in vs automatic distinction |
-| Q5 | 0.0 | Unanswered — partially constructed object destructor semantics |
+
+| Q   | Score | Note                                                                                                                                 |
+| --- | ----- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| QR1 | 1.0   | Both disqualifying reasons for map correctly identified                                                                              |
+| Q1  | 0.75  | Correct destructor reasoning; said "try/catch" for C but C has no exceptions — manual cleanup on every exit path is the right answer |
+| Q2  | 0.75  | Correct order and LIFO analogy; missed dependency preservation as the reason for reverse order                                       |
+| Q3  | 0.75  | Correct leak + correct destructor; math error (wrote 60,000 instead of 6,000) and total leaked objects not quantified                |
+| Q4  | 0.75  | Correct + composability noted unprompted; missed opt-in vs automatic distinction                                                     |
+| Q5  | 0.0   | Unanswered — partially constructed object destructor semantics                                                                       |
+
 
 ### Exercises
-| Exercise | Result |
-|----------|--------|
-| Exercise 1 — Writing a destructor | Pass |
-| Exercise 2 — RAII file handle | Pass |
-| Exercise 3 — Destruction order in a vector | Pass |
-| Exercise 4 — RAII sensor handle | Pass |
-| Exercise 5 — Spot the resource leak | Pass |
-| Repeat Exercise — nullptr | Pass |
+
+
+| Exercise                                   | Result |
+| ------------------------------------------ | ------ |
+| Exercise 1 — Writing a destructor          | Pass   |
+| Exercise 2 — RAII file handle              | Pass   |
+| Exercise 3 — Destruction order in a vector | Pass   |
+| Exercise 4 — RAII sensor handle            | Pass   |
+| Exercise 5 — Spot the resource leak        | Pass   |
+| Repeat Exercise — nullptr                  | Pass   |
+
 
 ### Concepts Confirmed
+
 - Understands RAII: resource tied to object lifetime, constructor acquires, destructor releases
 - Understands stack unwinding triggers destructors on exception — and that a catch is needed somewhere for unwinding to occur
 - Understands heap vs stack memory: heap requires explicit `delete[]`, RAII wraps this in a destructor
 - Understands why RAII beats Python's `with`: automatic at every call site, composable across nested objects
 
 ### Carry-Forward
+
 - **Q5 (0.0):** Partially constructed object semantics — if `b`'s constructor throws, `b`'s destructor does NOT run, but `a`'s does. Revisit in Day 6 context.
+
+---
+
+# 2026-04-13 Microsoft Coursera C++ Course
+
+Installed C/C++ Extension pack
+
