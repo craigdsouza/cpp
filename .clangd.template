@@ -1,0 +1,19 @@
+# Copy this file to .clangd and update the paths for your system.
+# These paths point to the C++ standard library headers your compiler uses.
+#
+# WSL (Ubuntu) example — replace "13" with your g++ major version:
+#   g++ --version      → shows version
+#   ls /usr/include/c++/  → shows the directory name to use
+#
+# Native MinGW/MSYS2 example:
+#   Replace paths with your MinGW include directories, e.g.:
+#   - -isystemC:/msys64/mingw64/include/c++/13.2.0
+#   - -isystemC:/msys64/mingw64/include
+
+CompileFlags:
+  Add:
+    - -isystem//wsl$/Ubuntu/usr/include/c++/13
+    - -isystem//wsl$/Ubuntu/usr/include/x86_64-linux-gnu/c++/13
+    - -isystem//wsl$/Ubuntu/usr/include
+    - -isystem//wsl$/Ubuntu/usr/include/x86_64-linux-gnu
+    - -isystem//wsl$/Ubuntu/usr/lib/gcc/x86_64-linux-gnu/13/include

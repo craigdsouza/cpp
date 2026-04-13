@@ -30,6 +30,18 @@ clean:
 
 4. The `.gitignore` already has a `*.exe` rule, so no per-project entries are needed.
 
+5. Update `compile_commands.json` at the repo root:
+   - Read the current `compile_commands.json`.
+   - For each `.cpp` file created by the exercises (Step 4), add an entry:
+     ```json
+     {
+         "directory": "C:/Users/CRAIG-DSOUZA/Code/c++",
+         "file": "projects/NNN_topic/filename.cpp",
+         "arguments": ["g++", "-std=c++17", "-Wall", "-Wextra", "projects/NNN_topic/filename.cpp"]
+     }
+     ```
+   - If no `.cpp` files are defined yet, add entries once the exercises file names them.
+
 ---
 
 ## Step 2 — Active Recall Review (Spaced Repetition)

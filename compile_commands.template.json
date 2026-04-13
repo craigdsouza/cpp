@@ -1,0 +1,7 @@
+[
+    {
+        "directory": "C:/Users/YOUR_USERNAME/path/to/c++",
+        "file": "projects/001_hello_map/hello_map.cpp",
+        "arguments": ["g++", "-std=c++17", "-Wall", "-Wextra", "projects/001_hello_map/hello_map.cpp"]
+    }
+]
