@@ -230,6 +230,42 @@ See [copy-vs-reference.md](./copy-vs-reference.md).
 
 ---
 
+## 2026-04-15 — Day 6: Smart Pointers
+
+### Quiz Score
+6.75 / 7.0 — Strongest quiz yet; solid ownership semantics throughout, minor gap in articulating exclusive ownership cleanly for unique_ptr.
+
+| Q   | Score | Note |
+|-----|-------|------|
+| QR1 | 1.0   | Correct + complete — insertion-order vs sorted-order distinction nailed |
+| QR2 | 1.0   | Full carry-forward recovery — partially constructed object semantics correct |
+| Q1  | 1.0   | Both reasons solid: exception path + early return paths |
+| Q2  | 1.0   | Why, fix, and resulting state all correct |
+| Q3  | 1.0   | Step-by-step reference count trace correct |
+| Q4  | 0.75  | Ownership framing present but LidarBuffer mixes usage count with ownership reasoning |
+| Q5  | 1.0   | Both problems identified, rewrite correct including process(*t) dereference |
+
+### Exercises
+
+| Exercise | Result |
+|----------|--------|
+| Exercise 1 — unique_ptr for a single tile | Pass |
+| Exercise 2 — Ownership transfer with std::move | Pass |
+| Exercise 3 — shared_ptr: cache and route | Pass |
+| Exercise 4 — Rewrite TileBuffer without a destructor | Pass |
+| Exercise 5 — Factory function | Pass |
+
+### Concepts Confirmed
+- Understands unique_ptr exclusive ownership and what move semantics mean in practice (nullptr after move)
+- Understands shared_ptr reference counting — can trace count step by step across push_back, clear, reset
+- Understands exception safety argument for smart pointers over raw new/delete
+- Understands factory functions returning unique_ptr: ownership explicit in the type, NRVO/move makes it safe and efficient
+
+### Carry-Forward
+- **Q4 (0.75):** unique_ptr ownership reasoning — "exclusive ownership" means one entity is solely responsible for cleanup, not just that only one entity uses it. Articulate this distinction explicitly.
+
+---
+
 # 2026-04-13 Microsoft Coursera C++ Course
 
 Installed C/C++ Extension pack

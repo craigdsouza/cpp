@@ -1,8 +1,9 @@
 # NVIDIA DRIVE AV — Mapping Team: Career Readiness Path
 
 **Target Role:** Software Engineer, DRIVE Mapping Team (JR2014851)
-**Your Current Level:** 3/10
+**Your Current Level:** 3.5/10
 **Date Created:** March 25, 2026
+**Last Updated:** 2026-04-15
 
 ---
 
@@ -26,67 +27,246 @@
 
 ---
 
-## Portfolio Project Track (Parallel to C++ Study)
+## Current Sprint
 
-> **Strategy:** Your June 1st application needs proof you can bridge geospatial expertise into AV mapping. These three projects run alongside your C++ fundamentals work. Each one is scoped to ~2 weeks and produces a GitHub-ready artifact. Start in Python where needed — the goal is *domain signal*, not language purity.
+> This section stays current. Last 7 curriculum days = what was actually covered. Next 7 = what's planned. Beyond that, see the Level progression and Project Track below.
 
-### Project 1: GeoJSON → Road Graph Engine (Weeks 2–3)
-**What:** Ingest OpenStreetMap GeoJSON exports, build a road network graph in C++, and run shortest-path queries (Dijkstra's, A*).
+### Last 7 Curriculum Days
 
-**Why this matters for NVIDIA:** The DRIVE Mapping team builds "scalable map-building workflows." This shows you can go from raw spatial data → structured graph — the exact pipeline shape they work with. It also doubles as your C++ data structures practice.
+| Day | Date | Topic | Exercises | Quiz |
+|-----|------|-------|-----------|------|
+| 1 | 2026-03-25 | Hello Map — types, cout, vector, for loops | hello_map.cpp | — |
+| 2 | 2026-03-27 | References & Pointers — const T&, T&, T*, nullptr, dangling refs | 4/5 pass (nullptr ex. repeated) | 4.25/5.0 |
+| 3 | 2026-03-29 | Classes & Structs — constructors, member fns, const methods, access | 5/5 pass (nullptr repeated again) | 4.75/5.0 |
+| 4 | 2026-03-31 | STL Containers — map, unordered_map, vector, iterators, find/erase | 5/5 pass | 4.0/5.0 |
+| 5 | 2026-04-03 | RAII & Destructors — destructor timing, stack unwinding, TileBuffer | 6/6 pass (nullptr finally cleared) | 4.0/6.0 |
+| 6 | 2026-04-15 | Smart Pointers — unique_ptr, shared_ptr, move, factory functions | 5/5 pass | 6.75/7.0 |
+
+**Trajectory:** Quiz scores improving — Day 6 was the strongest yet. "Why" reasoning has caught up with "what" application. All exercises passing.
+
+---
+
+### Next 7 Curriculum Days
+
+| Day | Topic | Key Concepts | Real Data? |
+|-----|-------|-------------|------------|
+| 7 | Move Semantics | rvalue refs, move constructor, move assignment, when the compiler moves vs copies | No — mechanics first |
+| 8 | Templates | function templates, class templates, template type deduction | No |
+| 9 | Lambdas + std::algorithm | lambda syntax, captures, sort/find_if/transform | No |
+| 10 | File Parsing + Real Data | deeper CSV/text parsing, read a real OSM GPS export into MapTile structs | **Yes — first real data** |
+| 11 | CMake + Multi-file Projects | CMakeLists.txt, splitting code across headers/source files, linking | Yes |
+| 12 | Project 1 Kickoff | Parse real GeoJSON road segments into an adjacency list in C++ | **Yes — Project 1 starts** |
+| 13 | Graph Algorithms | BFS, Dijkstra's on the road graph built in Day 12 | Yes |
+
+**Note on real data:** Day 10 is the inflection point. You have all the C++ mechanics needed now — smart pointers, containers, file I/O. Day 10 replaces dummy inline data with a real file. By Day 12 you're working with actual OSM exports.
+
+---
+
+## Portfolio Project Track
+
+> **Strategy:** 9 projects across the full AV stack. Each one is a GitHub-ready artifact. The split across projects reflects how the modern AV stack actually works: Python trains models, C++ runs them safely at 30Hz on hardware. Projects 1–3 target the NVIDIA DRIVE Mapping role (June 1 application). Projects 4–9 broaden the portfolio to cover perception, localization, planning, and prediction — opening doors to other AV roles beyond mapping.
+>
+> **Repo:** `autonomous-stack-projects/` (separate from the C++ learning repo)
+
+---
+
+### Layer 1: Mapping + Infrastructure
+
+#### Project 1: GeoJSON → Road Graph Engine
+**Stack:** C++ | **AV Layer:** Mapping
+
+**What:** Ingest OpenStreetMap GeoJSON exports, build a road network graph, run shortest-path queries (Dijkstra's, A*).
+
+**Why it matters:** The DRIVE Mapping team builds "scalable map-building workflows." This is the exact pipeline shape — raw spatial data → structured graph. Your GIS background gives you a head start on coordinate handling that most C++ engineers won't have.
 
 **Deliverables:**
 - C++ library that parses GeoJSON road segments into an adjacency list
-- Dijkstra's and A* implementations on the road graph
-- Python wrapper script that visualizes routes on a Folium/Leaflet map
-- README documenting coordinate system handling (your GIS expertise shines here)
+- Dijkstra's and A* on the road graph
+- Python script that visualizes routes on a Folium/Leaflet map
+- README documenting coordinate system handling
 
-**Skills practiced:** C++ STL containers, file I/O, graph algorithms, memory management, CMake build system
+**C++ skills:** STL containers, file I/O, graph algorithms, smart pointers, CMake
 
 ---
 
-### Project 2: Point Cloud Spatial Index (Weeks 4–6)
-**What:** Build a k-d tree in C++ that indexes 3D point cloud data (lidar-style), supports nearest-neighbor queries, and serves results over a simple interface.
+#### Project 2: Point Cloud Spatial Index
+**Stack:** C++ | **AV Layer:** Mapping / Localization primitive
 
-**Why this matters for NVIDIA:** Map-based localization matches lidar scans against map features. Point cloud indexing is a core primitive. Building one from scratch shows you understand spatial data structures at the low level — a direct bridge from your raster/vector GIS background into 3D AV territory.
+**What:** k-d tree in C++ that indexes 3D point cloud data, supports nearest-neighbor and radius queries.
+
+**Why it matters:** Map-based localization matches live lidar scans against stored map features. The k-d tree is the core data structure that makes this fast. Building it from scratch proves you understand spatial indexing at the low level.
 
 **Deliverables:**
-- C++ k-d tree implementation for 3D points (insert, k-nearest-neighbor, radius search)
-- Benchmark: your k-d tree vs brute force on 1M+ points (shows performance awareness)
-- Python script that generates synthetic point cloud data and visualizes query results
-- Optional: load a real lidar dataset from KITTI or nuScenes open data
+- C++ k-d tree for 3D points (insert, k-NN, radius search)
+- Benchmark: k-d tree vs brute force on 1M+ points
+- Python script generating synthetic point clouds and visualizing query results
+- Optional: load a real lidar clip from KITTI
 
-**Skills practiced:** Pointers, recursion, memory layout / cache friendliness, modern C++ (smart pointers, move semantics), benchmarking
+**C++ skills:** Pointers, recursion, memory layout, cache-friendly data structures, benchmarking
 
 ---
 
-### Project 3: HD Map Tile Server (Weeks 6–9)
-**What:** A tile-based map server that stores road geometry in a spatial grid, serves tiles on demand, and handles coordinate transforms between UTM and WGS84.
+#### Project 3: HD Map Tile Server
+**Stack:** C++ + protobuf + gRPC | **AV Layer:** Infrastructure
 
-**Why this matters for NVIDIA:** The job description says "deliver SD maps to all in-car consumers." A tile server is the exact architectural pattern — you're demonstrating you understand tiled spatial data delivery, something most C++ engineers have never built but you already grasp from your SaaS work.
+**What:** Tile-based map server — stores road geometry in a spatial grid, serves tiles on demand, handles UTM ↔ WGS84 coordinate transforms.
+
+**Why it matters:** "Deliver SD maps to all in-car consumers" is literally the job description. A tile server is the exact architectural pattern. You've built tiled spatial data systems before from your SaaS work — this is that, in C++.
 
 **Deliverables:**
 - C++ tile index with spatial hashing (tile key = zoom/x/y)
-- Protocol Buffers (protobuf) schema for map tiles (road segments, attributes, topology)
-- gRPC service that accepts a bounding box query and streams back relevant tiles
+- Protocol Buffers schema for map tiles
+- gRPC service that accepts a bounding box query and streams back tiles
 - Python client that requests tiles along a route and renders them
-- Health monitoring endpoint (the job listing specifically mentions "health monitors")
+- Health monitoring endpoint
 
-**Skills practiced:** gRPC, protobuf, multithreading (serving concurrent requests), serialization, network programming, system design
+**C++ skills:** gRPC, protobuf, multithreading, serialization, network programming
+
+---
+
+### Layer 2: Perception
+
+#### Project 4: Perception Pipeline
+**Stack:** Python (training) + C++ (runtime) | **AV Layer:** Perception
+
+**What:** Train an object detection model on a real driving dataset. Write the C++ inference runtime that runs it on the vehicle side.
+
+**Python side:** Fine-tune YOLOv8 (or similar) on KITTI or nuScenes in PyTorch. Detect cars, pedestrians, cyclists from camera frames. Export to ONNX.
+
+**C++ side:** Inference runtime wrapper using ONNX Runtime or TensorRT. Frame preprocessing pipeline, post-processing detections, safety validation layer that sanity-checks outputs before they leave the module.
+
+**Why it matters:** This is the "Python trains it, C++ runs it safely at 30Hz" pattern that shows up across the entire modern AV stack. Most candidates can train a model. Fewer can write the C++ wrapper that makes it production-reliable.
+
+**Deliverables:**
+- PyTorch training pipeline + ONNX export
+- C++ inference runtime with preprocessing + postprocessing
+- Safety validation layer (bounds checking, confidence thresholds, output schema enforcement)
+- Benchmark: latency on a recorded driving clip
+
+**Skills:** PyTorch, ONNX Runtime / TensorRT, C++ systems programming
+
+---
+
+### Layer 3: Localization + Sensor Fusion
+
+#### Project 5: State Estimator
+**Stack:** C++ only | **AV Layer:** Localization / Sensor Fusion
+
+**What:** Extended Kalman Filter that fuses noisy GPS + IMU readings into a clean vehicle pose estimate (position, orientation, velocity).
+
+**Why C++ only:** EKF is classical estimation — fixed-size matrix operations, deterministic execution, no DL needed. Strong systems C++ work. Every downstream module depends on knowing where the car is.
+
+**Deliverables:**
+- C++ EKF implementation fusing GPS + IMU
+- Runs on a recorded sensor log (synthetic or KITTI IMU data)
+- Python visualization of raw GPS vs filtered pose track
+- Unit tests for filter correctness
+
+**C++ skills:** Linear algebra in C++ (Eigen library), numerical stability, fixed-rate execution
+
+---
+
+#### Project 6: Map-Based Localization
+**Stack:** C++ | **AV Layer:** Localization
+
+**What:** Use the road graph (Project 1) + vehicle pose (Project 5) + detections (Project 4) to localize the vehicle on the map. Particle filter or scan-matching approach.
+
+**Why it matters:** This is the first project that wires multiple prior projects together. It demonstrates you understand how the layers talk to each other — which is what a senior AV engineer actually evaluates in an interview.
+
+**Deliverables:**
+- C++ particle filter or scan matcher
+- Runs on a recorded driving clip using outputs from Projects 1, 4, 5
+- Python visualization of localization track vs ground truth
+
+**C++ skills:** Probabilistic algorithms, inter-module interfaces, real-time data flow
+
+---
+
+### Layer 4: Planning
+
+#### Project 7: Motion Planner
+**Stack:** C++ | **AV Layer:** Planning
+
+**What:** Real-time trajectory planner. A* or RRT for route selection + polynomial profiling for local trajectory. Takes map (Project 1), current pose (Project 5), detected obstacles (Project 4). Must run at 10Hz.
+
+**Why it matters:** Planning is the highest-value module to demonstrate competence in for non-perception AV roles. Real-time constraint (10Hz, deterministic) is what separates a systems engineer from an algorithm prototyper.
+
+**Deliverables:**
+- C++ trajectory planner meeting 10Hz budget
+- Obstacle avoidance using Project 4 detections
+- Python visualization of planned trajectory overlaid on map
+- Latency profiling: where does the compute go?
+
+**C++ skills:** Real-time constraints, profiling, optimization algorithms, inter-module data contracts
+
+---
+
+### Layer 5: Prediction
+
+#### Project 8: Trajectory Prediction
+**Stack:** Python (training) + C++ (runtime) | **AV Layer:** Prediction
+
+**What:** Train a transformer-based model to predict where surrounding agents will be in the next 3–5 seconds. Feed predictions into the motion planner's risk assessment.
+
+**Python side:** Train on Argoverse or nuScenes using PyTorch. Transformer architecture operating on agent history + map context. Export to ONNX.
+
+**C++ side:** Inference runtime feeding real-time predictions into Project 7's planner. Prediction uncertainty output shapes the planner's risk tolerance.
+
+**Why it matters:** Prediction is one of the hardest unsolved problems in AV. Transformers operating on graph-structured map data is exactly what NVIDIA's job description referenced. This project sits at the frontier of what the role actually works on.
+
+**Deliverables:**
+- PyTorch transformer training pipeline on Argoverse/nuScenes
+- ONNX export + C++ inference runtime
+- Integration with Project 7: planner reacts to predicted agent trajectories
+- Evaluation: ADE/FDE metrics on held-out scenarios
+
+**Skills:** Transformer architecture, graph-structured inputs, PyTorch, ONNX Runtime in C++
+
+---
+
+### Capstone
+
+#### Project 9: Mini AV Pipeline
+**Stack:** C++ runtime + Python training pipelines | **AV Layer:** Full stack integration
+
+**What:** Wire Projects 1, 4, 5, 7, 8 into a pipeline that runs on a recorded sensor clip (KITTI or nuScenes). Sensor data in → map-aware, prediction-informed trajectory out. Python script renders the result.
+
+**Why it matters:** This is the project you demo in interviews. Most candidates have components. Almost nobody has a working pipeline. It proves you understand how the modules depend on each other, what the data contracts between them look like, and what breaks when one module is wrong.
+
+**Deliverables:**
+- C++ pipeline runner: sensor data → perception → state estimation → localization → prediction → planning
+- Python evaluation script: trajectory quality, latency per module, failure mode analysis
+- 2-minute demo video running on a real driving clip
+- Architecture diagram + README explaining every design decision
 
 ---
 
 ### How the Projects Stack
 
-| Week | C++ Study | Project Work | Portfolio Signal |
-|------|-----------|-------------|-----------------|
-| 1 | Basics, types, control flow | (study only) | — |
-| 2–3 | STL, references, pointers | **Project 1:** Road Graph | "I build spatial data pipelines in C++" |
-| 4–5 | Classes, RAII, smart pointers | **Project 2:** Point Cloud Index | "I understand 3D spatial indexing for AV" |
-| 6–7 | Templates, move semantics | **Project 2 polish + Project 3 start** | — |
-| 8–9 | Concurrency, networking | **Project 3:** Tile Server | "I've built the exact architecture pattern this role needs" |
+| Calendar Week | C++ Study + DL Study | Project Work | AV Layer | Status |
+|---------------|----------------------|-------------|----------|--------|
+| Week 1 (Mar 25) | Days 1–2: types, refs, pointers | — | — | Done |
+| Week 2 (Apr 1) | Days 3–4: classes, STL | — | — | Done |
+| Week 3 (Apr 15) | Days 5–6: RAII, smart pointers | **P1 start:** Road Graph | Mapping | **← You are here** |
+| Week 4–5 | Days 7–9: move semantics, templates, lambdas | **P1 complete + P2 start:** Point Cloud Index | Mapping | Upcoming |
+| Week 6–7 | Days 10–12: file parsing, CMake, real data | **P2 complete + P3 start:** Tile Server | Mapping infra | Upcoming |
+| Week 8–9 | Days 13–15: concurrency, networking + DL: PyTorch basics | **P3 complete** | Mapping infra | Upcoming |
+| Week 10–11 | C++: inference runtimes (ONNX/TensorRT) + DL: object detection fine-tuning | **P4:** Perception Pipeline | Perception | Upcoming |
+| Week 12–13 | C++: linear algebra (Eigen), EKF + DL: continued | **P5:** State Estimator | Localization | Upcoming |
+| Week 14–15 | C++: particle filters, inter-module interfaces | **P6:** Map-Based Localization | Localization | Upcoming |
+| Week 16–17 | C++: real-time optimization, profiling | **P7:** Motion Planner | Planning | Upcoming |
+| Week 18–20 | DL: transformers, trajectory prediction + C++: inference integration | **P8:** Trajectory Prediction | Prediction | Upcoming |
+| Week 21–24 | Integration, profiling, documentation | **P9:** Mini AV Pipeline Capstone | Full stack | Upcoming |
 
-> **By application day (June 1):** Your GitHub has three projects that tell a clear story — *"I'm a geospatial engineer who already thinks in the data structures and system patterns your team builds, and I'm writing them in C++."* That's a stronger signal than being marginally better at LeetCode.
+> **By June 1 (Week 7):** Projects 1–3 complete — strong portfolio signal for the NVIDIA DRIVE Mapping role.
+> **By Week 12:** Projects 1–5 complete — credible for localization and sensor fusion roles.
+> **By Week 21+:** Full 9-project portfolio covering every major AV layer.
+
+---
+
+---
+
+> **Note on Level sections vs Project Track:** The Level sections below describe conceptual depth targets and study resources. The Portfolio Project Track above is where the hands-on work happens. Each level checkpoint maps to specific projects: L3→4 = Projects 1–2, L4→5 = Project 3, L5→6 = Projects 4 + 8, L6→7 = Projects 5–6, L7→8 = Projects 7–9.
 
 ---
 
@@ -94,10 +274,12 @@
 
 **Goal:** Establish the CS fundamentals this role assumes you already have as a "4+ years with BS CS" candidate.
 
+**Status:** Largely complete — Days 1–6 cover C++ kickstart through smart pointers. Remaining: graph algorithms, CMake, GDB.
+
 ### C++ Kickstart
 - Work through the first 15 chapters of *"A Tour of C++"* by Bjarne Stroustrup (the creator). This is a compact book that assumes you already program — it won't waste your time on "what is a variable."
 - Key topics to nail: RAII, references vs pointers, const correctness, the STL containers (vector, map, unordered_map), iterators.
-- **Project:** Rewrite one of your Python geospatial scripts in C++. Parse a GeoJSON file, extract coordinates, compute bounding boxes. Use only the standard library.
+- **Hands-on:** Project 1 (Road Graph Engine) — parses real GeoJSON, builds a graph, runs shortest paths in C++. This replaces standalone exercises.
 
 ### Data Structures & Algorithms in C++
 - Focus on graph algorithms — this role is literally about "transformer based models tailored for graphs." You need BFS, DFS, Dijkstra's, A* deeply internalized.
@@ -136,9 +318,11 @@ You're at Level 5 when you can: write multithreaded C++ with proper synchronizat
 
 ---
 
-## Level 5 → 6: Machine Learning Engineering (Weeks 13–20)
+## Level 5 → 6: Machine Learning Engineering (Running in parallel from Week 1)
 
 **Goal:** Go from ML hobbyist to someone who can train, evaluate, and deploy models professionally.
+
+> **Important:** This track runs in parallel with C++ study — weekends. Don't wait until Week 13 to start. The DL skills needed for Projects 4 and 8 will be ready when those projects are scheduled (Weeks 10–20) if you start now.
 
 ### Deep Learning Foundations
 - Complete fast.ai's "Practical Deep Learning for Coders" — it's free and project-driven.
@@ -178,7 +362,7 @@ You're at Level 6 when you can: train a transformer model from scratch in PyTorc
 ### Map Data Pipelines
 - Understand how maps are built: fleet vehicles collect data → cloud pipelines process it → map tiles are generated → updates are pushed to vehicles.
 - Study how distributed map-building workflows operate (the job mentions "scalable and distributed map-building workflows"). Think: Spark/Dask for geospatial batch processing, message queues for real-time updates.
-- **Project:** Build a pipeline that ingests OSM data, extracts road network topology as a graph, computes shortest paths, and serves tiles via a simple API. Use Python for the pipeline, C++ for the graph computation.
+- **Hands-on:** Projects 1 and 3 cover this — OSM ingestion → road graph (P1) → tile server with gRPC (P3). No separate project needed here.
 
 ### 3D Geometry for AV
 - Deepen your linear algebra: homogeneous coordinates, rotation matrices, quaternions, rigid body transformations.

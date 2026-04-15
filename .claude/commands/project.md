@@ -87,14 +87,21 @@ Use this to calibrate:
 ## Step 3 — Determine the next topic
 
 Read `progress.md` to see what has been covered and the most recent Carry-Forward state.
-Read `career-nvidia-av-drive.md` for the full learning roadmap.
+Read `career-nvidia-av-drive.md` for the full learning roadmap and the "Next 7 Curriculum Days" table in the Current Sprint section.
 
 Use the roadmap to decide the next most foundational topic. Good candidates in order:
 1. STL containers: `vector`, `map`, `unordered_map`, iterators, range-for
 2. RAII and destructors: constructors, destructors, resource management
 3. Memory management: heap vs stack, `new`/`delete`, why smart pointers exist
 4. Smart pointers: `unique_ptr`, `shared_ptr`, ownership semantics
-5. Templates: function templates, class templates, the `auto` keyword
+5. Move semantics: rvalue references, move constructor, move assignment, `std::move` internals
+6. Templates: function templates, class templates, type deduction, `auto`
+7. Lambdas + `std::algorithm`: lambda syntax, captures, `sort`/`find_if`/`transform`
+8. File parsing + real data: deeper CSV/text parsing, reading real OSM or GPS data into structs
+9. CMake + multi-file projects: `CMakeLists.txt`, splitting across headers/source, linking
+10. Inheritance + polymorphism: base/derived classes, `virtual`, `override`, abstract classes
+11. Concurrency: `std::thread`, `std::mutex`, `std::condition_variable`, producer-consumer pattern
+12. Networking + serialization: Protocol Buffers, gRPC basics, why FlatBuffers over JSON
 
 Choose the topic that best fits the student's current level and career path momentum. If $ARGUMENTS was provided, use that as the topic name and infer what to cover from it.
 
@@ -103,10 +110,20 @@ Choose the topic that best fits the student's current level and career path mome
 ## Step 4 — Write the exercises file
 
 **Before writing:** Check if `NNN_exercises.md` already exists in the project folder.
-- If it exists: read it, check whether the Active Recall Warm-Up and Repeat Exercises sections are present and match the carry-forward items from Step 2. Add or update those sections only — do not delete or recreate the file.
+- If it exists: read it, check whether Repeat Exercises sections are present and match the carry-forward items from Step 2. Add or update those sections only — do not delete or recreate the file.
 - If it does not exist: create it.
 
 File path: `projects/NNN_topic/NNN_exercises.md`.
+
+**Important — Active Recall Warm-Up placement:** Carried-over review questions go in the **quiz file only** (Step 5). Do NOT add an Active Recall Warm-Up section to the exercises file. The exercises file references the quiz file for warm-up questions with a single line: *"Before starting: answer the warm-up questions in `NNN_topic_quiz.md`."*
+
+**Important — Exercise scaffolding rules:**
+- **Exercises 1–4:** May include boilerplate, but boilerplate must be written as **comments that hint at what to write**, not as working code. Example: `// declare a unique_ptr to MapTile` or `// use std::move to transfer ownership`. Do not provide working implementations. The student writes all functional code themselves.
+- **Exercise 5 — Integration (mandatory):** Must be the most demanding exercise. Requirements:
+  - Integrates concepts from all four prior exercises in a single, non-trivial program
+  - **No boilerplate provided** — no scaffold, no comments hinting at steps, no partial code. Just a spec describing what the program must do.
+  - The student writes everything from scratch
+  - Should reflect a realistic AV/mapping scenario that would feel at home in the NVIDIA DRIVE stack
 
 Structure:
 
@@ -115,9 +132,7 @@ Structure:
 
 **Goal:** [One sentence — what the student will be able to do after this day, tied to the NVIDIA AV context]
 
-## Active Recall Warm-Up
-[Only if there are carried-over questions from Step 2. Label each with its source day.
-Direct the student to write answers in the previous day's answers file before reading on.]
+> Before starting: answer the warm-up questions in `NNN_topic_quiz.md`.
 
 ---
 
@@ -128,20 +143,27 @@ Connect to the NVIDIA AV / mapping domain concretely.]
 
 ## Exercise 1 — [Name]
 **File:** Create `projects/NNN_topic/filename.cpp` (new file).
-[Clear task. Code scaffold or example where helpful.]
+[Clear task. Boilerplate as comments only — hints, not implementations.]
 **What to observe:** [Connect to the broader concept and career relevance]
 
 ## Exercise 2 — [Name]
-**File:** Update `filename.cpp` (add to existing file) OR Create `filename2.cpp` (new file) — whichever fits.
+**File:** Update or create as appropriate.
+[Comments-as-hints only. No working code provided.]
 ...
 
 ## Exercise 3 — [Name]
-**File:** Update `filename.cpp` (add to existing file) OR Create `filename3.cpp` (new file) — whichever fits.
 ...
 
-[Add Exercise 4 and 5 if the topic warrants it]
+## Exercise 4 — [Name]
+...
 
-[If there are repeat exercises from Step 3, add a clearly labeled section:]
+## Exercise 5 — Integration
+**File:** Create `projects/NNN_topic/integration.cpp` (new file).
+**No scaffold provided.** Write this program from scratch.
+
+[Spec only — describe what the program must do, the data it operates on, and what correct output looks like. No hints, no partial code, no step-by-step structure. This should require combining all four prior concepts in a non-trivial way.]
+
+[If there are repeat exercises from Step 2, add a clearly labeled section:]
 ## Repeat Exercises (from Day X)
 [Re-state the exercise with a note that it was previously incomplete]
 

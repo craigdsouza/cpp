@@ -15,6 +15,11 @@ struct MapTile {
         this->lat = lat;
         this->lon = lon;
         this->label = label;
+        std::cout << "MapTile " << id << " initialized" << std::endl;
+    }
+
+    ~MapTile(){
+        std::cout << "MapTile " << id << " destroyed" << std::endl;
     }
 
     void print_tile() {

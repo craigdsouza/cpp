@@ -1,30 +1,12 @@
 # Day 6 — Smart Pointers
 
-**Goal:** Replace raw `new`/`delete` with `std::unique_ptr` and `std::shared_ptr`, understand ownership semantics, and write C++ where heap memory is never manually freed — the foundation of safe, modern C++ in the NVIDIA DRIVE stack.
+**Goal:** Replace raw `new`/`delete` with `std::unique_ptr` and `std::shared_ptr`, understand ownership semantics, and write C++where heap memory is never manually freed — the foundation of safe, modern C++ in the NVIDIA DRIVE stack.
 
 ---
 
 ## Active Recall Warm-Up
 
-*From Day 4 — Review*
-
-Before starting: answer the following question in `projects/004_stl_containers/004_stl_containers_quiz.md` (Answer QR slot for Day 6 review). Focus on the distinction between **insertion-order** and **sorted-order**.
-
-**QR1 (Day 4 Q4):** You need to store the sequence of tile IDs along a planned route. The route is ordered (tile 3 comes before tile 7), and the same tile can appear multiple times (the route loops back through an intersection). Which STL container do you use, and why does `std::map` not work here? Be specific about what "ordered" means for `std::vector` vs `std::map` — they are ordered in *different* senses.
-
----
-
-*From Day 5 — Review*
-
-**QR2 (Day 5 Q5):** You construct three `TileLogger` objects in sequence:
-
-```cpp
-TileLogger a("log_a.txt");
-TileLogger b("log_b.txt");
-TileLogger c("log_c.txt");
-```
-
-`b`'s constructor throws because the file can't be opened. Which loggers are properly closed, which aren't, and why? Connect this to what "fully constructed" means for an object.
+Craig - questions posed to me were the repeated in 006_smart_pointers_quiz.md, so I deleted the questions here and answered them in the quiz.
 
 ---
 
@@ -38,9 +20,9 @@ Modern C++ solves this with **smart pointers**: wrapper objects that own a heap 
 
 There are two you will use constantly:
 
-**`std::unique_ptr<T>`** — *exclusive ownership*. One and only one `unique_ptr` can own a given allocation at a time. It cannot be copied, only *moved* (ownership transferred). When the `unique_ptr` goes out of scope, it calls `delete` on what it owns. Think of it as a single owner — like a file opened by one process.
+`**std::unique_ptr<T>`** — *exclusive ownership*. One and only one `unique_ptr` can own a given allocation at a time. It cannot be copied, only *moved* (ownership transferred). When the `unique_ptr` goes out of scope, it calls `delete` on what it owns. Think of it as a single owner — like a file opened by one process.
 
-**`std::shared_ptr<T>`** — *shared ownership*. Multiple `shared_ptr`s can point to the same object. Internally, a reference count tracks how many owners exist. When the last owner's `shared_ptr` goes out of scope, the count drops to zero and the object is deleted. Think of it like Python object references — the object lives as long as someone is using it.
+`**std::shared_ptr<T>`** — *shared ownership*. Multiple `shared_ptr`s can point to the same object. Internally, a reference count tracks how many owners exist. When the last owner's `shared_ptr` goes out of scope, the count drops to zero and the object is deleted. Think of it like Python object references — the object lives as long as someone is using it.
 
 In the NVIDIA AV stack, ownership matters for the same reason it matters in all real-time systems: resources (sensor buffers, map tiles, lidar frames) must be freed exactly once, at the right time. `unique_ptr` is the default — most resources have one clear owner. `shared_ptr` is used when multiple subsystems (localization, planning, HMI) need to read the same tile simultaneously.
 
@@ -97,6 +79,7 @@ int main() {
 ```
 
 Try also adding this line after the `std::move` and observe the compiler error:
+
 ```cpp
 // std::unique_ptr<MapTile> copy = owner;  // ERROR: unique_ptr cannot be copied
 ```
@@ -201,7 +184,7 @@ std::unique_ptr<MapTile> make_tile(const std::string& city) {
 }
 ```
 
-**What to observe:** Returning `unique_ptr` by value from a function is safe and efficient — the compiler elides the copy (NRVO) or moves it. The caller receives exclusive ownership of the heap object. Returning `nullptr` is the clean way to signal "no tile" — just like `T*` returning `nullptr` from Day 2, but now ownership is explicit and the caller can't forget to delete it.
+**What to observe:** Returning `unique_ptr` by value from a function is safe and efficient — the compiler elides the copy (NRVO) or moves it. The caller receives exclusive ownership of the heap object. Returning `nullptr` is the clean way to signal "no tile" — just like `T`* returning `nullptr` from Day 2, but now ownership is explicit and the caller can't forget to delete it.
 
 ---
 
@@ -216,3 +199,16 @@ You've passed Day 6 when you can:
 - Write a factory function that returns `unique_ptr` and explain why it's safe
 - Explain when to choose `unique_ptr` vs `shared_ptr` in an AV context
 - Explain what `make_unique` and `make_shared` do and why they're preferred over `new`
+
+---
+
+## Exercise Results — 2026-04-15
+
+| Exercise | Result | Note |
+|----------|--------|------|
+| Exercise 1 — unique_ptr for a single tile | Pass | unique_tile.cpp correct, destructor fires at block close |
+| Exercise 2 — Ownership transfer with std::move | Pass | tile_ownership.cpp correct, nullptr check present |
+| Exercise 3 — shared_ptr: cache and route | Pass | shared_tile.cpp correct, use_count trace accurate |
+| Exercise 4 — Rewrite TileBuffer without a destructor | Pass | smart_buffer.cpp correct (minor: shared_ptr declared, unique_ptr used — discussed) |
+| Exercise 5 — Factory function | Pass | make_tile factory in tile_ownership.cpp, nullptr return for unknown city handled |
+
