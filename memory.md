@@ -1,6 +1,6 @@
 # Student C++ Understanding Snapshot
 
-Last updated: 2026-04-15 (after Day 6)
+Last updated: 2026-04-17 (after Day 7)
 
 This file documents the student's current C++ understanding — what is solid, what has gaps, and what patterns have emerged in how they learn. It is intended to inform the creation of new project days.
 
@@ -10,7 +10,7 @@ This file documents the student's current C++ understanding — what is solid, w
 
 - **Primary language:** Python
 - **Goal:** NVIDIA DRIVE AV stack — C++ for localization, perception, sensor pipelines
-- **Days completed:** 1–6 (Hello Map, References & Pointers, Classes & Structs, STL Containers, RAII & Destructors, Smart Pointers)
+- **Days completed:** 1–7 (Hello Map, References & Pointers, Classes & Structs, STL Containers, RAII & Destructors, Smart Pointers, Move Semantics)
 
 ---
 
@@ -28,6 +28,9 @@ This file documents the student's current C++ understanding — what is solid, w
 - Correctly uses `try` / `catch` / `throw` and understands when to apply them
 - Uses `std::unique_ptr` and `std::shared_ptr` correctly — `make_unique`, `make_shared`, `std::move`, `.get()`, `*ptr`
 - Writes factory functions returning `unique_ptr` correctly
+- Implements move constructor and move assignment operator from scratch (steal-and-nullify pattern, self-assignment guard, free existing before steal)
+- Implements full Rule of Five for a raw-pointer-owning class (`LidarFrame`)
+- Writes `PipelineStage` with deleted copy, move constructor, move assignment, ingest/extract methods — from scratch, no scaffold
 
 ### Conceptual understanding
 
@@ -42,7 +45,11 @@ This file documents the student's current C++ understanding — what is solid, w
 - `unique_ptr` exception safety: understands that raw `delete` is skipped on exception or early return; `unique_ptr` destructor fires regardless
 - `shared_ptr` reference counting: can trace count step by step across copies, resets, and scope exits
 - Partially constructed objects: destructor does not run for partially constructed objects (carry-forward from Day 5 — fully answered in Day 6 QR2)
-- NRVO: understands that the compiler builds the returned object directly in the caller's slot
+- NRVO: understands that the compiler builds the returned object directly in the caller's slot; understands `std::move` on return value suppresses NRVO (anti-pattern)
+- `std::move` is a cast (lvalue→xvalue), not a transfer — actual resource move happens in move constructor or move assignment
+- Steal-and-nullify: both pointer and count must be nullified after a move; `delete[] nullptr` is safe no-op
+- `= delete` on copy constructor/assignment enforces single-owner invariant at compile time
+- Value categories: lvalue (has name, persistent), prvalue (pure temporary), xvalue (about to expire — result of `std::move`); `&&` binds to rvalues only
 
 ---
 
@@ -60,6 +67,8 @@ This file documents the student's current C++ understanding — what is solid, w
 - **Hash internals:** knows `unordered_map` has O(1) lookup, doesn't know hash buckets explain the arbitrary iteration order
 - **Leak quantification:** correct on identifying leaks, struggles to reason about severity at scale (100Hz × 60s = 6,000 calls)
 - **unique_ptr ownership precision:** understands exclusive ownership but occasionally frames it as "only one entity uses it" rather than "one entity is solely responsible for cleanup." The distinction matters when designing components — exclusive ownership is about cleanup responsibility, not just access count.
+- **Rule of Five rationale (Q4, 0.5):** When a class has a destructor managing raw memory, compiler-generated copy operations do *shallow* copies — both objects share the same pointer, and the destructor on each causes a double-free. Defining a destructor without also defining copy constructor/assignment is a latent bug. Student understands the "inconsistency" intuition but hasn't connected it to the concrete shallow-copy → double-free chain.
+- **unique_ptr move constructor internals (Q5, 0.75):** `unique_ptr` move constructor steals the raw pointer (`this->ptr = other.ptr`) and sets `other.ptr = nullptr`. Student identified `= delete` for copy but didn't describe the move constructor body.
 
 ### Vocabulary precision
 
@@ -102,19 +111,20 @@ This file documents the student's current C++ understanding — what is solid, w
 | 4   | STL Containers            | Complete |
 | 5   | RAII and Destructors      | Complete |
 | 6   | Smart Pointers            | Complete |
-| 7   | Move Semantics            | **Next** |
+| 7   | Move Semantics            | Complete |
+| 8   | Templates                 | **Next** |
 
 
-**Coming into Day 7:** Student has solid smart pointer mechanics — unique_ptr, shared_ptr, move, factories. Carry-forward: articulate exclusive ownership as cleanup responsibility (not just access count). Move semantics will build directly on std::move already encountered in Day 6.
+**Coming into Day 8:** Student has solid move semantics mechanics — can implement full Rule of Five from scratch, understands value categories and `std::move` as a cast, understands NRVO and the anti-pattern. Carry-forward: Rule of Five *rationale* (compiler-generated copy = shallow = double-free) and unique_ptr move internals. Day 8 (Templates) will build on class patterns already solid.
 
 ---
 
-## Recommendations for Day 7 and beyond
+## Recommendations for Day 8 and beyond
 
-- **Move semantics will feel familiar** — student already used `std::move` in Day 6; Day 7 should build on that intuition and explain what's happening under the hood (move constructor, move assignment, rvalue references)
-- **Connect move to unique_ptr** — student knows unique_ptr can't be copied but can be moved; Day 7 explains why that's possible at the language level
-- **Ownership precision is the carry-forward theme** — use Day 7 to reinforce: exclusive ownership = sole cleanup responsibility, not just sole access
-- **Keep Python analogies available** — they land well with this student
-- **Lean into "why" questions in quiz** — student needs reps on reasoning from CS fundamentals, not just applying syntax
-- **Avoid assuming CS background knowledge** — introduce concepts explicitly before they are needed
+- **Rule of Five rationale is the carry-forward theme** — Day 8 warm-up should ask student to articulate why defining a destructor without copy constructor is dangerous (expected answer: shallow copy → double-free)
+- **unique_ptr move internals** — ask student to describe the move constructor body for unique_ptr without looking it up; they implemented the identical pattern in lidar_frame.cpp
+- **Real-world context docs are highly motivating** — student explicitly said docs connecting C++ mechanics to AV/lidar pipeline (e.g. lidar-data-and-av-pipeline.md) give energy to push through syntax difficulty. Create a similar doc for each new day's topic.
+- **Keep Python analogies available** — they land well
+- **Exercise difficulty: simpler types before raw pointers** — the reorder from raw-pointer exercise to std::vector exercise (Ex 2↔3) validated this; keep this principle for future days
+- **Scaffold level matters** — student benefits from partial scaffolds at Ex 2-4 level; Ex 5 "from scratch" is appropriate only after patterns are internalized
 

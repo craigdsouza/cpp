@@ -266,6 +266,40 @@ See [copy-vs-reference.md](./copy-vs-reference.md).
 
 ---
 
+## 2026-04-17 — Day 7: Move Semantics
+
+### Quiz Score
+4.0 / 5.0 — Strong on mechanics (cast vs transfer, steal-and-nullify); gaps in Rule of Five reasoning and unique_ptr move internals.
+
+| Q | Score | Note |
+|---|-------|------|
+| Q1 | 1.0 | Correct: cast lvalue→xvalue, move happens in constructor — complete reasoning |
+| Q2 | 1.0 | Correct: both nullification steps identified, double-free mechanism explained cleanly |
+| Q3 | 0.75 | Correct that it hurts and NRVO is suppressed; says "copy operation" where it's actually a move — small precision gap |
+| Q4 | 0.5 | Admits guessing; gets "inconsistency" intuition but misses the key: compiler-generated copy does shallow copy, so destructor + default copy = double-free |
+| Q5 | 0.75 | Correctly identifies `= delete`; doesn't explain move constructor internals (steal raw pointer + nullify); "throws an error" is a compile error, not runtime exception |
+
+### Exercises
+| Exercise | Result |
+|----------|--------|
+| Exercise 1 — copy_vs_move.cpp | Pass |
+| Exercise 2 — move_containers.cpp | Pass |
+| Exercise 3 — lidar_frame.cpp | Pass |
+| Exercise 4 — return_move.cpp | Pass |
+| Exercise 5 — integration.cpp | Pass |
+
+### Concepts Confirmed
+- `std::move` is a cast (lvalue→xvalue), not a transfer — the actual resource move happens in the move constructor or move assignment operator
+- Steal-and-nullify: both pointer and count must be nullified in the source after a move, or double-free results
+- NRVO: compiler builds return value directly in caller's slot — `std::move` on a named return variable suppresses this and forces a move instead of zero operations
+- `= delete` on copy constructor/assignment enforces single-owner invariant at compile time rather than runtime
+
+### Carry-Forward
+- **Q4 (0.5):** Rule of Five rationale — when a class has a destructor managing raw memory, compiler-generated copy operations do shallow copies, leading to double-free. Defining destructor without copy = latent bug.
+- **Q5 (0.75):** `unique_ptr` move constructor internals — it steals the raw pointer (`this->ptr = other.ptr`) and sets `other.ptr = nullptr`. The pattern is identical to what was implemented in Exercise 3.
+
+---
+
 # 2026-04-13 Microsoft Coursera C++ Course
 
 Installed C/C++ Extension pack

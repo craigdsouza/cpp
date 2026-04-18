@@ -62,6 +62,8 @@ std::move(v)[0]           // element of a moved-from vector — xvalue
 
 An xvalue has identity (it came from a named object) but has been explicitly marked as safe to steal from. This is exactly what `std::move` does: it casts an lvalue to an xvalue by returning `T&&`. The object still exists at its address — you just told the compiler "I'm done with it, take its resources."
 
+Warehouse analogy: imagine a physical box sitting on shelf C-12. It has an address — it's an lvalue. Now you put a bright red "DISCARD — TAKE CONTENTS" sticker on it. The box is still at shelf C-12; its address didn't change. But now movers (the move constructor) will strip its contents instead of making a copy. `std::move` is the sticker. The stickered box is the xvalue. The move constructor is the mover.
+
 ---
 
 ## What `std::move` Is, Precisely
@@ -75,11 +77,26 @@ std::remove_reference_t<T>&& move(T&& t) noexcept {
 
 It is a `static_cast` to `T&&`. Nothing more. The expression `std::move(x)` produces an xvalue — an expression that has identity but is marked movable. The actual resource transfer happens in whatever move constructor or move assignment operator gets called on that xvalue.
 
+**Connection to `unique_ptr` (Day 6).** When you wrote `unique_ptr<int> b = std::move(a)`, this is exactly what happened: `std::move(a)` changed `a` from lvalue to xvalue, which caused the compiler to call `unique_ptr`'s move constructor (which steals the raw pointer and nullifies `a`) instead of its copy constructor (which is deleted, because ownership must never be duplicated). `std::move` did not transfer the pointer — the move constructor did. `std::move` just changed the category so the right constructor was selected.
+
 This is why `std::move` on a return value is an anti-pattern: a named local variable about to be returned is already treated as an xvalue by the compiler (implicit move on return). Calling `std::move` explicitly converts it to an xvalue *before* the return analysis, which prevents NRVO.
 
 ---
 
 ## Reference Binding Rules
+
+`&` and `&&` are both reference types — they create an alias for an object without copying it. The difference is what they're willing to alias:
+
+- `T&` — "I want an alias for something that's sticking around; I might read or modify it later."
+- `T&&` — "I want an alias for something I'm allowed to steal from — a temporary or an object you've marked expendable."
+
+```cpp
+int x = 5;
+int&  a = x;            // fine — x is an lvalue, sticking around
+int&& b = x;            // compile error — x is an lvalue, not expendable
+int&& c = 5;            // fine — 5 is a temporary (prvalue)
+int&& d = std::move(x); // fine — std::move made x an xvalue (expendable)
+```
 
 These rules determine which references bind to which value categories:
 
@@ -123,7 +140,7 @@ This is the foundation of `std::forward<T>(arg)` — it preserves the value cate
 
 ## Common Pitfalls
 
-- **Calling `std::move` on a return value.** You're converting the local variable to an xvalue before the compiler's implicit-move-on-return logic, disabling NRVO. Write `return frame;` not `return std::move(frame);`.
+- **Calling `std::move` on a return value (the NRVO anti-pattern).** This looks like a good idea — "I'm returning a local, I should move it to avoid a copy." But it's wrong. The compiler already has something better than a move: NRVO (Named Return Value Optimization), where it constructs the local variable directly in the caller's memory slot from the start — zero copies, zero moves. Writing `return std::move(frame)` converts `frame` to an xvalue *before* the compiler's NRVO analysis, disabling the optimization. The compiler is forced to use the move constructor instead — one extra operation vs. zero. Cost comparison: NRVO = construct once in place. `return std::move` = construct + move. Write `return frame;` not `return std::move(frame);`.
 - **Assuming a moved-from object is destroyed.** After a move, the source is in a valid but unspecified state — typically empty/null, but still alive. Its destructor will still run. Always nullify raw pointers in move constructors.
 - **Confusing `T&&` in a template with an rvalue reference.** In a template, `T&&` is a forwarding reference that binds to anything. Outside a template, `T&&` only binds to rvalues.
 - **Taking the address of an rvalue.** `&std::move(x)` is a compile error. Rvalues (prvalues and xvalues) don't have a stable address you can take.
@@ -134,4 +151,39 @@ This is the foundation of `std::forward<T>(arg)` — it preserves the value cate
 
 The DRIVE sensor pipeline passes large objects — lidar frames (millions of floats), camera buffers, map tile payloads — between modules. Value categories are what makes this zero-copy: when a buffer moves from the capture module to the preprocessing module, it's an xvalue transfer. No bytes are copied; only the pointer moves. The receiving module's move constructor steals the pointer and nullifies the source.
 
+```cpp
+// Without move semantics — what used to happen:
+void processFrame(LidarFrame frame) {
+    // frame arrives as a COPY of the caller's object
+    // 1M floats × 4 bytes = 4MB copied on every call
+}
+
+// With move semantics:
+void processFrame(LidarFrame&& frame) {
+    // frame.points is a std::vector — internally just a pointer + size + capacity
+    // "moving" means: steal the pointer, nullify source. ~24 bytes, not 4MB.
+    LidarFrame result;
+    result.points = std::move(frame.points); // pointer transfer, no copy
+}
+
+// At the call site:
+LidarFrame raw = captureFrame();
+processFrame(std::move(raw)); // raw is stickered expendable; its points pointer transfers
+// raw.points is now empty — that's fine, we're done with raw
+```
+
+The lidar data never moved in memory. Only the pointer to it moved. That's the whole trick.
+
 At the infrastructure level, `std::forward` (built on forwarding references) is used extensively in DriveWorks-style middleware to pass sensor data through dispatch layers without unnecessary copies. Understanding that `T&&` in a template is not the same as `T&&` in a regular function is essential for reading and writing that kind of code.
+
+---
+
+## Quick Reference
+
+| Concept | One-sentence summary |
+|---------|----------------------|
+| `T&` | Alias for something persistent — only binds lvalues |
+| `T&&` | Alias for something expendable — only binds rvalues (temporaries or `std::move`d objects) |
+| xvalue | A named object stickered with `std::move` — has an address, but marked safe to steal from |
+| `std::move(x)` | A cast. Converts x from lvalue → xvalue. Does not move anything itself. |
+| move constructor | The thing that actually transfers resources — steals the pointer, nullifies the source |

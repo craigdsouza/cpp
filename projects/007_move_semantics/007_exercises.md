@@ -43,64 +43,30 @@ Then in `main`, trigger each and observe which fires:
 
 ---
 
-## Exercise 2 — Implement a move constructor and move assignment
-
-**File:** Create `projects/007_move_semantics/lidar_frame.cpp` (new file).
-
-Define a `LidarFrame` class that owns a raw `float*` point cloud array:
-
-```cpp
-// member: float* points (heap-allocated)
-// member: int count
-
-// constructor: allocate count floats, fill with 0.0f, print "LidarFrame constructed"
-// destructor: free the array, print "LidarFrame destroyed"
-// copy constructor: deep-copy the array, print "LidarFrame copied"
-
-// move constructor:
-//   steal other.points (assign to this->points)
-//   steal other.count
-//   nullify other.points  // <-- why is this essential?
-//   nullify other.count
-//   print "LidarFrame moved"
-
-// move assignment operator:
-//   guard against self-assignment
-//   free existing this->points if not null
-//   steal from other (same as move constructor)
-//   nullify other
-//   return *this
-```
-
-In `main`, demonstrate:
-- Construction, copy, move
-- That the source is nullified after a move
-- That the destructor on a moved-from object is safe (no double-free)
-
-**What to observe:** The "steal and nullify" pattern is the entire substance of move semantics. Every move constructor you ever write follows this shape.
-
----
-
-## Exercise 3 — Moving standard containers
+## Exercise 2 — Moving standard containers
 
 **File:** Create `projects/007_move_semantics/move_containers.cpp` (new file).
 
-Work with `std::vector<std::string>` representing a list of map tile labels:
+Work with `std::vector<std::string>` representing a list of map tile labels. Write a `process_tiles` function that takes a vector by value (a "sink" parameter — it accepts ownership), then in `main`:
 
-```cpp
-// create a vector of 5 tile labels
-// print its size
-
-// move it into a second vector using std::move
-// print the size of both vectors — what do you observe?
-
-// write a function that takes a vector by value (sink parameter):
-//   void process_tiles(std::vector<std::string> tiles)
-// call it once by copying, once by moving
-// observe via size checks which is cheaper conceptually
-```
+- Create a vector of 5 tile labels and print its size
+- Move it into a second vector using `std::move` — print both sizes after
+- Call `process_tiles` once by copying, once by moving — observe via size checks what happened to the source each time
 
 **What to observe:** After `std::move(v)`, the source vector is in a valid but unspecified state — typically empty. Moving a `std::vector` is O(1) regardless of element count. Copying is O(n). For a lidar point cloud with 100,000 points this difference is significant.
+
+---
+
+## Exercise 3 — Implement a move constructor and move assignment
+
+**File:** Update `projects/007_move_semantics/lidar_frame.cpp`.
+
+Define a `LidarFrame` class that owns a raw `float*` point cloud array. Complete the move assignment operator and `main`:
+
+- Move assignment operator: guard against self-assignment, free existing `this->points`, steal from `other`, nullify `other`, return `*this`
+- In `main`: demonstrate construction, copy, and move — verify the source is nullified after a move and that the destructor on a moved-from object is safe (no double-free)
+
+**What to observe:** The move assignment operator differs from the move constructor in one key way — `this` already owns an array that must be freed before stealing. The "steal and nullify" pattern is the entire substance of move semantics. Every move constructor and move assignment operator you ever write follows this shape.
 
 ---
 
@@ -146,6 +112,18 @@ In `main`:
 - Verify at the end: first stage has 0 frames, all `LidarFrame` destructors have fired exactly once
 
 Correct output should make clear that no frame was ever copied — only constructed, moved, and destroyed.
+
+---
+
+## Exercise Results — 2026-04-17
+
+| Exercise | Result | Note |
+|----------|--------|------|
+| Exercise 1 — copy_vs_move.cpp | Pass | SensorBuffer copy and move constructors correct, main demonstrates both |
+| Exercise 2 — move_containers.cpp | Pass | process_tiles sink parameter, copy vs move observed via size checks |
+| Exercise 3 — lidar_frame.cpp | Pass | Full Rule of Five including move assignment with self-assignment guard |
+| Exercise 4 — return_move.cpp | Pass | Both factories, NRVO vs anti-pattern clearly demonstrated |
+| Exercise 5 — integration.cpp | Pass | PipelineStage from scratch, copy deleted, ingest/extract/frame_count all correct |
 
 ---
 

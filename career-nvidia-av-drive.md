@@ -41,22 +41,23 @@
 | 4 | 2026-03-31 | STL Containers — map, unordered_map, vector, iterators, find/erase | 5/5 pass | 4.0/5.0 |
 | 5 | 2026-04-03 | RAII & Destructors — destructor timing, stack unwinding, TileBuffer | 6/6 pass (nullptr finally cleared) | 4.0/6.0 |
 | 6 | 2026-04-15 | Smart Pointers — unique_ptr, shared_ptr, move, factory functions | 5/5 pass | 6.75/7.0 |
+| 7 | 2026-04-17 | Move Semantics — rvalue refs, move constructor, move assignment, NRVO | 5/5 pass | 4.0/5.0 |
 
-**Trajectory:** Quiz scores improving — Day 6 was the strongest yet. "Why" reasoning has caught up with "what" application. All exercises passing.
+**Trajectory:** Quiz scores improving across the board. "Why" reasoning has caught up with "what" application. All exercises passing. Day 7 gap: Rule of Five rationale (carried into Day 8 warm-up).
 
 ---
 
 ### Next 7 Curriculum Days
 
-| Day | Topic | Key Concepts | Real Data? |
-|-----|-------|-------------|------------|
-| 7 | Move Semantics | rvalue refs, move constructor, move assignment, when the compiler moves vs copies | No — mechanics first |
-| 8 | Templates | function templates, class templates, template type deduction | No |
-| 9 | Lambdas + std::algorithm | lambda syntax, captures, sort/find_if/transform | No |
-| 10 | File Parsing + Real Data | deeper CSV/text parsing, read a real OSM GPS export into MapTile structs | **Yes — first real data** |
-| 11 | CMake + Multi-file Projects | CMakeLists.txt, splitting code across headers/source files, linking | Yes |
-| 12 | Project 1 Kickoff | Parse real GeoJSON road segments into an adjacency list in C++ | **Yes — Project 1 starts** |
-| 13 | Graph Algorithms | BFS, Dijkstra's on the road graph built in Day 12 | Yes |
+| Day | Target Date | Topic | Key Concepts | Real Data? |
+|-----|-------------|-------|-------------|------------|
+| 7 | Thu Apr 17 | Move Semantics | rvalue refs, move constructor, move assignment, when the compiler moves vs copies | No — mechanics first |
+| 8 | Fri Apr 18 | Templates | function templates, class templates, template type deduction | No |
+| 9 | Mon Apr 21 | Lambdas + std::algorithm | lambda syntax, captures, sort/find_if/transform | No |
+| 10 | Tue Apr 22 | File Parsing + Real Data | deeper CSV/text parsing, read a real OSM GPS export into MapTile structs | **Yes — first real data** |
+| 11 | Wed Apr 23 | CMake + Multi-file Projects | CMakeLists.txt, splitting code across headers/source files, linking | Yes |
+| 12 | Thu Apr 24 | Project 1 Kickoff | Parse real GeoJSON road segments into an adjacency list in C++ | **Yes — Project 1 starts** |
+| 13 | Fri Apr 25 | Graph Algorithms | BFS, Dijkstra's on the road graph built in Day 12 | Yes |
 
 **Note on real data:** Day 10 is the inflection point. You have all the C++ mechanics needed now — smart pointers, containers, file I/O. Day 10 replaces dummy inline data with a real file. By Day 12 you're working with actual OSM exports.
 
@@ -243,24 +244,35 @@
 
 ### How the Projects Stack
 
-| Calendar Week | C++ Study + DL Study | Project Work | AV Layer | Status |
-|---------------|----------------------|-------------|----------|--------|
-| Week 1 (Mar 25) | Days 1–2: types, refs, pointers | — | — | Done |
-| Week 2 (Apr 1) | Days 3–4: classes, STL | — | — | Done |
-| Week 3 (Apr 15) | Days 5–6: RAII, smart pointers | **P1 start:** Road Graph | Mapping | **← You are here** |
-| Week 4–5 | Days 7–9: move semantics, templates, lambdas | **P1 complete + P2 start:** Point Cloud Index | Mapping | Upcoming |
-| Week 6–7 | Days 10–12: file parsing, CMake, real data | **P2 complete + P3 start:** Tile Server | Mapping infra | Upcoming |
-| Week 8–9 | Days 13–15: concurrency, networking + DL: PyTorch basics | **P3 complete** | Mapping infra | Upcoming |
-| Week 10–11 | C++: inference runtimes (ONNX/TensorRT) + DL: object detection fine-tuning | **P4:** Perception Pipeline | Perception | Upcoming |
-| Week 12–13 | C++: linear algebra (Eigen), EKF + DL: continued | **P5:** State Estimator | Localization | Upcoming |
-| Week 14–15 | C++: particle filters, inter-module interfaces | **P6:** Map-Based Localization | Localization | Upcoming |
-| Week 16–17 | C++: real-time optimization, profiling | **P7:** Motion Planner | Planning | Upcoming |
-| Week 18–20 | DL: transformers, trajectory prediction + C++: inference integration | **P8:** Trajectory Prediction | Prediction | Upcoming |
-| Week 21–24 | Integration, profiling, documentation | **P9:** Mini AV Pipeline Capstone | Full stack | Upcoming |
+> **Pace assumption:** 1 curriculum day per weekday (Mon–Fri). Project work runs concurrently in the same daily block. DL study on weekends. All dates calculated from Day 6 done on Wed Apr 15, 2026.
 
-> **By June 1 (Week 7):** Projects 1–3 complete — strong portfolio signal for the NVIDIA DRIVE Mapping role.
-> **By Week 12:** Projects 1–5 complete — credible for localization and sensor fusion roles.
-> **By Week 21+:** Full 9-project portfolio covering every major AV layer.
+| Dates | C++ Curriculum + DL | Project Milestone | Target Date | Status |
+|-------|--------------------|--------------------|-------------|--------|
+| Mar 25 – Apr 15 | Days 1–6: types → smart pointers | P1 start (Apr 15) | Apr 15 | **Done / Started** |
+| Apr 17–25 | Days 7–13: move semantics, templates, lambdas, real data, CMake, graph algos | P1 active | — | Upcoming |
+| Apr 28 – May 2 | Days 14–18: inheritance, concurrency basics | **P1 complete** | **May 12** | Upcoming |
+| May 5–16 | Days 19–28: concurrency, networking, gRPC, protobuf | **P2 complete** | **May 26** | Upcoming |
+| May 19 – Jun 6 | Days 29–38: serialization, inference runtimes + DL: PyTorch basics, CNNs | **P3 complete** | **Jun 16** | Upcoming |
+| Jun 9–27 | C++: ONNX/TensorRT + DL: object detection fine-tuning (KITTI/nuScenes) | **P4 complete** | **Jul 7** | Upcoming |
+| Jun 30 – Jul 11 | C++: Eigen, EKF, linear algebra + DL: continued | **P5 complete** | **Jul 21** | Upcoming |
+| Jul 14–25 | C++: particle filters, inter-module interfaces | **P6 complete** | **Aug 4** | Upcoming |
+| Jul 28 – Aug 8 | C++: real-time optimization, profiling, lock-free structures | **P7 complete** | **Aug 18** | Upcoming |
+| Aug 11 – Sep 5 | DL: transformers, trajectory prediction + C++: inference integration | **P8 complete** | **Sep 15** | Upcoming |
+| Sep 8 – Oct 3 | Integration, profiling, documentation, demo video | **P9 complete** | **Oct 6** | Upcoming |
+
+**Milestone summary:**
+
+| Milestone | Target Date | Significance |
+|-----------|-------------|--------------|
+| P1 complete | **May 12** | First GitHub artifact — apply to mapping roles |
+| P2 complete | **May 26** | Spatial indexing signal — apply to localization roles |
+| P3 complete | **Jun 16** | Full mapping portfolio — strong signal for NVIDIA DRIVE Mapping |
+| P4 complete | **Jul 7** | Perception Python+C++ pipeline — broadens to perception roles |
+| P5 complete | **Jul 21** | Sensor fusion — localization engineering roles |
+| P6 complete | **Aug 4** | End-to-end localization — connected multi-project portfolio |
+| P7 complete | **Aug 18** | Motion planning — AV generalist signal |
+| P8 complete | **Sep 15** | Transformer-based prediction — frontier AV signal |
+| P9 complete | **Oct 6** | Full pipeline demo — interview-ready capstone |
 
 ---
 

@@ -125,6 +125,14 @@ File path: `projects/NNN_topic/NNN_exercises.md`.
   - The student writes everything from scratch
   - Should reflect a realistic AV/mapping scenario that would feel at home in the NVIDIA DRIVE stack
 
+**Important — Difficulty escalation rule:**
+- Each exercise should introduce at most 2 new concepts beyond the previous one.
+- Always introduce a concept using the simplest possible type first (e.g. `std::string`, `std::vector`) before applying it to raw pointers or complex class hierarchies. Never combine raw pointer memory management with a concept being introduced for the first time in the same exercise.
+- Order exercises easy → hard within the day. If one exercise uses `std::vector` and another uses raw `float*` to demonstrate the same concept, the `std::vector` exercise comes first.
+
+**Important — Syntax scaffolding rule (Python-background student):**
+- C++ class syntax is a known barrier for this student. Any exercise that asks them to define a class must provide at minimum (as hint comments): the class opening line, the `public:` label, and member variable declarations. The student fills in method bodies and logic — not boilerplate class structure.
+
 Structure:
 
 ```
@@ -173,6 +181,28 @@ You've passed Day N when you can:
 - [bullet]
 - [bullet]
 ```
+
+---
+
+## Step 4b — Create scaffold `.cpp` files
+
+For each exercise named in the exercises file, create a corresponding `.cpp` file in `projects/NNN_topic/`. Do not create files that already exist.
+
+**Scaffold ratios** — how much of the file the student must write:
+
+| Exercise | Student writes | What the scaffold provides |
+|---|---|---|
+| 1 | ~1/5 | Full class skeleton (opening, `public:`, members as hint-comments), includes, `main` shell, hint-comments throughout |
+| 2 | ~2/5 | Includes, key data setup (e.g. variable declarations), hint-comments for the remaining logic |
+| 3 | ~3/5 | Includes, method/function signatures as hint-comments, `main` shell |
+| 4 | ~4/5 | Includes only, plus hint-comments outlining the structure |
+| 5 | 100% | Hint-comments only — the spec from the exercises file, no code |
+
+**Rules for all scaffold files:**
+- All scaffold is hint-comments (`// ...`), never working code
+- Class-based exercises must always provide: class opening line, `public:` label, and member variable declarations as hint-comments — even at higher difficulty tiers
+- Commented-out code stubs (e.g. `// SomeType foo = ...`) are acceptable as directional hints
+- Add entries for each new `.cpp` file to `compile_commands.json` at the repo root (same format as Step 1)
 
 ---
 
