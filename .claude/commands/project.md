@@ -84,6 +84,21 @@ Use this to calibrate:
 
 ---
 
+## Step 2c — Read practiced mechanics from the glossary
+
+Read the **Practiced Mechanics** section of `glossary.md`. This lists every C++ mechanic the student has actually implemented across all prior days.
+
+Use this list to:
+- **Identify which mechanics in today's topic are genuinely new** — a mechanic already in the list can be used freely in exercises without counting against the "new mechanics" budget
+- **Cap new mechanics per exercise at 2** — if an exercise requires more than 2 mechanics the student has never implemented, split it or simplify it
+- **Introduce new mechanics explicitly** — any mechanic not yet in the practiced list must be introduced with a worked example or clear explanation in the Background section before the student is asked to use it in an exercise
+- **Avoid mechanic overload in Exercise 1** — Exercise 1 should use at most 1 new mechanic; the remaining exercises can each introduce 1–2 more
+- **Include at least 10 older practiced mechanics across the day's exercises** — pick mechanics from prior days that naturally fit the new topic. Reuse is intentional: fluency comes from applying the same mechanic across different contexts, not just from learning it once. Prefer mechanics that haven't appeared in recent exercises (older = higher priority for reuse).
+
+> **Mechanic vs concept:** A *concept* is an idea (e.g. "templates enable generic code"). A *mechanic* is something the student must type and get right (e.g. "write `template<typename T>` before a class definition", "use `(index + 1) % N` for modulo wrapping"). Both are tracked. A day can introduce one concept but several new mechanics — count them separately.
+
+---
+
 ## Step 3 — Determine the next topic
 
 Read `progress.md` to see what has been covered and the most recent Carry-Forward state.
@@ -117,18 +132,25 @@ File path: `projects/NNN_topic/NNN_exercises.md`.
 
 **Important — Active Recall Warm-Up placement:** Carried-over review questions go in the **quiz file only** (Step 5). Do NOT add an Active Recall Warm-Up section to the exercises file. The exercises file references the quiz file for warm-up questions with a single line: *"Before starting: answer the warm-up questions in `NNN_topic_quiz.md`."*
 
+**Important — Default to 4 exercises per day (not 5):**
+The target completion time is 4–6 hours for exercises + ~30 minutes for the quiz. 4 exercises with escalating difficulty fits this budget. Only use 5 exercises if the topic has unusually many distinct sub-concepts that genuinely cannot be combined.
+
 **Important — Exercise scaffolding rules:**
-- **Exercises 1–4:** May include boilerplate, but boilerplate must be written as **comments that hint at what to write**, not as working code. Example: `// declare a unique_ptr to MapTile` or `// use std::move to transfer ownership`. Do not provide working implementations. The student writes all functional code themselves.
-- **Exercise 5 — Integration (mandatory):** Must be the most demanding exercise. Requirements:
-  - Integrates concepts from all four prior exercises in a single, non-trivial program
+- **Exercises 1–3:** May include boilerplate, but boilerplate must be written as **comments that hint at what to write**, not as working code. Example: `// declare a unique_ptr to MapTile` or `// use std::move to transfer ownership`. Do not provide working implementations. The student writes all functional code themselves.
+- **Exercise 4 — Integration (mandatory):** Must be the most demanding exercise. Requirements:
+  - Integrates concepts from all three prior exercises in a single, non-trivial program
   - **No boilerplate provided** — no scaffold, no comments hinting at steps, no partial code. Just a spec describing what the program must do.
   - The student writes everything from scratch
   - Should reflect a realistic AV/mapping scenario that would feel at home in the NVIDIA DRIVE stack
 
+**Important — Time estimates:** Add a time estimate to each exercise heading, e.g. `## Exercise 1 — Name (~30 min)`. Calibrate so the total across all exercises is 4–6 hours. This helps the student pace themselves and flag when an exercise is running over.
+
 **Important — Difficulty escalation rule:**
-- Each exercise should introduce at most 2 new concepts beyond the previous one.
+- Each exercise should introduce at most **2 new mechanics** beyond the prior one (check against the Practiced Mechanics list from Step 2c).
+- Exercise 1 introduces at most 1 new mechanic.
 - Always introduce a concept using the simplest possible type first (e.g. `std::string`, `std::vector`) before applying it to raw pointers or complex class hierarchies. Never combine raw pointer memory management with a concept being introduced for the first time in the same exercise.
 - Order exercises easy → hard within the day. If one exercise uses `std::vector` and another uses raw `float*` to demonstrate the same concept, the `std::vector` exercise comes first.
+- If a topic requires more than 6 new mechanics in total, consider whether it should be split across two days. Flag this to the student in the output (Step Final) if so.
 
 **Important — Syntax scaffolding rule (Python-background student):**
 - C++ class syntax is a known barrier for this student. Any exercise that asks them to define a class must provide at minimum (as hint comments): the class opening line, the `public:` label, and member variable declarations. The student fills in method bodies and logic — not boilerplate class structure.
@@ -149,27 +171,24 @@ Structure:
 Use Python analogies where the student's existing knowledge helps.
 Connect to the NVIDIA AV / mapping domain concretely.]
 
-## Exercise 1 — [Name]
+## Exercise 1 — [Name] (~45 min)
 **File:** Create `projects/NNN_topic/filename.cpp` (new file).
 [Clear task. Boilerplate as comments only — hints, not implementations.]
 **What to observe:** [Connect to the broader concept and career relevance]
 
-## Exercise 2 — [Name]
+## Exercise 2 — [Name] (~60 min)
 **File:** Update or create as appropriate.
 [Comments-as-hints only. No working code provided.]
 ...
 
-## Exercise 3 — [Name]
+## Exercise 3 — [Name] (~75 min)
 ...
 
-## Exercise 4 — [Name]
-...
-
-## Exercise 5 — Integration
+## Exercise 4 — Integration (~90 min)
 **File:** Create `projects/NNN_topic/integration.cpp` (new file).
 **No scaffold provided.** Write this program from scratch.
 
-[Spec only — describe what the program must do, the data it operates on, and what correct output looks like. No hints, no partial code, no step-by-step structure. This should require combining all four prior concepts in a non-trivial way.]
+[Spec only — describe what the program must do, the data it operates on, and what correct output looks like. No hints, no partial code, no step-by-step structure. This should require combining all three prior concepts in a non-trivial way.]
 
 [If there are repeat exercises from Step 2, add a clearly labeled section:]
 ## Repeat Exercises (from Day X)
@@ -195,8 +214,7 @@ For each exercise named in the exercises file, create a corresponding `.cpp` fil
 | 1 | ~1/5 | Full class skeleton (opening, `public:`, members as hint-comments), includes, `main` shell, hint-comments throughout |
 | 2 | ~2/5 | Includes, key data setup (e.g. variable declarations), hint-comments for the remaining logic |
 | 3 | ~3/5 | Includes, method/function signatures as hint-comments, `main` shell |
-| 4 | ~4/5 | Includes only, plus hint-comments outlining the structure |
-| 5 | 100% | Hint-comments only — the spec from the exercises file, no code |
+| 4 (Integration) | 100% | Hint-comments only — the spec from the exercises file, no code |
 
 **Rules for all scaffold files:**
 - All scaffold is hint-comments (`// ...`), never working code

@@ -53,6 +53,10 @@ FixedBuffer<float, 512> point_buf;       // 512 floats on the stack
 
 In real-time AV code, `FixedBuffer<T, N>` is preferred over `std::vector<T>` in hot paths because it has zero heap allocation, zero dynamic resizing, and predictable memory layout. NVIDIA's DriveWorks uses this pattern extensively.
 
+> **Hot path:** A section of code that runs so frequently (e.g., processing every lidar point at 20 scans/sec × 64,000 points/scan) that even microsecond slowdowns compound into missed safety deadlines.
+>
+> **Dynamic resizing:** When a `std::vector` exceeds its capacity, it allocates a new block of memory (typically 2×), copies all elements over, and frees the old block. This works fine in general-purpose code, but the time it takes depends on what the OS is doing right now — it's *non-deterministic*. In a hot path, one unlucky push that triggers a resize can stall the pipeline far longer than the timing budget allows. `FixedBuffer<T, N>` bakes the size in at compile time so the array lives on the stack — there is nothing to allocate at runtime, ever.
+
 ---
 
 ## Exercise 1 — Function templates
@@ -91,6 +95,13 @@ In `main`:
 - Print enough to confirm the ring behaviour is correct
 
 **What to observe:** The template class compiles for any T that supports the operations you use inside the template body. You wrote the buffer logic once — the compiler generates separate `RingBuffer<float>` and `RingBuffer<int>` classes. The member function bodies live in the header (or same file as the class definition) — unlike regular classes, template method implementations can't be split into a separate `.cpp`.
+
+> **RingBuffer vs FixedBuffer — where does the memory live?**
+> `RingBuffer<T>` is backed by `std::vector<T>`, which allocates memory on the **heap** at runtime when the constructor runs. This initial allocation is *non-deterministic* — calling `new` (which `std::vector` does internally) asks the OS for memory, and the OS response time depends on what else is running: other processes, fragmentation, kernel scheduling. In most runs it's fast, but you cannot *guarantee* how long it takes. For a soft real-time system (bounded latency) this is acceptable. For hard real-time (guaranteed latency, e.g. an airbag controller) it is not.
+>
+> The size is also decided at runtime — `RingBuffer<float> buf(n)` works even if `n` is a variable. This flexibility is the tradeoff: you get a runtime-sized buffer, but at the cost of a heap allocation you can't reason about statically.
+>
+> Compare this to `FixedBuffer<T, N>` in Exercise 4, where `N` is a compile-time constant and the array lives entirely on the stack — zero runtime allocation, guaranteed.
 
 ---
 
@@ -131,6 +142,11 @@ In `main`:
 
 **What to observe:** `N` is known at compile time — `T data[N]` is a valid stack array declaration because the size is fixed before the program runs. A runtime variable (`int cap = 16;`) would fail as a template argument even if its value is computable. The distinction: template arguments are a compile-time concept; `constexpr` makes a variable eligible.
 
+> **FixedBuffer vs RingBuffer — the hard real-time difference**
+> Unlike `RingBuffer<T>`, `FixedBuffer<T, N>` performs zero heap allocation — not just "no resizing", but nothing at runtime at all. The stack frame for the buffer is laid out by the compiler before the program runs. This makes it safe in contexts where heap allocation is outright forbidden: interrupt service routines, hard real-time threads, and safety-critical embedded systems.
+>
+> The tradeoff: `N` must be a compile-time constant. You cannot size a `FixedBuffer` from a runtime variable. If you need runtime-determined capacity, `RingBuffer<T>` is the right tool. If you need guaranteed latency and bounded memory, `FixedBuffer<T, N>` is.
+
 ---
 
 ## Exercise 5 — Integration
@@ -152,6 +168,18 @@ In `main`:
 - Demonstrate that the same `SensorPipeline` template works for both types with no code duplication.
 
 Correct output should clearly show: the clamp transform firing on the float pipeline, and the ring channel readings extracted correctly from the int pipeline. No dynamic allocation anywhere.
+
+---
+
+## Exercise Results — 2026-04-20
+
+| Exercise | Result | Note |
+|----------|--------|------|
+| Exercise 1 — Function Templates | Pass | Both templates correct, all three types demonstrated |
+| Exercise 2 — RingBuffer\<T\> | Pass | Head/tail/modulo/size all correct after systematic debugging |
+| Exercise 3 — Template Specialization | Pass | `template<>` syntax correct, bool specialization fires correctly |
+| Exercise 4 — FixedBuffer\<T,N\> | Pass | Stack array, constexpr argument, no heap allocation |
+| Exercise 5 — Integration | Pass | SensorPipeline complete — feed/read/apply/print_all all working |
 
 ---
 

@@ -100,6 +100,20 @@ Do not append dated log entries — `progress.md` handles the log. `memory.md` s
 
 ---
 
+---
+
+## Part 5 — Update the Practiced Mechanics list in glossary.md
+
+Read the **Practiced Mechanics** section of `glossary.md`.
+
+For each exercise that **Passed** this session, scan the corresponding `.cpp` file and identify any mechanics the student implemented that are not yet listed in the Practiced Mechanics section.
+
+Add any new mechanics under the appropriate category. Use the same concise format as existing entries (e.g. `- modulo index wrapping (\`(index + 1) % N\`)`).
+
+Do not remove existing entries. Do not duplicate existing entries. Only add mechanics that were genuinely exercised — not ones merely mentioned in comments or scaffold.
+
+---
+
 ## Tone
 
 Encouraging. Point out what was done well before noting gaps. The carry-forward section is framed as "things to revisit" not "things you got wrong."

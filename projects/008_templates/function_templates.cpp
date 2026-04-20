@@ -28,9 +28,11 @@ T sensor_clamp(T value, T lo, T hi) {
 // Prints "[label]: value" to stdout followed by a newline.
 // Write the template declaration and function body below:
 
-// something goes in the template parameter list only if it affects the type of the function or class. T affects
-// the type (float version vs int version). label is just data  passed at runtime — it stays as a regular parameter.
-// std::string, as a heap object, built at runtime (not a compile time constant) cannot be a non type template param.
+// something goes in the template parameter list only if it affects the type of the function or class. 
+// T affects the type (float version vs int version). 
+// label is just data  passed at runtime — it stays as a regular parameter.
+// std::string, as a heap object, built at runtime (not a compile time constant) 
+// cannot be a non type template param.
 template<typename T>  // label only varies between calls, doesn't vary between types, thus only T is needed
 void print_reading(std::string label, T value) {
     std::cout << "[" << label << "]: " << value << std::endl;

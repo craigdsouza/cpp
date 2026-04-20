@@ -7,7 +7,7 @@
 **QR1:** The Rule of Five says: if you define any one of destructor, copy constructor, copy assignment, move constructor, or move assignment — you should define all five. Explain *why* this rule exists from first principles. Specifically: what breaks if you define a destructor (to `delete[]` a raw array) but leave copy constructor and copy assignment as compiler-generated defaults?
 
 ## Answer QR1
-This rule exists because compiler generated defaults do a shallow copy
+This rule exists because compiler generated defaults to a shallow copy. 
 
 ---
 
@@ -49,7 +49,6 @@ The compiler rejects it. Why? What is the correct syntax, and why does this diff
 ## Answer 2
 The compiler rejects it because the type isnt specified. Class templates require specification of type, for instance `RingBuffer<int> buf(10)`;
 
-
 ---
 
 ## Question 3
@@ -57,8 +56,7 @@ The compiler rejects it because the type isnt specified. Class templates require
 `std::vector<bool>` is famously different from `std::vector<int>` — it stores bits instead of one byte per bool, and `operator[]` returns a proxy object, not a real `bool&`. What C++ mechanism makes this possible? Give a one-sentence explanation of how the compiler decides which implementation to use when you write `std::vector<bool> v;`.
 
 ## Answer 3
-
-
+Template specialization in C++ makes this possible. The compiler decides which implementation to use based simply on the class name and type specified, matching these two ,when instantiating the object v. bool means the std::vector<bool> should be used.
 
 ---
 
@@ -80,9 +78,10 @@ FixedBuffer<float, capacity> buf;    // compiles fine
 
 Why does the first fail and the second succeed? What is the fundamental requirement for non-type template arguments?
 
+
+
 ## Answer 4
-
-
+The fundamental requirement for non type template arguments is that they should be known at compile time. constexpr allows the compiler to know that capacity won't change at runtime. In the first example , even though capacity is initially assigned a value, this could change at runtime, whereas when constexpr is used capacity is fixed at compile time.
 
 ---
 
@@ -93,9 +92,19 @@ Your colleague says: *"Templates are just a fancy copy-paste — the compiler co
 Evaluate this claim. Is it accurate? What actually happens in the compiler when you write `RingBuffer<float>` and `RingBuffer<int>` in the same program, and what is the real benefit of templates over literal copy-paste?
 
 ## Answer 5
-
-
+I'm honestly not sure how to answer this. I feel it's much more than copy paste, but I don't know how to articulate what more it is.
 
 ---
 
 ## Grade Log
+
+### 2026-04-20 — 3.75 / 6.0
+
+| Q | Score | Note |
+|---|-------|------|
+| QR1 | 0.5 | Named shallow copy, missed double-free consequence |
+| Q1 | 0.75 | Conflict identified, two fixes correct; missing "type deduction" term and explicit template argument fix |
+| Q2 | 0.75 | Correct fix; didn't explain why class templates can't deduce T |
+| Q3 | 0.75 | Specialization named; missing "most specific match" principle |
+| Q4 | 1.0 | Complete — compile-time requirement and constexpr distinction clear |
+| Q5 | 0.0 | Unanswered |

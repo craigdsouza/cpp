@@ -1,6 +1,6 @@
 # Student C++ Understanding Snapshot
 
-Last updated: 2026-04-17 (after Day 7)
+Last updated: 2026-04-20 (after Day 8)
 
 This file documents the student's current C++ understanding — what is solid, what has gaps, and what patterns have emerged in how they learn. It is intended to inform the creation of new project days.
 
@@ -10,7 +10,7 @@ This file documents the student's current C++ understanding — what is solid, w
 
 - **Primary language:** Python
 - **Goal:** NVIDIA DRIVE AV stack — C++ for localization, perception, sensor pipelines
-- **Days completed:** 1–7 (Hello Map, References & Pointers, Classes & Structs, STL Containers, RAII & Destructors, Smart Pointers, Move Semantics)
+- **Days completed:** 1–8 (Hello Map, References & Pointers, Classes & Structs, STL Containers, RAII & Destructors, Smart Pointers, Move Semantics, Templates)
 
 ---
 
@@ -31,6 +31,12 @@ This file documents the student's current C++ understanding — what is solid, w
 - Implements move constructor and move assignment operator from scratch (steal-and-nullify pattern, self-assignment guard, free existing before steal)
 - Implements full Rule of Five for a raw-pointer-owning class (`LidarFrame`)
 - Writes `PipelineStage` with deleted copy, move constructor, move assignment, ingest/extract methods — from scratch, no scaffold
+- Writes function templates (`template<typename T>`) and class templates with member functions in class body
+- Writes full template specialization (`template<>`) — correct syntax and firing verified
+- Uses non-type template parameters (`template<typename T, int N>`) with `constexpr` arguments
+- Implements `FixedBuffer<T,N>` — stack-allocated array, head/tail/size tracking, modulo wrapping, zero heap allocation
+- Implements `RingBuffer<T>` — same pattern backed by `std::vector<T>`, overwrite-on-full behavior
+- Implements `SensorPipeline<T,N>` from scratch — owns FixedBuffer, feed/read/apply/print_all, `peek` for const access, function pointer parameter
 
 ### Conceptual understanding
 
@@ -67,8 +73,9 @@ This file documents the student's current C++ understanding — what is solid, w
 - **Hash internals:** knows `unordered_map` has O(1) lookup, doesn't know hash buckets explain the arbitrary iteration order
 - **Leak quantification:** correct on identifying leaks, struggles to reason about severity at scale (100Hz × 60s = 6,000 calls)
 - **unique_ptr ownership precision:** understands exclusive ownership but occasionally frames it as "only one entity uses it" rather than "one entity is solely responsible for cleanup." The distinction matters when designing components — exclusive ownership is about cleanup responsibility, not just access count.
-- **Rule of Five rationale (Q4, 0.5):** When a class has a destructor managing raw memory, compiler-generated copy operations do *shallow* copies — both objects share the same pointer, and the destructor on each causes a double-free. Defining a destructor without also defining copy constructor/assignment is a latent bug. Student understands the "inconsistency" intuition but hasn't connected it to the concrete shallow-copy → double-free chain.
-- **unique_ptr move constructor internals (Q5, 0.75):** `unique_ptr` move constructor steals the raw pointer (`this->ptr = other.ptr`) and sets `other.ptr = nullptr`. Student identified `= delete` for copy but didn't describe the move constructor body.
+- **Rule of Five rationale (carried twice — still 0.5):** Student names "shallow copy" but still hasn't completed the chain: shallow copy → two objects share pointer → both destructors call `delete[]` → double-free → undefined behavior. This is now the third time this carry-forward has appeared. Day 9 warm-up must ask the student to write the full chain explicitly.
+- **Template instantiation vs copy-paste (Q5, 0.0):** Student knew "it's more than copy-paste" but couldn't articulate: (1) one definition → bug fix propagates to all types, (2) type safety per instantiation, (3) zero cost for unused types, (4) the STL is built on this. Carry into Day 9 warm-up.
+- **Template conceptual vocabulary:** Can use templates correctly but doesn't yet use terms "type deduction," "instantiation," "most specific match" fluently in explanations. Mechanics ahead of vocabulary — typical pattern for this student.
 
 ### Vocabulary precision
 
@@ -112,19 +119,20 @@ This file documents the student's current C++ understanding — what is solid, w
 | 5   | RAII and Destructors      | Complete |
 | 6   | Smart Pointers            | Complete |
 | 7   | Move Semantics            | Complete |
-| 8   | Templates                 | **Next** |
+| 8   | Templates                 | Complete |
+| 9   | Lambdas + std::algorithm  | **Next** |
 
 
-**Coming into Day 8:** Student has solid move semantics mechanics — can implement full Rule of Five from scratch, understands value categories and `std::move` as a cast, understands NRVO and the anti-pattern. Carry-forward: Rule of Five *rationale* (compiler-generated copy = shallow = double-free) and unique_ptr move internals. Day 8 (Templates) will build on class patterns already solid.
+**Coming into Day 9:** All template mechanics solid — function templates, class templates, specialization, non-type params, FixedBuffer/RingBuffer/SensorPipeline all implemented correctly. Carry-forward: Rule of Five double-free chain (third time — must close this in warm-up), and template instantiation conceptual vocabulary (type deduction, most specific match, code bloat tradeoff).
 
 ---
 
-## Recommendations for Day 8 and beyond
+## Recommendations for Day 9 and beyond
 
-- **Rule of Five rationale is the carry-forward theme** — Day 8 warm-up should ask student to articulate why defining a destructor without copy constructor is dangerous (expected answer: shallow copy → double-free)
-- **unique_ptr move internals** — ask student to describe the move constructor body for unique_ptr without looking it up; they implemented the identical pattern in lidar_frame.cpp
-- **Real-world context docs are highly motivating** — student explicitly said docs connecting C++ mechanics to AV/lidar pipeline (e.g. lidar-data-and-av-pipeline.md) give energy to push through syntax difficulty. Create a similar doc for each new day's topic.
+- **Rule of Five double-free chain — must close in Day 9 warm-up.** This is the third carry-forward. Ask the student to write the full chain: shallow copy → shared pointer → first destructor frees → second destructor double-frees → undefined behavior. Don't accept "shallow copy" alone.
+- **Template vocabulary warm-up** — ask student to explain "type deduction" and "template instantiation" in one sentence each before Day 9 exercises begin.
+- **Real-world context docs are highly motivating** — create a domain context doc for each new topic. Student explicitly stated this keeps energy up through syntax difficulty.
 - **Keep Python analogies available** — they land well
-- **Exercise difficulty: simpler types before raw pointers** — the reorder from raw-pointer exercise to std::vector exercise (Ex 2↔3) validated this; keep this principle for future days
-- **Scaffold level matters** — student benefits from partial scaffolds at Ex 2-4 level; Ex 5 "from scratch" is appropriate only after patterns are internalized
+- **4 exercises per day** — Day 8 took ~8h with 5 exercises. New default is 4. Time estimates added to each exercise.
+- **Mechanics before new concepts** — student's bottleneck is unfamiliar C++ mechanics, not conceptual difficulty. Ensure each exercise introduces at most 2 new mechanics; check Practiced Mechanics in glossary.md before designing exercises.
 

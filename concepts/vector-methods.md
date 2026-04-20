@@ -30,13 +30,15 @@ v.resize(4);    // capacity >= 4, size = 4
                 // data_[0..3] are valid and safe to read/write
 ```
 
-| | `reserve(n)` | `resize(n)` |
-|---|---|---|
-| `size()` after call | unchanged | `n` |
-| `capacity()` after call | at least `n` | at least `n` |
-| Elements created? | No | Yes (zero-initialized) |
-| `data_[i]` safe? | No | Yes |
-| Use when | many `push_back`s coming | need `[]` access immediately |
+
+|                         | `reserve(n)`             | `resize(n)`                  |
+| ----------------------- | ------------------------ | ---------------------------- |
+| `size()` after call     | unchanged                | `n`                          |
+| `capacity()` after call | at least `n`             | at least `n`                 |
+| Elements created?       | No                       | Yes (zero-initialized)       |
+| `data_[i]` safe?        | No                       | Yes                          |
+| Use when                | many `push_back`s coming | need `[]` access immediately |
+
 
 **Rule of thumb:** if you're going to use `[]` to access elements, use `resize`. If you're going to use `push_back`, use `reserve`.
 
@@ -57,7 +59,8 @@ v.pop_back();       // remove last element — size shrinks by 1
                     // v = [10, 20]
 ```
 
-**`push_back` vs `[]`:**
+`**push_back` vs `[]`:**
+
 - `push_back` creates a new element and appends it — always safe
 - `v[i] = x` overwrites an existing element at index `i` — only safe if `i < size()`
 
@@ -148,16 +151,16 @@ tail_ = 0 → push → tail_ = (0+1) % 4 = 1  ← overwrites index 0
 A concrete walkthrough — `RingBuffer<int>` with capacity 4, pushing 6 values:
 
 ```
+         data_=[ _, _, _, _]  head_=0  tail_=0  size_=0
 Push 10: data_=[10, _, _, _]  head_=0  tail_=1  size_=1
 Push 20: data_=[10,20, _, _]  head_=0  tail_=2  size_=2
 Push 30: data_=[10,20,30, _]  head_=0  tail_=3  size_=3
 Push 40: data_=[10,20,30,40]  head_=0  tail_=0  size_=4  ← full
 Push 50: data_=[50,20,30,40]  head_=1  tail_=1  size_=4  ← overwrites oldest (10)
 Push 60: data_=[50,60,30,40]  head_=2  tail_=2  size_=4  ← overwrites 20
+Push 70: data_=[50,60,70,40]  head_=3  tail_=3  size_=4  ← overwrites 30
+Push 80: data_=[50,60,70,80]  head_=0  tail_=0  size_=4  ← overwrites 40
 
-Pop:  returns data_[head_=2] = 30,  head_=3,  size_=3
-Pop:  returns data_[head_=3] = 40,  head_=0,  size_=2
-Pop:  returns data_[head_=0] = 50,  head_=1,  size_=1
 ```
 
 The key insight: `head_` and `tail_` chase each other around the fixed array in a circle. `size_` tells you how many real elements are between them. The array itself never grows or shrinks.

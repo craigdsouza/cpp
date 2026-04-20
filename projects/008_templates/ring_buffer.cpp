@@ -28,26 +28,27 @@ public:
 
     // push: add value; if full, overwrite oldest (advance head past it)
     void push(T value) {
-        if (size_ == capacity_){
-            data_[head_] = value;
-            head_+=1;
-        } else {
-            data_[tail_] = value;
-            tail_+=1;
-        }
+        data_[tail_] = value;
+        tail_ = (tail_ + 1) % capacity_;
+        size_ += 1;
+        if (size_>capacity_){
+            head_ = (head_ + 1) % capacity_;
+            size_=capacity_;
+        }        
      }
 
-    // pop: remove and return oldest value (advance head)
+    // pop: remove and return oldest value (advance head) ; ASSUME buffer is non-empty , as per exercise
     T pop() {
-        T last = std::move(data_[head_]);
-        data_.erase(head_);
+        T last = data_[head_];
+        head_ = (head_ + 1) % capacity_;
+        size_ = size_ -1;
         return last;
     }
 
     // size, full, empty
-    int size() const { return data_.size(); }
-    bool full() const { if (data_.size() == capacity_): return true, false ;}
-    bool empty() const { return data_.empty(); }
+    int size() const { return size_; }
+    bool full() const { return size_==capacity_;}
+    bool empty() const { return size_==0;}
 };
 
 
@@ -57,6 +58,16 @@ int main() {
     // push 5 values: 0.1f, 0.3f, 0.5f, 0.7f, 0.9f  (5th overwrites 0.1f)
     // pop 2 values and print them
     // print size after pops
+    RingBuffer<float> intensity_buf(4);
+    std::vector<float> intensity_raw= {0.1f,0.3f,0.5f,0.7f,0.9f};
+    for (const float& x:intensity_raw){
+        intensity_buf.push(x);
+    }
+    float pop1 = intensity_buf.pop();
+    float pop2 = intensity_buf.pop();
+    std::cout << pop1 << std::endl;
+    std::cout << pop2 << std::endl;
+    std::cout << intensity_buf.size() << std::endl;
 
 
     // --- RingBuffer<int>: capacity 3, ring channel indices ---
@@ -64,7 +75,16 @@ int main() {
     // push 4 values: 10, 20, 30, 40  (40 overwrites 10)
     // pop all remaining values one by one and print each
     // verify the oldest value was correctly overwritten (10 should not appear)
-
-
+    RingBuffer<int> ring_buf(3);
+    std::vector<int> channel_indices= {10,20,30,40};
+    for (const int& x:channel_indices){
+        ring_buf.push(x);
+    }
+    int size = ring_buf.size();
+    while (size >0){
+        std::cout << ring_buf.pop() << std::endl;
+        size = ring_buf.size();
+    }
+    
     return 0;
 }

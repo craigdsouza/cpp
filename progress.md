@@ -300,6 +300,41 @@ See [copy-vs-reference.md](./copy-vs-reference.md).
 
 ---
 
+## 2026-04-20 — Day 8: Templates
+
+### Quiz Score
+3.75 / 6.0 — Strong on mechanics (Q1–Q4), gap in conceptual articulation: couldn't describe template instantiation benefits over copy-paste (Q5), and Rule of Five carry-forward still incomplete (QR1).
+
+| Q | Score | Note |
+|---|-------|------|
+| QR1 | 0.5 | Named shallow copy, missed double-free consequence |
+| Q1 | 0.75 | Type conflict identified, two fixes correct; missing "type deduction" term and explicit template argument fix |
+| Q2 | 0.75 | Correct fix; didn't explain why class templates can't deduce T from constructor args |
+| Q3 | 0.75 | Template specialization named; missing "most specific match" principle |
+| Q4 | 1.0 | Complete — compile-time requirement and constexpr distinction clear |
+| Q5 | 0.0 | Unanswered — couldn't articulate benefits of templates over literal copy-paste |
+
+### Exercises
+| Exercise | Result |
+|----------|--------|
+| Exercise 1 — Function Templates | Pass |
+| Exercise 2 — RingBuffer\<T\> | Pass |
+| Exercise 3 — Template Specialization | Pass |
+| Exercise 4 — FixedBuffer\<T,N\> | Pass |
+| Exercise 5 — Integration (SensorPipeline) | Pass |
+
+### Concepts Confirmed
+- Understands function template syntax and type deduction — compiler infers T from arguments, conflicts cause compile errors
+- Understands class template syntax — member functions defined in class body, type must be specified explicitly at instantiation
+- Understands template specialization — `template<>` syntax, compiler picks most specific match
+- Understands non-type template parameters — `int N` must be compile-time constant, `constexpr` is the bridge
+
+### Carry-Forward
+- **QR1 (0.5):** Rule of Five — named shallow copy but didn't complete the chain: shallow copy → two objects share same pointer → both destructors call `delete[]` → double-free → undefined behavior. Revisit in Day 9 warm-up.
+- **Q5 (0.0):** Template instantiation vs copy-paste — compiler generates one concrete type per instantiation (code bloat tradeoff), but one source means one fix propagates to all types, type safety per instantiation, and zero cost for unused types. Student knew "it's more than copy-paste" but couldn't articulate why.
+
+---
+
 # 2026-04-13 Microsoft Coursera C++ Course
 
 Installed C/C++ Extension pack

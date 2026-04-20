@@ -10,11 +10,13 @@
 // Method: void log(std::string label, T value)
 // Prints: "[label] reading: value"
 //
-// template<typename T>
-// class SensorLogger {
-// public:
-//     // void log(std::string label, T value) { ... }
-// };
+template<typename T>
+class SensorLogger {
+public:
+    void log(std::string label, T value) {
+        std::cout << label << " reading: " << value << std::endl;
+    }
+};
 
 
 // --- Specialization for bool ---
@@ -22,22 +24,29 @@
 // Prints: "[label] ALERT" if value is true
 //         "[label] OK"    if value is false
 // The specialization syntax starts with: template<>
-// class SensorLogger<bool> {
-//
-//     // void log(std::string label, bool value) { ... }
-// };
+template<>
+class SensorLogger<bool>{
+public:
+    void log(std::string label, bool value) {
+        if (value) {
+            std::cout << label << " " << "ALERT" << std::endl;
+        } else {
+            std::cout << label << " " << "OK" << std::endl;
+        }
+};
+};
 
 
 int main() {
-    // SensorLogger<float> float_logger;
-    // float_logger.log("intensity", 0.73f);           // expected: "intensity reading: 0.73"
+    SensorLogger<float> float_logger;
+    float_logger.log("intensity", 0.73f);           // expected: "intensity reading: 0.73"
 
-    // SensorLogger<int> int_logger;
-    // int_logger.log("ring_channel", 42);             // expected: "ring_channel reading: 42"
+    SensorLogger<int> int_logger;
+    int_logger.log("ring_channel", 42);             // expected: "ring_channel reading: 42"
 
-    // SensorLogger<bool> bool_logger;
-    // bool_logger.log("collision_alert", true);       // expected: "collision_alert ALERT"
-    // bool_logger.log("lane_clear", false);           // expected: "lane_clear OK"
+    SensorLogger<bool> bool_logger;
+    bool_logger.log("collision_alert", true);       // expected: "collision_alert ALERT"
+    bool_logger.log("lane_clear", false);           // expected: "lane_clear OK"
 
     return 0;
 }
