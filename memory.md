@@ -65,7 +65,7 @@ This file documents the student's current C++ understanding — what is solid, w
 
 - Stack/heap memory model was not known going into Day 5 — learned reactively mid-exercise
 - Does not yet have fluent mental model of stack frames, call stack, heap allocator
-- → **Mitigation:** `concepts/memory-model.md` written before Day 6
+- → **Mitigation:** `concepts/005_memory-model.md` written before Day 6
 
 ### Depth gaps on "why" questions
 

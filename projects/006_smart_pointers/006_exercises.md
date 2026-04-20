@@ -12,7 +12,7 @@ Craig - questions posed to me were the repeated in 006_smart_pointers_quiz.md, s
 
 ## Background
 
-> Before reading: make sure you have read `concepts/memory-model.md`. This day assumes you understand the stack/heap distinction and what `new` does under the hood.
+> Before reading: make sure you have read `concepts/005_memory-model.md`. This day assumes you understand the stack/heap distinction and what `new` does under the hood.
 
 In Day 5 you wrote `TileBuffer` — a class that allocated a `int* data` array with `new int[n]` and freed it with `delete[] data` in the destructor. That worked, but it required you to remember to write the destructor. Miss it once and you have a leak. Make a mistake in the destructor (wrong size, double-free) and you have undefined behavior.
 
