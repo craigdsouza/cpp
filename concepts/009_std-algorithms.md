@@ -18,7 +18,7 @@ std::for_each(v.begin(), v.end(), fn);
 ```cpp
 int count = 0;
 std::for_each(scan.begin(), scan.end(),
-    [&count](const LidarPoint& p) {
+    [&count] (const LidarPoint& p) {
         if (p.intensity > 0.5f) count++;
     });
 ```
@@ -44,19 +44,19 @@ std::sort(v.begin(), v.end(), comparator);              // custom order
 ```cpp
 // Ascending by intensity
 std::sort(scan.begin(), scan.end(),
-    [](const LidarPoint& a, const LidarPoint& b) {
+    [] (const LidarPoint& a, const LidarPoint& b) {
         return a.intensity < b.intensity;   // correct: strict <
     });
 
 // Descending
 std::sort(scan.begin(), scan.end(),
-    [](const LidarPoint& a, const LidarPoint& b) {
+    [] (const LidarPoint& a, const LidarPoint& b) {
         return a.intensity > b.intensity;   // correct: strict >
     });
 
 // WRONG — undefined behavior
 std::sort(scan.begin(), scan.end(),
-    [](const LidarPoint& a, const LidarPoint& b) {
+    [] (const LidarPoint& a, const LidarPoint& b) {
         return a.intensity >= b.intensity;  // returns true when equal — violates strict ordering
     });
 ```
@@ -77,7 +77,7 @@ auto it = std::find_if(v.begin(), v.end(), predicate);
 
 ```cpp
 auto it = std::find_if(scan.begin(), scan.end(),
-    [](const LidarPoint& p) { return p.intensity > 0.9f; });
+    [] (const LidarPoint& p) { return p.intensity > 0.9f; });
 
 if (it != scan.end()) {
     std::cout << "Found: " << it->intensity << "\n";
@@ -110,7 +110,7 @@ std::transform(in.begin(), in.end(), out.begin(), fn);
 
 ```cpp
 std::transform(v.begin(), v.end(), v.begin(),
-    [max_val](LidarPoint p) {
+    [max_val] (LidarPoint p) {
         p.intensity /= max_val;
         return p;
     });
@@ -154,7 +154,7 @@ int n = std::count_if(v.begin(), v.end(), predicate);
 
 ```cpp
 int hot = std::count_if(scan.begin(), scan.end(),
-    [](const LidarPoint& p) { return p.intensity > 0.8f; });
+    [] (const LidarPoint& p) { return p.intensity > 0.8f; });
 std::cout << "High-intensity points: " << hot << "\n";
 ```
 
@@ -180,7 +180,7 @@ v.erase(std::remove_if(v.begin(), v.end(), predicate), v.end());
 // Remove all points below confidence threshold
 scan.erase(
     std::remove_if(scan.begin(), scan.end(),
-        [](const LidarPoint& p) { return p.intensity < 0.1f; }),
+        [] (const LidarPoint& p) { return p.intensity < 0.1f; }),
     scan.end());
 ```
 

@@ -194,6 +194,22 @@
 - Non-type template parameter (compile-time `int N`)
 - Template class with `const` method
 
+### Lambdas and Algorithms
+- lambda with no capture (`[]`)
+- lambda capturing by value (`[x]`, `[max_val]`)
+- lambda capturing by reference (`[&x]`, `[&count]`)
+- `mutable` lambda (modify captured-by-value variable inside lambda body)
+- `std::for_each` with a stateless lambda (print each element)
+- `std::for_each` with a capturing lambda (accumulate into outer counter via `[&count]`)
+- `std::sort` with lambda comparator (ascending: `a.x < b.x`, descending: `a.x > b.x`)
+- `std::find_if` with lambda predicate — iterator + `end()` sentinel guard
+- `&(*it)` — convert iterator to raw pointer (dereference then take address)
+- `std::transform` in-place (same vector as input and output)
+- `std::transform` lambda: takes value, returns modified value
+- `std::count_if` with lambda predicate
+- `std::function<R(Args)>` as a stored lambda type
+- class with all algorithm methods (`sort_by_intensity`, `find_above`, `normalize`, `count_above`, `print_all`) using lambdas internally
+
 ### Data Structures
 - Ring buffer with head/tail/size tracking
 - Modulo index wrapping (`(index + 1) % capacity`)

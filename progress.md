@@ -335,6 +335,43 @@ See [copy-vs-reference.md](./copy-vs-reference.md).
 
 ---
 
+## 2026-04-21 — Day 9: Lambdas + std::algorithm
+
+### Quiz Score
+5.5 / 7.0 — Strong on capture semantics and syntax; gaps in strict weak ordering vocabulary and transform safety edge cases. QR1 (Rule of Five chain) finally fully answered.
+
+| Q | Score | Note |
+|---|-------|------|
+| QR1 | 1.0 | Full chain nailed: shallow copy → shared pointer → double-free → crash |
+| QR2 | 0.75 | Propagation + zero-cost-unused correct; missing type safety per instantiation |
+| Q1 | 1.0 | Correct + complete; [&threshold] fix named correctly |
+| Q2 | 0.75 | Bug and fix correct; didn't connect to Day 4 map sentinel pattern |
+| Q3 | 0.75 | fn3 correctly chosen; dangling ref framed as accidental mutation, not lifetime |
+| Q4 | 0.75 | Correct fix (> not >=); missing "strict weak ordering" term |
+| Q5 | 0.5 | In-place safety correct; said shorter vector = compile error — it's UB |
+
+### Exercises
+| Exercise | Result |
+|----------|--------|
+| Exercise 1 — Lambda Basics and std::for_each | Pass |
+| Exercise 2 — Sorting and Finding | Pass |
+| Exercise 3 — Transform and Count | Pass |
+| Exercise 4 — Integration (LidarScanProcessor) | Pass |
+
+### Concepts Confirmed
+- Capture-by-value is a snapshot at lambda creation time — changing the outer variable afterward has no effect
+- `std::find_if` returns an iterator; must check against `end()` before dereferencing
+- `[x]` (specific by-value) is safer than `[=]` or `[&]` for normalization lambdas — minimal and explicit
+- `std::transform` in-place is safe when input and output ranges are the same vector (element-wise, no inter-element dependencies)
+
+### Carry-Forward
+- **Q5 (0.5):** Shorter output vector in `std::transform` causes undefined behavior (buffer overflow), not a compile error. `std::transform` does not resize — caller must ensure output is at least as long as input.
+- **Q4 (0.75):** "Strict weak ordering" — comparator must return `false` when both arguments are equal (`comp(x,x) == false`). Using `>=` violates this and causes UB in `std::sort`.
+- **Exercise 2:** No-match threshold path (`> 2.0f`) left as comment — verify not-found path fires.
+- **Exercise 4:** `find_above` return value printed as raw pointer address instead of dereferencing via `->intensity_` with nullptr guard.
+
+---
+
 # 2026-04-13 Microsoft Coursera C++ Course
 
 Installed C/C++ Extension pack

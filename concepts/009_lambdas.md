@@ -8,16 +8,17 @@
 
 ```cpp
 // Full form
-auto fn = [capture](parameters) -> return_type { body };
+auto fn = [capture] (parameters) -> return_type { body };
 
 // Return type is almost always omitted — compiler deduces it
-auto fn = [capture](parameters) { body };
+auto fn = [capture] (parameters) { body };
 
-// No parameters — parens can be omitted too
+// No parameters — parentheses can be omitted too
 auto fn = [capture] { body };
 ```
 
 Python comparison:
+
 ```python
 fn = lambda x: x > 0.5          # Python
 auto fn = [](float x) { return x > 0.5f; };   // C++
@@ -29,29 +30,32 @@ auto fn = [](float x) { return x > 0.5f; };   // C++
 
 The capture list controls which variables from the surrounding scope the lambda can access.
 
-| Syntax | Meaning |
-|--------|---------|
-| `[]` | Capture nothing — lambda can only use its own parameters |
-| `[=]` | Capture everything in scope by **value** (snapshot at creation) |
-| `[&]` | Capture everything in scope by **reference** (live access) |
-| `[x]` | Capture only `x` by value |
-| `[&x]` | Capture only `x` by reference |
-| `[x, &y]` | Capture `x` by value, `y` by reference |
-| `[=, &x]` | Capture everything by value except `x` by reference |
+
+| Syntax    | Meaning                                                         |
+| --------- | --------------------------------------------------------------- |
+| `[]`      | Capture nothing — lambda can only use its own parameters        |
+| `[=]`     | Capture everything in scope by **value** (snapshot at creation) |
+| `[&]`     | Capture everything in scope by **reference** (live access)      |
+| `[x]`     | Capture only `x` by value                                       |
+| `[&x]`    | Capture only `x` by reference                                   |
+| `[x, &y]` | Capture `x` by value, `y` by reference                          |
+| `[=, &x]` | Capture everything by value except `x` by reference             |
+
 
 ```cpp
 float threshold = 0.5f;
 
-auto by_val = [threshold](float x) { return x > threshold; };
+auto by_val = [threshold] (float x) { return x > threshold; };
 threshold = 99.0f;
 by_val(1.0f);   // still compares against 0.5f — snapshot was taken at creation
 
-auto by_ref = [&threshold](float x) { return x > threshold; };
+auto by_ref = [&threshold] (float x) { return x > threshold; };
 threshold = 99.0f;
 by_ref(1.0f);   // now compares against 99.0f — sees the live value
 ```
 
 **Rule of thumb:**
+
 - Use `[x]` (by value) when the lambda is passed to an algorithm immediately — safe, explicit, minimal.
 - Use `[&x]` (by reference) only when you need the lambda to *write back* to the outer variable (e.g. accumulating a counter).
 - Avoid `[&]` for lambdas that outlive the current scope — the references will dangle.
@@ -62,7 +66,7 @@ by_ref(1.0f);   // now compares against 99.0f — sees the live value
 
 ```cpp
 std::function<bool(float)> make_filter(float threshold) {
-    return [&threshold](float x) { return x > threshold; };
+    return [&threshold] (float x) { return x > threshold; };
     //      ^^^^^^^^^^^ DANGER: threshold is a local variable
     //      It's destroyed when make_filter returns.
     //      The returned lambda holds a dangling reference.
@@ -70,7 +74,7 @@ std::function<bool(float)> make_filter(float threshold) {
 
 // Safe version:
 std::function<bool(float)> make_filter(float threshold) {
-    return [threshold](float x) { return x > threshold; };
+    return [threshold] (float x) { return x > threshold; };
     //      ^^^^^^^^^ captures by value — safe to return
 }
 ```
@@ -121,7 +125,7 @@ int n = std::count_if(v.begin(), v.end(), [](const T& x) { return x.val > 0.5f; 
 Use `auto` as a parameter type to make a lambda work with any type — like a function template:
 
 ```cpp
-auto print = [](const auto& x) { std::cout << x << "\n"; };
+auto print = [] (const auto& x) { std::cout << x << "\n"; };
 print(42);       // works
 print(3.14f);    // works
 print("hello");  // works
@@ -153,19 +157,19 @@ DriveWorks and NVIDIA's sensor processing pipelines use lambdas extensively:
 // Normalize intensity across a lidar scan
 float max_val = compute_max(scan);
 std::transform(scan.begin(), scan.end(), scan.begin(),
-    [max_val](LidarPoint p) {
+    [max_val] (LidarPoint p) {
         p.intensity /= max_val;
         return p;
     });
 
 // Filter points below confidence threshold before object detection
 auto low_conf = std::remove_if(scan.begin(), scan.end(),
-    [](const LidarPoint& p) { return p.intensity < 0.1f; });
+    [] (const LidarPoint& p) { return p.intensity < 0.1f; });
 scan.erase(low_conf, scan.end());
 
 // Sort by distance for nearest-neighbour queries
 std::sort(scan.begin(), scan.end(),
-    [](const LidarPoint& a, const LidarPoint& b) {
+    [] (const LidarPoint& a, const LidarPoint& b) {
         return (a.x*a.x + a.y*a.y) < (b.x*b.x + b.y*b.y);
     });
 ```

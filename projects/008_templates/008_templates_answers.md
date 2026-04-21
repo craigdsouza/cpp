@@ -69,3 +69,4 @@ But the benefits over literal copy-paste are real:
 4. **The STL is built on this:** Every `std::vector`, `std::map`, `std::unique_ptr` you've used since Day 4 is a template instantiation. The alternative — a separate VectorOfFloat, VectorOfInt, VectorOfLidarFrame — would have been unworkable.
 
 ---
+

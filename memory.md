@@ -1,6 +1,6 @@
 # Student C++ Understanding Snapshot
 
-Last updated: 2026-04-20 (after Day 8)
+Last updated: 2026-04-21 (after Day 9)
 
 This file documents the student's current C++ understanding — what is solid, what has gaps, and what patterns have emerged in how they learn. It is intended to inform the creation of new project days.
 
@@ -10,7 +10,7 @@ This file documents the student's current C++ understanding — what is solid, w
 
 - **Primary language:** Python
 - **Goal:** NVIDIA DRIVE AV stack — C++ for localization, perception, sensor pipelines
-- **Days completed:** 1–8 (Hello Map, References & Pointers, Classes & Structs, STL Containers, RAII & Destructors, Smart Pointers, Move Semantics, Templates)
+- **Days completed:** 1–9 (Hello Map, References & Pointers, Classes & Structs, STL Containers, RAII & Destructors, Smart Pointers, Move Semantics, Templates, Lambdas + std::algorithm)
 
 ---
 
@@ -37,6 +37,11 @@ This file documents the student's current C++ understanding — what is solid, w
 - Implements `FixedBuffer<T,N>` — stack-allocated array, head/tail/size tracking, modulo wrapping, zero heap allocation
 - Implements `RingBuffer<T>` — same pattern backed by `std::vector<T>`, overwrite-on-full behavior
 - Implements `SensorPipeline<T,N>` from scratch — owns FixedBuffer, feed/read/apply/print_all, `peek` for const access, function pointer parameter
+- Writes lambdas with `[]`, `[x]`, `[&x]`, `[=]`, `[&]` captures — correct intuition for which to use
+- Uses `std::for_each`, `std::sort`, `std::find_if`, `std::transform`, `std::count_if` correctly with lambdas
+- Implements `LidarScanProcessor` class from scratch — owns vector, all five methods using algorithm + lambda pattern
+- Understands iterator vs pointer distinction (`&(*it)` to convert iterator to pointer)
+- Understands when `std::transform` in-place is safe (same input/output vector, element-wise)
 
 ### Conceptual understanding
 
@@ -73,8 +78,9 @@ This file documents the student's current C++ understanding — what is solid, w
 - **Hash internals:** knows `unordered_map` has O(1) lookup, doesn't know hash buckets explain the arbitrary iteration order
 - **Leak quantification:** correct on identifying leaks, struggles to reason about severity at scale (100Hz × 60s = 6,000 calls)
 - **unique_ptr ownership precision:** understands exclusive ownership but occasionally frames it as "only one entity uses it" rather than "one entity is solely responsible for cleanup." The distinction matters when designing components — exclusive ownership is about cleanup responsibility, not just access count.
-- **Rule of Five rationale (carried twice — still 0.5):** Student names "shallow copy" but still hasn't completed the chain: shallow copy → two objects share pointer → both destructors call `delete[]` → double-free → undefined behavior. This is now the third time this carry-forward has appeared. Day 9 warm-up must ask the student to write the full chain explicitly.
-- **Template instantiation vs copy-paste (Q5, 0.0):** Student knew "it's more than copy-paste" but couldn't articulate: (1) one definition → bug fix propagates to all types, (2) type safety per instantiation, (3) zero cost for unused types, (4) the STL is built on this. Carry into Day 9 warm-up.
+- **Strict weak ordering:** Knows to use `>` not `>=` in sort comparators but doesn't yet use the term "strict weak ordering" or explain that `comp(x,x)` must return `false`. Surface in Day 10 warm-up.
+- **std::transform output safety:** Correctly reasoned that in-place transform on the same vector is safe, but said a shorter output vector causes a "compile error" — it's undefined behavior (buffer overflow). `std::transform` does not resize output.
+- **Dangling reference framing (Q3):** Described `[&]` danger as "accidental mutation of many variables" rather than "lambda outliving the scope of captured variables." The lifetime angle is the real risk.
 - **Template conceptual vocabulary:** Can use templates correctly but doesn't yet use terms "type deduction," "instantiation," "most specific match" fluently in explanations. Mechanics ahead of vocabulary — typical pattern for this student.
 
 ### Vocabulary precision
@@ -120,19 +126,21 @@ This file documents the student's current C++ understanding — what is solid, w
 | 6   | Smart Pointers            | Complete |
 | 7   | Move Semantics            | Complete |
 | 8   | Templates                 | Complete |
-| 9   | Lambdas + std::algorithm  | **Next** |
+| 9   | Lambdas + std::algorithm  | Complete |
+| 10  | TBD                       | **Next** |
 
 
-**Coming into Day 9:** All template mechanics solid — function templates, class templates, specialization, non-type params, FixedBuffer/RingBuffer/SensorPipeline all implemented correctly. Carry-forward: Rule of Five double-free chain (third time — must close this in warm-up), and template instantiation conceptual vocabulary (type deduction, most specific match, code bloat tradeoff).
+**Coming into Day 10:** All lambda + algorithm mechanics solid. Carry-forward: strict weak ordering vocabulary (comp(x,x) must be false), std::transform output safety (shorter output = UB not compile error), and dangling reference framing (lifetime, not accidental mutation).
 
 ---
 
-## Recommendations for Day 9 and beyond
+## Recommendations for Day 10 and beyond
 
-- **Rule of Five double-free chain — must close in Day 9 warm-up.** This is the third carry-forward. Ask the student to write the full chain: shallow copy → shared pointer → first destructor frees → second destructor double-frees → undefined behavior. Don't accept "shallow copy" alone.
-- **Template vocabulary warm-up** — ask student to explain "type deduction" and "template instantiation" in one sentence each before Day 9 exercises begin.
+- **Strict weak ordering warm-up** — ask student to explain what "strict weak ordering" means and why `>=` in a sort comparator causes UB. They have the intuition, need the vocabulary.
+- **std::transform output safety** — revisit: what happens if output vector is shorter than input? Answer is UB (buffer overflow), not compile error.
+- **Dangling reference lifetime framing** — when reviewing `[&]` captures, ask "what happens if the lambda is stored and called after the enclosing function returns?" rather than "what can go wrong?"
 - **Real-world context docs are highly motivating** — create a domain context doc for each new topic. Student explicitly stated this keeps energy up through syntax difficulty.
 - **Keep Python analogies available** — they land well
-- **4 exercises per day** — Day 8 took ~8h with 5 exercises. New default is 4. Time estimates added to each exercise.
+- **4 exercises per day** — New default is 4. Time estimates added to each exercise.
 - **Mechanics before new concepts** — student's bottleneck is unfamiliar C++ mechanics, not conceptual difficulty. Ensure each exercise introduces at most 2 new mechanics; check Practiced Mechanics in glossary.md before designing exercises.
 

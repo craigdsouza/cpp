@@ -10,6 +10,7 @@
 ## Your Starting Profile
 
 **Strengths (leverage these):**
+
 - 10 years of programming experience across Python and JavaScript
 - Geospatial development with raster and vector data (directly maps to the role)
 - Built a geospatial SaaS product — you understand spatial data pipelines end-to-end
@@ -18,6 +19,7 @@
 - Regular AI coding tool user (Claude, Cursor)
 
 **Critical Gaps (close these):**
+
 - No C++ experience (the role's primary language)
 - No embedded or real-time systems background
 - No distributed systems, gRPC, or protocol buffer experience
@@ -33,15 +35,17 @@
 
 ### Last 7 Curriculum Days
 
-| Day | Date | Topic | Exercises | Quiz |
-|-----|------|-------|-----------|------|
-| 1 | 2026-03-25 | Hello Map — types, cout, vector, for loops | hello_map.cpp | — |
-| 2 | 2026-03-27 | References & Pointers — const T&, T&, T*, nullptr, dangling refs | 4/5 pass (nullptr ex. repeated) | 4.25/5.0 |
-| 3 | 2026-03-29 | Classes & Structs — constructors, member fns, const methods, access | 5/5 pass (nullptr repeated again) | 4.75/5.0 |
-| 4 | 2026-03-31 | STL Containers — map, unordered_map, vector, iterators, find/erase | 5/5 pass | 4.0/5.0 |
-| 5 | 2026-04-03 | RAII & Destructors — destructor timing, stack unwinding, TileBuffer | 6/6 pass (nullptr finally cleared) | 4.0/6.0 |
-| 6 | 2026-04-15 | Smart Pointers — unique_ptr, shared_ptr, move, factory functions | 5/5 pass | 6.75/7.0 |
-| 7 | 2026-04-17 | Move Semantics — rvalue refs, move constructor, move assignment, NRVO | 5/5 pass | 4.0/5.0 |
+
+| Day | Date       | Topic                                                                 | Exercises                          | Quiz     |
+| --- | ---------- | --------------------------------------------------------------------- | ---------------------------------- | -------- |
+| 1   | 2026-03-25 | Hello Map — types, cout, vector, for loops                            | hello_map.cpp                      | —        |
+| 2   | 2026-03-27 | References & Pointers — const T&, T&, T*, nullptr, dangling refs      | 4/5 pass (nullptr ex. repeated)    | 4.25/5.0 |
+| 3   | 2026-03-29 | Classes & Structs — constructors, member fns, const methods, access   | 5/5 pass (nullptr repeated again)  | 4.75/5.0 |
+| 4   | 2026-03-31 | STL Containers — map, unordered_map, vector, iterators, find/erase    | 5/5 pass                           | 4.0/5.0  |
+| 5   | 2026-04-03 | RAII & Destructors — destructor timing, stack unwinding, TileBuffer   | 6/6 pass (nullptr finally cleared) | 4.0/6.0  |
+| 6   | 2026-04-15 | Smart Pointers — unique_ptr, shared_ptr, move, factory functions      | 5/5 pass                           | 6.75/7.0 |
+| 7   | 2026-04-17 | Move Semantics — rvalue refs, move constructor, move assignment, NRVO | 5/5 pass                           | 4.0/5.0  |
+
 
 **Trajectory:** Quiz scores improving across the board. "Why" reasoning has caught up with "what" application. All exercises passing. Day 7 gap: Rule of Five rationale (carried into Day 8 warm-up).
 
@@ -49,15 +53,17 @@
 
 ### Next 7 Curriculum Days
 
-| Day | Target Date | Topic | Key Concepts | Real Data? |
-|-----|-------------|-------|-------------|------------|
-| 7 | Thu Apr 17 | Move Semantics | rvalue refs, move constructor, move assignment, when the compiler moves vs copies | No — mechanics first |
-| 8 | Fri Apr 18 | Templates | function templates, class templates, template type deduction | No |
-| 9 | Mon Apr 21 | Lambdas + std::algorithm | lambda syntax, captures, sort/find_if/transform | No |
-| 10 | Tue Apr 22 | File Parsing + Real Data | deeper CSV/text parsing, read a real OSM GPS export into MapTile structs | **Yes — first real data** |
-| 11 | Wed Apr 23 | CMake + Multi-file Projects | CMakeLists.txt, splitting code across headers/source files, linking | Yes |
-| 12 | Thu Apr 24 | Project 1 Kickoff | Parse real GeoJSON road segments into an adjacency list in C++ | **Yes — Project 1 starts** |
-| 13 | Fri Apr 25 | Graph Algorithms | BFS, Dijkstra's on the road graph built in Day 12 | Yes |
+
+| Day | Target Date | Topic                       | Key Concepts                                                                      | Real Data?                 |
+| --- | ----------- | --------------------------- | --------------------------------------------------------------------------------- | -------------------------- |
+| 7   | Thu Apr 17  | Move Semantics              | rvalue refs, move constructor, move assignment, when the compiler moves vs copies | No — mechanics first       |
+| 8   | Fri Apr 18  | Templates                   | function templates, class templates, template type deduction                      | No                         |
+| 9   | Tue Apr 21  | Lambdas + std::algorithm    | lambda syntax, captures, sort/find_if/transform                                   | No                         |
+| 10  | Wed Apr 22  | File Parsing + Real Data    | deeper CSV/text parsing, read a real OSM GPS export into MapTile structs          | **Yes — first real data**  |
+| 11  | Thu Apr 23  | CMake + Multi-file Projects | CMakeLists.txt, splitting code across headers/source files, linking               | Yes                        |
+| 12  | Fri Apr 24  | Project 1 Kickoff           | Parse real GeoJSON road segments into an adjacency list in C++                    | **Yes — Project 1 starts** |
+| 13  | Mon Apr 27  | Graph Algorithms            | BFS, Dijkstra's on the road graph built in Day 12                                 | Yes                        |
+
 
 **Note on real data:** Day 10 is the inflection point. You have all the C++ mechanics needed now — smart pointers, containers, file I/O. Day 10 replaces dummy inline data with a real file. By Day 12 you're working with actual OSM exports.
 
@@ -74,6 +80,7 @@
 ### Layer 1: Mapping + Infrastructure
 
 #### Project 1: GeoJSON → Road Graph Engine
+
 **Stack:** C++ | **AV Layer:** Mapping
 
 **What:** Ingest OpenStreetMap GeoJSON exports, build a road network graph, run shortest-path queries (Dijkstra's, A*).
@@ -81,6 +88,7 @@
 **Why it matters:** The DRIVE Mapping team builds "scalable map-building workflows." This is the exact pipeline shape — raw spatial data → structured graph. Your GIS background gives you a head start on coordinate handling that most C++ engineers won't have.
 
 **Deliverables:**
+
 - C++ library that parses GeoJSON road segments into an adjacency list
 - Dijkstra's and A* on the road graph
 - Python script that visualizes routes on a Folium/Leaflet map
@@ -91,6 +99,7 @@
 ---
 
 #### Project 2: Point Cloud Spatial Index
+
 **Stack:** C++ | **AV Layer:** Mapping / Localization primitive
 
 **What:** k-d tree in C++ that indexes 3D point cloud data, supports nearest-neighbor and radius queries.
@@ -98,6 +107,7 @@
 **Why it matters:** Map-based localization matches live lidar scans against stored map features. The k-d tree is the core data structure that makes this fast. Building it from scratch proves you understand spatial indexing at the low level.
 
 **Deliverables:**
+
 - C++ k-d tree for 3D points (insert, k-NN, radius search)
 - Benchmark: k-d tree vs brute force on 1M+ points
 - Python script generating synthetic point clouds and visualizing query results
@@ -108,6 +118,7 @@
 ---
 
 #### Project 3: HD Map Tile Server
+
 **Stack:** C++ + protobuf + gRPC | **AV Layer:** Infrastructure
 
 **What:** Tile-based map server — stores road geometry in a spatial grid, serves tiles on demand, handles UTM ↔ WGS84 coordinate transforms.
@@ -115,6 +126,7 @@
 **Why it matters:** "Deliver SD maps to all in-car consumers" is literally the job description. A tile server is the exact architectural pattern. You've built tiled spatial data systems before from your SaaS work — this is that, in C++.
 
 **Deliverables:**
+
 - C++ tile index with spatial hashing (tile key = zoom/x/y)
 - Protocol Buffers schema for map tiles
 - gRPC service that accepts a bounding box query and streams back tiles
@@ -128,6 +140,7 @@
 ### Layer 2: Perception
 
 #### Project 4: Perception Pipeline
+
 **Stack:** Python (training) + C++ (runtime) | **AV Layer:** Perception
 
 **What:** Train an object detection model on a real driving dataset. Write the C++ inference runtime that runs it on the vehicle side.
@@ -136,9 +149,10 @@
 
 **C++ side:** Inference runtime wrapper using ONNX Runtime or TensorRT. Frame preprocessing pipeline, post-processing detections, safety validation layer that sanity-checks outputs before they leave the module.
 
-**Why it matters:** This is the "Python trains it, C++ runs it safely at 30Hz" pattern that shows up across the entire modern AV stack. Most candidates can train a model. Fewer can write the C++ wrapper that makes it production-reliable.
+**Why it matters:** This is the "Python trains it, C++runs it safely at 30Hz" pattern that shows up across the entire modern AV stack. Most candidates can train a model. Fewer can write the C++ wrapper that makes it production-reliable.
 
 **Deliverables:**
+
 - PyTorch training pipeline + ONNX export
 - C++ inference runtime with preprocessing + postprocessing
 - Safety validation layer (bounds checking, confidence thresholds, output schema enforcement)
@@ -151,6 +165,7 @@
 ### Layer 3: Localization + Sensor Fusion
 
 #### Project 5: State Estimator
+
 **Stack:** C++ only | **AV Layer:** Localization / Sensor Fusion
 
 **What:** Extended Kalman Filter that fuses noisy GPS + IMU readings into a clean vehicle pose estimate (position, orientation, velocity).
@@ -158,6 +173,7 @@
 **Why C++ only:** EKF is classical estimation — fixed-size matrix operations, deterministic execution, no DL needed. Strong systems C++ work. Every downstream module depends on knowing where the car is.
 
 **Deliverables:**
+
 - C++ EKF implementation fusing GPS + IMU
 - Runs on a recorded sensor log (synthetic or KITTI IMU data)
 - Python visualization of raw GPS vs filtered pose track
@@ -168,6 +184,7 @@
 ---
 
 #### Project 6: Map-Based Localization
+
 **Stack:** C++ | **AV Layer:** Localization
 
 **What:** Use the road graph (Project 1) + vehicle pose (Project 5) + detections (Project 4) to localize the vehicle on the map. Particle filter or scan-matching approach.
@@ -175,6 +192,7 @@
 **Why it matters:** This is the first project that wires multiple prior projects together. It demonstrates you understand how the layers talk to each other — which is what a senior AV engineer actually evaluates in an interview.
 
 **Deliverables:**
+
 - C++ particle filter or scan matcher
 - Runs on a recorded driving clip using outputs from Projects 1, 4, 5
 - Python visualization of localization track vs ground truth
@@ -186,6 +204,7 @@
 ### Layer 4: Planning
 
 #### Project 7: Motion Planner
+
 **Stack:** C++ | **AV Layer:** Planning
 
 **What:** Real-time trajectory planner. A* or RRT for route selection + polynomial profiling for local trajectory. Takes map (Project 1), current pose (Project 5), detected obstacles (Project 4). Must run at 10Hz.
@@ -193,6 +212,7 @@
 **Why it matters:** Planning is the highest-value module to demonstrate competence in for non-perception AV roles. Real-time constraint (10Hz, deterministic) is what separates a systems engineer from an algorithm prototyper.
 
 **Deliverables:**
+
 - C++ trajectory planner meeting 10Hz budget
 - Obstacle avoidance using Project 4 detections
 - Python visualization of planned trajectory overlaid on map
@@ -205,6 +225,7 @@
 ### Layer 5: Prediction
 
 #### Project 8: Trajectory Prediction
+
 **Stack:** Python (training) + C++ (runtime) | **AV Layer:** Prediction
 
 **What:** Train a transformer-based model to predict where surrounding agents will be in the next 3–5 seconds. Feed predictions into the motion planner's risk assessment.
@@ -216,6 +237,7 @@
 **Why it matters:** Prediction is one of the hardest unsolved problems in AV. Transformers operating on graph-structured map data is exactly what NVIDIA's job description referenced. This project sits at the frontier of what the role actually works on.
 
 **Deliverables:**
+
 - PyTorch transformer training pipeline on Argoverse/nuScenes
 - ONNX export + C++ inference runtime
 - Integration with Project 7: planner reacts to predicted agent trajectories
@@ -228,6 +250,7 @@
 ### Capstone
 
 #### Project 9: Mini AV Pipeline
+
 **Stack:** C++ runtime + Python training pipelines | **AV Layer:** Full stack integration
 
 **What:** Wire Projects 1, 4, 5, 7, 8 into a pipeline that runs on a recorded sensor clip (KITTI or nuScenes). Sensor data in → map-aware, prediction-informed trajectory out. Python script renders the result.
@@ -235,6 +258,7 @@
 **Why it matters:** This is the project you demo in interviews. Most candidates have components. Almost nobody has a working pipeline. It proves you understand how the modules depend on each other, what the data contracts between them look like, and what breaks when one module is wrong.
 
 **Deliverables:**
+
 - C++ pipeline runner: sensor data → perception → state estimation → localization → prediction → planning
 - Python evaluation script: trajectory quality, latency per module, failure mode analysis
 - 2-minute demo video running on a real driving clip
@@ -246,33 +270,37 @@
 
 > **Pace assumption:** 1 curriculum day per weekday (Mon–Fri). Project work runs concurrently in the same daily block. DL study on weekends. All dates calculated from Day 6 done on Wed Apr 15, 2026.
 
-| Dates | C++ Curriculum + DL | Project Milestone | Target Date | Status |
-|-------|--------------------|--------------------|-------------|--------|
-| Mar 25 – Apr 15 | Days 1–6: types → smart pointers | P1 start (Apr 15) | Apr 15 | **Done / Started** |
-| Apr 17–25 | Days 7–13: move semantics, templates, lambdas, real data, CMake, graph algos | P1 active | — | Upcoming |
-| Apr 28 – May 2 | Days 14–18: inheritance, concurrency basics | **P1 complete** | **May 12** | Upcoming |
-| May 5–16 | Days 19–28: concurrency, networking, gRPC, protobuf | **P2 complete** | **May 26** | Upcoming |
-| May 19 – Jun 6 | Days 29–38: serialization, inference runtimes + DL: PyTorch basics, CNNs | **P3 complete** | **Jun 16** | Upcoming |
-| Jun 9–27 | C++: ONNX/TensorRT + DL: object detection fine-tuning (KITTI/nuScenes) | **P4 complete** | **Jul 7** | Upcoming |
-| Jun 30 – Jul 11 | C++: Eigen, EKF, linear algebra + DL: continued | **P5 complete** | **Jul 21** | Upcoming |
-| Jul 14–25 | C++: particle filters, inter-module interfaces | **P6 complete** | **Aug 4** | Upcoming |
-| Jul 28 – Aug 8 | C++: real-time optimization, profiling, lock-free structures | **P7 complete** | **Aug 18** | Upcoming |
-| Aug 11 – Sep 5 | DL: transformers, trajectory prediction + C++: inference integration | **P8 complete** | **Sep 15** | Upcoming |
-| Sep 8 – Oct 3 | Integration, profiling, documentation, demo video | **P9 complete** | **Oct 6** | Upcoming |
+
+| Dates           | C++ Curriculum + DL                                                          | Project Milestone | Target Date | Status             |
+| --------------- | ---------------------------------------------------------------------------- | ----------------- | ----------- | ------------------ |
+| Mar 25 – Apr 15 | Days 1–6: types → smart pointers                                             | P1 start (Apr 15) | Apr 15      | **Done / Started** |
+| Apr 17–25       | Days 7–13: move semantics, templates, lambdas, real data, CMake, graph algos | P1 active         | —           | Upcoming           |
+| Apr 28 – May 2  | Days 14–18: inheritance, concurrency basics                                  | **P1 complete**   | **May 12**  | Upcoming           |
+| May 5–16        | Days 19–28: concurrency, networking, gRPC, protobuf                          | **P2 complete**   | **May 26**  | Upcoming           |
+| May 19 – Jun 6  | Days 29–38: serialization, inference runtimes + DL: PyTorch basics, CNNs     | **P3 complete**   | **Jun 16**  | Upcoming           |
+| Jun 9–27        | C++: ONNX/TensorRT + DL: object detection fine-tuning (KITTI/nuScenes)       | **P4 complete**   | **Jul 7**   | Upcoming           |
+| Jun 30 – Jul 11 | C++: Eigen, EKF, linear algebra + DL: continued                              | **P5 complete**   | **Jul 21**  | Upcoming           |
+| Jul 14–25       | C++: particle filters, inter-module interfaces                               | **P6 complete**   | **Aug 4**   | Upcoming           |
+| Jul 28 – Aug 8  | C++: real-time optimization, profiling, lock-free structures                 | **P7 complete**   | **Aug 18**  | Upcoming           |
+| Aug 11 – Sep 5  | DL: transformers, trajectory prediction + C++: inference integration         | **P8 complete**   | **Sep 15**  | Upcoming           |
+| Sep 8 – Oct 3   | Integration, profiling, documentation, demo video                            | **P9 complete**   | **Oct 6**   | Upcoming           |
+
 
 **Milestone summary:**
 
-| Milestone | Target Date | Significance |
-|-----------|-------------|--------------|
-| P1 complete | **May 12** | First GitHub artifact — apply to mapping roles |
-| P2 complete | **May 26** | Spatial indexing signal — apply to localization roles |
-| P3 complete | **Jun 16** | Full mapping portfolio — strong signal for NVIDIA DRIVE Mapping |
-| P4 complete | **Jul 7** | Perception Python+C++ pipeline — broadens to perception roles |
-| P5 complete | **Jul 21** | Sensor fusion — localization engineering roles |
-| P6 complete | **Aug 4** | End-to-end localization — connected multi-project portfolio |
-| P7 complete | **Aug 18** | Motion planning — AV generalist signal |
-| P8 complete | **Sep 15** | Transformer-based prediction — frontier AV signal |
-| P9 complete | **Oct 6** | Full pipeline demo — interview-ready capstone |
+
+| Milestone   | Target Date | Significance                                                    |
+| ----------- | ----------- | --------------------------------------------------------------- |
+| P1 complete | **May 12**  | First GitHub artifact — apply to mapping roles                  |
+| P2 complete | **May 26**  | Spatial indexing signal — apply to localization roles           |
+| P3 complete | **Jun 16**  | Full mapping portfolio — strong signal for NVIDIA DRIVE Mapping |
+| P4 complete | **Jul 7**   | Perception Python+C++ pipeline — broadens to perception roles   |
+| P5 complete | **Jul 21**  | Sensor fusion — localization engineering roles                  |
+| P6 complete | **Aug 4**   | End-to-end localization — connected multi-project portfolio     |
+| P7 complete | **Aug 18**  | Motion planning — AV generalist signal                          |
+| P8 complete | **Sep 15**  | Transformer-based prediction — frontier AV signal               |
+| P9 complete | **Oct 6**   | Full pipeline demo — interview-ready capstone                   |
+
 
 ---
 
@@ -289,20 +317,24 @@
 **Status:** Largely complete — Days 1–6 cover C++ kickstart through smart pointers. Remaining: graph algorithms, CMake, GDB.
 
 ### C++ Kickstart
+
 - Work through the first 15 chapters of *"A Tour of C++"* by Bjarne Stroustrup (the creator). This is a compact book that assumes you already program — it won't waste your time on "what is a variable."
 - Key topics to nail: RAII, references vs pointers, const correctness, the STL containers (vector, map, unordered_map), iterators.
 - **Hands-on:** Project 1 (Road Graph Engine) — parses real GeoJSON, builds a graph, runs shortest paths in C++. This replaces standalone exercises.
 
 ### Data Structures & Algorithms in C++
+
 - Focus on graph algorithms — this role is literally about "transformer based models tailored for graphs." You need BFS, DFS, Dijkstra's, A* deeply internalized.
 - Practice on LeetCode (medium difficulty) in C++ specifically. Aim for 3 problems per week. Tag: graphs, trees, priority queues.
 
 ### Linux & Build Systems
+
 - Get comfortable with CMake, Make, GDB, and Valgrind. The NVIDIA stack is Linux-native.
 - Set up a C++ development environment with VSCode + CMake + Clang. Build and run projects from the command line.
 
 ### Checkpoint
-You're at Level 4 when you can: write a 500-line C++ program from scratch that compiles without warnings under `-Wall -Wextra`, uses modern C++ idioms, and solves a graph traversal problem.
+
+You're at Level 4 when you can: write a 500-line C++program from scratch that compiles without warnings under `-Wall -Wextra`, uses modern C++ idioms, and solves a graph traversal problem.
 
 ---
 
@@ -311,21 +343,25 @@ You're at Level 4 when you can: write a 500-line C++ program from scratch that c
 **Goal:** Write C++ the way NVIDIA engineers write it — modern, efficient, safe.
 
 ### Modern C++14/17
+
 - Study move semantics, smart pointers (unique_ptr, shared_ptr), lambdas, structured bindings, std::optional, std::variant.
 - Read *"Effective Modern C++"* by Scott Meyers — this is the Bible for writing C++ that senior engineers respect.
 - Understand template metaprogramming basics — you'll encounter it in NVIDIA's codebase.
 
 ### Operating Systems & Real-Time Concepts
+
 - Read the first 30 chapters of *"Operating Systems: Three Easy Pieces"* (free online at ostep.org). Focus on: processes, threads, locks, condition variables, scheduling.
 - Understand real-time scheduling: what "deterministic latency" means, why autonomous vehicles can't tolerate garbage collection pauses, priority inversion.
 - **Project:** Write a multithreaded C++ producer-consumer pipeline. One thread reads sensor data from a file, another processes it, a third writes results. Use std::thread, std::mutex, std::condition_variable.
 
 ### Networking & Serialization Basics
+
 - Learn what Protocol Buffers and FlatBuffers are and *why* they exist (hint: they're orders of magnitude faster than JSON for structured data, which matters when your car is parsing map tiles at 70 mph).
 - Write a simple client-server pair using gRPC in C++. Define a .proto file, generate code, send and receive messages.
 - Understand the difference between gRPC (request/response + streaming) and REST.
 
 ### Checkpoint
+
 You're at Level 5 when you can: write multithreaded C++ with proper synchronization, explain why FlatBuffers are used instead of JSON in real-time systems, and build a working gRPC service.
 
 ---
@@ -337,22 +373,26 @@ You're at Level 5 when you can: write multithreaded C++ with proper synchronizat
 > **Important:** This track runs in parallel with C++ study — weekends. Don't wait until Week 13 to start. The DL skills needed for Projects 4 and 8 will be ready when those projects are scheduled (Weeks 10–20) if you start now.
 
 ### Deep Learning Foundations
+
 - Complete fast.ai's "Practical Deep Learning for Coders" — it's free and project-driven.
 - Then go deeper with Stanford CS231n (computer vision) lectures on YouTube. Focus on: CNNs, object detection, semantic segmentation.
 - Understand the training loop *mechanically*: forward pass, loss computation, backward pass, optimizer step. Be able to write one from scratch in PyTorch.
 
 ### Transformers (Critical for This Role)
+
 - The job explicitly mentions "transformer based models tailored for graphs." This is cutting-edge.
 - Study the original "Attention Is All You Need" paper. Then read about Graph Attention Networks (GAT) and Graph Transformers.
 - Understand how transformers can operate on non-sequential data (graphs, point clouds, map topologies).
 - **Project:** Fine-tune a pretrained model (e.g., a ViT or a GNN) on a small custom dataset. Document your prompt-engineering workflow using Claude to help debug training issues.
 
 ### LLM Evaluation Frameworks
+
 - The role mentions "implement evaluation frameworks to measure performance of large scale LLMs." Study: perplexity, BLEU/ROUGE (for generation), task-specific benchmarks, human evaluation protocols.
 - Look into frameworks like lm-evaluation-harness, HELM, and how companies build internal eval suites.
 - **Project:** Build a simple evaluation pipeline in Python that scores a model on a custom benchmark. Measure accuracy, latency, and failure modes.
 
 ### Checkpoint
+
 You're at Level 6 when you can: train a transformer model from scratch in PyTorch, explain self-attention mathematically, fine-tune a pretrained model on a domain-specific dataset, and build an evaluation framework.
 
 ---
@@ -362,26 +402,31 @@ You're at Level 6 when you can: train a transformer model from scratch in PyTorc
 **Goal:** Bridge your existing geospatial skills into the autonomous vehicle mapping domain.
 
 ### Navigation Maps Deep Dive
+
 - Study the NDS.Live specification — this is NVIDIA's preferred map standard. Understand: map tiles, layers (road geometry, topology, attributes, lane models), update mechanisms.
 - Contribute to OpenStreetMap. Seriously. Edit roads, add turn restrictions, understand the OSM data model (nodes, ways, relations). This gives you practical map-editing intuition.
 - Understand HD Maps vs SD Maps vs navigation maps. The job says "deliver SD maps to all in-car consumers" — know what that means architecturally.
 
 ### Localization & Sensor Fusion
+
 - Study how maps are used for localization: the car matches what it sees (lidar/camera) against what the map says should be there.
 - Learn about: coordinate frames (vehicle, world, map), UTM projections (you likely know this from GIS), pose estimation, and how map-based localization provides redundancy for perception.
 - Read papers from NVIDIA DRIVE Labs (available on their blog) — they publish accessible explanations of their tech.
 
 ### Map Data Pipelines
+
 - Understand how maps are built: fleet vehicles collect data → cloud pipelines process it → map tiles are generated → updates are pushed to vehicles.
 - Study how distributed map-building workflows operate (the job mentions "scalable and distributed map-building workflows"). Think: Spark/Dask for geospatial batch processing, message queues for real-time updates.
 - **Hands-on:** Projects 1 and 3 cover this — OSM ingestion → road graph (P1) → tile server with gRPC (P3). No separate project needed here.
 
 ### 3D Geometry for AV
+
 - Deepen your linear algebra: homogeneous coordinates, rotation matrices, quaternions, rigid body transformations.
 - Study camera models: pintrhole model, intrinsic/extrinsic parameters, projection and unprojection.
 - Understand point cloud processing basics — how lidar data becomes map features.
 
 ### Checkpoint
+
 You're at Level 7 when you can: explain NDS.Live's tile structure, build a road-network graph from OSM data, perform coordinate transformations between vehicle and map frames, and describe how HD maps aid localization.
 
 ---
@@ -391,26 +436,31 @@ You're at Level 7 when you can: explain NDS.Live's tile structure, build a road-
 **Goal:** Understand the constraints of writing software that runs inside a car.
 
 ### Embedded Systems Fundamentals
+
 - Study memory-constrained programming: no dynamic allocation in hot paths, fixed-size buffers, memory pools, cache-friendly data layouts.
 - Understand AUTOSAR (the automotive software architecture standard) at a conceptual level — where the map provider sits in the software stack.
 - Learn about functional safety (ISO 26262) — what "ASIL" ratings mean and why safety-critical software has strict coding standards.
 
 ### NVIDIA DRIVE Platform
+
 - Study the NVIDIA DRIVE AGX Orin architecture: what compute is available (ARM CPUs, GPU, DLA), how software is partitioned across these.
 - Understand NVIDIA's DriveWorks SDK — the middleware that sits between the OS and autonomous driving applications.
 - Read NVIDIA's technical blog posts about their AV stack. Pay attention to how map services integrate with perception and planning.
 
 ### Real-Time C++ Patterns
+
 - Study lock-free data structures (lock-free queues, atomic operations). Map data must be readable by multiple consumers without blocking.
 - Understand zero-copy techniques — how FlatBuffers enable reading serialized data without deserialization (this is why the job lists FlatBuffers specifically).
 - **Project:** Implement a lock-free ring buffer in C++ for passing map updates between threads. Benchmark it against a mutex-based queue.
 
 ### CUDA Fundamentals
+
 - The "ways to stand out" section mentions CUDA. Start with NVIDIA's official CUDA programming guide.
 - Understand: kernels, threads, blocks, grids, shared memory, memory coalescing.
 - **Project:** Write a CUDA kernel that performs a parallel nearest-neighbor search on a set of 3D points (relevant to map matching).
 
 ### Checkpoint
+
 You're at Level 8 when you can: write C++ that respects real-time constraints (no unbounded allocations, deterministic latency), explain the DRIVE AGX architecture, implement a lock-free data structure, and write a basic CUDA kernel.
 
 ---
@@ -420,25 +470,30 @@ You're at Level 8 when you can: write C++ that respects real-time constraints (n
 **Goal:** Think like an architect — design systems, not just components.
 
 ### Map Provider Architecture
+
 - Design a map provider service from scratch: how does it receive route information, select relevant map tiles, decode them, serve them to localization/planning/HMI consumers, and handle updates?
 - Consider: health monitoring (the job mentions "health monitors"), graceful degradation when map data is stale or missing, data fusion with live perception.
 - Draw architecture diagrams. Practice explaining your design decisions out loud — this is interview material.
 
 ### End-to-End AV System Understanding
+
 - Study the full AV software stack: perception → prediction → planning → control. Understand where maps touch each module.
 - Read Waymo's, Cruise's, and NVIDIA's published technical reports on their architectures.
 - Understand "data-driven" vs "rule-based" approaches to driving, and where the industry is heading (hint: the role's focus on transformers and LLMs tells you NVIDIA's direction).
 
 ### Graph Neural Networks for Maps
+
 - This is the cutting edge the role targets. Study: how road networks are naturally graphs, how GNNs can learn traffic patterns / routing / map quality signals.
 - Read recent papers on map learning: "MapTR," "VectorMapNet," and related work on neural map representations.
 - **Project:** Train a GNN that predicts road connectivity or traffic patterns from a real road network graph. Use PyTorch Geometric.
 
 ### Large-Scale Systems
+
 - Study how to build scalable map-building pipelines: distributed processing (Apache Beam, Spark), data versioning, continuous integration for map data.
 - Understand cloud-to-car deployment: how trained models and updated maps are pushed to vehicle fleets.
 
 ### Checkpoint
+
 You're at Level 9 when you can: whiteboard a complete map provider architecture, explain how graph transformers apply to road networks, design a distributed map-building pipeline, and articulate where maps fit in the full AV stack.
 
 ---
@@ -448,45 +503,52 @@ You're at Level 9 when you can: whiteboard a complete map provider architecture,
 **Goal:** Be the candidate they can't say no to.
 
 ### Portfolio & Proof of Work
+
 - Build a capstone project that combines everything: a C++ map provider that ingests NDS-format tiles, serves them via gRPC to simulated consumers, includes a Python-based map-building pipeline, and uses a trained GNN for map quality scoring. Open-source it on GitHub.
 - Write technical blog posts about your journey. NVIDIA's culture values people who share knowledge.
 
 ### Interview Preparation
+
 - Practice system design interviews focused on AV: "Design a map update system for a fleet of 100K vehicles." "Design a real-time map provider that handles tile loading, caching, and invalidation."
 - Practice C++ coding interviews: focus on data structures, concurrency, and performance optimization.
 - Prepare to discuss your geospatial background — frame your GIS experience as a *head start*, not a detour. You understand spatial indexing, projections, and tiled data formats at a level most candidates don't.
 
 ### AI-Assisted Development Fluency
+
 - This role explicitly values "heavy AI user for day-to-day development." Build a portfolio of examples where you used Claude/Cursor to: architect a system, debug a tricky concurrency bug, generate test cases, review code for safety issues.
 - Practice "prompt-crafting" — the job literally lists it as a requirement. Document your best prompts and workflows.
 
 ### Domain Credibility
+
 - Follow NVIDIA DRIVE team publications, GTC talks, and technical blogs.
 - Engage with the AV mapping community: attend or watch NDS Association events, contribute to OSM, participate in AV-related open source projects.
 - Understand NVIDIA's competitive position vs Mobileye, Waymo, Tesla's approach to maps.
 
 ### Checkpoint
-You're at Level 10 when you can: present a GitHub portfolio with AV-relevant C++ and ML projects, whiteboard any system design question about map services, write modern C++ that would pass NVIDIA's code review, and articulate your unique value proposition as someone who bridges geospatial domain expertise with AV engineering.
+
+You're at Level 10 when you can: present a GitHub portfolio with AV-relevant C++and ML projects, whiteboard any system design question about map services, write modern C++ that would pass NVIDIA's code review, and articulate your unique value proposition as someone who bridges geospatial domain expertise with AV engineering.
 
 ---
 
 ## Recommended Resource Stack
 
-| Category | Resource | Format |
-|---|---|---|
-| C++ | *A Tour of C++* (Stroustrup) | Book |
-| C++ | *Effective Modern C++* (Meyers) | Book |
-| OS/Systems | *Operating Systems: Three Easy Pieces* | Free online |
-| ML | fast.ai Practical Deep Learning | Free course |
-| CV | Stanford CS231n | Free lectures |
-| Transformers | *Attention Is All You Need* + survey papers | Papers |
-| GNNs | Stanford CS224W: Machine Learning with Graphs | Free lectures |
-| AV | NVIDIA DRIVE Labs blog | Blog/videos |
-| Maps | NDS.Live specification | Spec docs |
-| Maps | OpenStreetMap wiki + contributor guide | Wiki |
-| CUDA | NVIDIA CUDA Programming Guide | Free docs |
-| Embedded | *Making Embedded Systems* (Elecia White) | Book |
-| Interviews | *System Design Interview* (Alex Xu) | Book |
+
+| Category     | Resource                                      | Format        |
+| ------------ | --------------------------------------------- | ------------- |
+| C++          | *A Tour of C++* (Stroustrup)                  | Book          |
+| C++          | *Effective Modern C++* (Meyers)               | Book          |
+| OS/Systems   | *Operating Systems: Three Easy Pieces*        | Free online   |
+| ML           | fast.ai Practical Deep Learning               | Free course   |
+| CV           | Stanford CS231n                               | Free lectures |
+| Transformers | *Attention Is All You Need* + survey papers   | Papers        |
+| GNNs         | Stanford CS224W: Machine Learning with Graphs | Free lectures |
+| AV           | NVIDIA DRIVE Labs blog                        | Blog/videos   |
+| Maps         | NDS.Live specification                        | Spec docs     |
+| Maps         | OpenStreetMap wiki + contributor guide        | Wiki          |
+| CUDA         | NVIDIA CUDA Programming Guide                 | Free docs     |
+| Embedded     | *Making Embedded Systems* (Elecia White)      | Book          |
+| Interviews   | *System Design Interview* (Alex Xu)           | Book          |
+
 
 ---
 

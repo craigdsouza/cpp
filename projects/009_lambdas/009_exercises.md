@@ -132,6 +132,17 @@ Correct output must clearly show: the sort order, the normalization bringing int
 
 ---
 
+## Exercise Results — 2026-04-21
+
+| Exercise | Result | Note |
+|----------|--------|------|
+| Exercise 1 — Lambda Basics and std::for_each | Pass | All tasks complete; count vs count2 bug self-caught |
+| Exercise 2 — Sorting and Finding | Pass | Sort + find_if correct; no-match threshold left as comment |
+| Exercise 3 — Transform and Count | Pass | All tasks complete including non-numeric string capture |
+| Exercise 4 — Integration | Pass | Full class from scratch; find_above pointer deref flagged but not fully fixed |
+
+---
+
 ## Checkpoint
 
 You've passed Day 9 when you can:
