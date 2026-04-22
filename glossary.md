@@ -132,6 +132,12 @@
 - `std::cout` with `<<` and `std::endl`
 - `std::ofstream` write to file
 - `std::ifstream` + `std::getline` line-by-line read
+- `file.is_open()` check after `std::ifstream` construction
+- `std::stringstream(line)` — wrap a string as a stream for field-by-field parsing
+- `std::getline(ss, field, ',')` — extract one delimited field at a time from a stringstream
+- header line skip (`std::getline(file, header)` before the parse loop)
+- `std::stof` / `std::stoi` — string-to-float and string-to-int conversion
+- `try/catch std::invalid_argument` inside a parse loop to skip malformed lines
 
 ### Variables and Types
 - Declaring `int`, `float`, `double`, `std::string`, `bool`
@@ -182,6 +188,8 @@
 - `std::map<K,V>`: insert with `[]`, `find()`, `erase()`, iterate with `it->first`/`it->second`
 - `std::unordered_map<K,V>`: same operations
 - `find()` + `end()` sentinel idiom (safe lookup without ghost-tile insertion)
+- `std::map::insert({key, value})` — insert without triggering default construction (avoids operator[] trap)
+- range-for over `std::map` with `pair.second` to copy values into a `std::vector`
 
 ### Error Handling
 - `try` / `catch` / `throw`
@@ -209,6 +217,10 @@
 - `std::count_if` with lambda predicate
 - `std::function<R(Args)>` as a stored lambda type
 - class with all algorithm methods (`sort_by_intensity`, `find_above`, `normalize`, `count_above`, `print_all`) using lambdas internally
+- `std::max_element` with lambda comparator (`a.field < b.field`) to find the struct with the highest field value
+- `std::accumulate` with binary lambda to sum a field across a vector of structs
+- chaining `->field` onto `std::max_element(...)` result to extract the value directly
+- `&(*it)` to return a raw pointer from a `std::max_element` / `std::find_if` iterator result
 
 ### Data Structures
 - Ring buffer with head/tail/size tracking

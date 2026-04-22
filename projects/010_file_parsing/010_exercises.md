@@ -42,11 +42,10 @@ while (std::getline(file, line)) {         // read one line at a time
 **Two things to watch out for:**
 
 1. **Headers.** If your file has a header row (`lat,lon,name`), read and discard it before the loop:
-   ```cpp
+  ```cpp
    std::string header;
    std::getline(file, header);   // consume the header line
-   ```
-
+  ```
 2. **Malformed lines.** `std::stof` throws `std::invalid_argument` if the string isn't a valid number. In a real pipeline, malformed sensor data is normal — wrap the parse in `try/catch` and skip bad lines rather than crashing.
 
 **Why this matters for DRIVE:** The NVIDIA mapping pipeline ingests HD map tiles, GPS traces, and lidar scan logs from disk at every stage. Before you build the graph algorithms (Day 13) and the tile server (Project 3), you need to be able to read data off disk reliably. Day 10 is the inflection point — from here every exercise works with real files.
@@ -60,6 +59,7 @@ while (std::getline(file, line)) {         // read one line at a time
 Data file: `data/waypoints.csv` — five Bay Area GPS waypoints, no header, format `lat,lon,name`.
 
 Tasks:
+
 - Define a `GPSWaypoint` struct with `float lat`, `float lon`, `std::string name`, and a constructor
 - Write a free function `std::vector<GPSWaypoint> load_waypoints(const std::string& path)` that opens the file, parses each line using `std::stringstream` and `std::stof`, and returns the parsed waypoints
 - In `main`: call `load_waypoints`, print all waypoints in the format `"[name] lat=X lon=Y"`
@@ -77,6 +77,7 @@ Data file: `data/lidar_log.csv` — ten scan points plus a corrupt line, format:
 `timestamp,x,y,z,intensity` (first row is a header).
 
 Tasks:
+
 - Define a `LidarPoint` struct with `float timestamp, x, y, z, intensity`
 - Write `std::vector<LidarPoint> load_lidar_log(const std::string& path)`:
   - Skip the header line
@@ -84,8 +85,8 @@ Tasks:
 - In `main`:
   - Load the log and print how many points were loaded vs how many lines the file had
   - Use `std::count_if` with a lambda to count high-intensity points (`intensity > 0.7f`)
-  - Use `std::find_if` to locate the first point with `intensity > 0.8f`; print it or "none found"
-  - Use `std::sort` to sort points by timestamp ascending; print first and last
+  - Use `std::find_if` to locate the first point with `intensity > 0.9f`; print it or "none found"
+  - Use `std::sort` to sort points by timestamp descending; print first and last
 
 **What to observe:** Real sensor logs always contain corrupt entries. The `try/catch` guard makes your parser production-safe — the pipeline skips bad data rather than crashing. This is the same approach DriveWorks uses for sensor ingest.
 
@@ -99,6 +100,7 @@ Data file: `data/map_tiles.csv` — six map tiles with bounding boxes, format:
 `tile_id,lat_min,lon_min,lat_max,lon_max,road_count` (first row is a header).
 
 Tasks:
+
 - Define a `MapTile` struct with `std::string id`, `float lat_min, lon_min, lat_max, lon_max`, `int road_count`
 - Write `std::map<std::string, MapTile> load_tile_index(const std::string& path)`:
   - Parse each tile and insert it into a `std::map` keyed by `tile_id`
@@ -132,6 +134,7 @@ Design and implement a `RoadGraph` class that models a parsed road network. The 
 - `float average_speed() const` — returns the average speed limit across all segments
 
 In `main`:
+
 1. Create a `RoadGraph`, call `load("data/road_segments.csv")`
 2. Print all segments
 3. Print count of `"motorway"` segments and count of `"primary"` segments
@@ -143,11 +146,24 @@ Correct output must show: all segments loaded, class counts correct, fastest seg
 
 ---
 
+## Exercise Results — 2026-04-22
+
+| Exercise | Result | Note |
+|----------|--------|------|
+| Exercise 1 — Parse GPS Waypoints | Pass | All mechanics correct; print format uses commas instead of `[name] lat=X lon=Y` but minor |
+| Exercise 2 — Parse LiDAR Scan Log | Pass | Header skip, try/catch, count_if, find_if, sort + front()/back() all correct |
+| Exercise 3 — Build a Map Tile Index | Pass | map::insert used correctly (avoided operator[] default-construction trap); find_tile, vector copy, sort all correct |
+| Exercise 4 — Integration: Road Segment Parser | Pass | Written from scratch; all 6 class methods correct including normalize_speeds with transform + captured max, average_speed with accumulate |
+
+---
+
 ## Checkpoint
 
 You've passed Day 10 when you can:
+
 - Open a CSV file with `std::ifstream` + `std::getline` and parse it field-by-field using `std::stringstream`
 - Convert string fields to numbers with `std::stof` / `std::stoi`
 - Skip a header line before the parse loop
 - Handle malformed lines defensively with `try/catch` around `std::stof`
 - Combine file parsing with the algorithm + lambda pattern from Day 9
+

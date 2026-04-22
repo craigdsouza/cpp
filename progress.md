@@ -372,6 +372,40 @@ See [copy-vs-reference.md](./copy-vs-reference.md).
 
 ---
 
+## 2026-04-22 — Day 10: File Parsing + Real Data
+
+### Quiz Score
+4.25 / 6.0 — QR1 carry-forward fully resolved; solid on mechanics, Q4 (std::optional) unanswered.
+
+| Q | Score | Note |
+|---|-------|------|
+| QR1 | 1.0 | Full carry-forward recovery — UB named, compiler can't catch it, buffer overflow mechanism correct |
+| Q1 | 0.75 | stringstream + getline mechanics correct; missing explanation of why `>>` fails (whitespace vs comma) |
+| Q2 | 1.0 | Bug, consequence, and one-line fix all correct |
+| Q3 | 0.75 | try/catch structure correct; missing loop placement and "continues on catch" semantics |
+| Q4 | 0.0 | Unanswered — std::optional vs raw pointer tradeoff |
+| Q5 | 0.75 | Sequential vs random access distinction captured; statefulness and vector workaround not named |
+
+### Exercises
+| Exercise | Result |
+|----------|--------|
+| Exercise 1 — Parse GPS Waypoints | Pass |
+| Exercise 2 — Parse LiDAR Scan Log | Pass |
+| Exercise 3 — Build a Map Tile Index | Pass |
+| Exercise 4 — Integration: Road Segment Parser | Pass |
+
+### Concepts Confirmed
+- `std::stringstream(line)` + `std::getline(ss, field, ',')` is the correct idiom for CSV field splitting — applied fluently across all four exercises
+- `try/catch std::invalid_argument` around `stof` calls inside a parse loop skips malformed lines without crashing — implemented independently
+- `std::map::insert({key, value})` avoids the operator[] default-construction trap — caught and resolved when it caused a compiler error
+- `std::accumulate` with a binary lambda correctly computes a sum over a struct field — written without prompting
+
+### Carry-Forward
+- **Q4 (0.0):** `std::optional<T>` — the modern C++ alternative to returning a raw pointer for "value or nothing". `std::nullopt` instead of `nullptr`, no heap allocation, "maybe" contract explicit in return type.
+- **Q3 (0.75):** try/catch placement — the `try` must be *inside* the `while(getline)` loop, wrapping one line's parse attempt. If placed outside, the loop exits on the first bad line.
+
+---
+
 # 2026-04-13 Microsoft Coursera C++ Course
 
 Installed C/C++ Extension pack

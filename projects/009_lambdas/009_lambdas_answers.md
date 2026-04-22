@@ -38,7 +38,7 @@ When `[threshold]` is used, the lambda captures the value of `threshold` at the 
 
 To make the lambda see the updated value, capture by reference:
 ```cpp
-auto fn = [&threshold](int x) { return x > threshold; };
+auto fn = [&threshold] (int x) { return x > threshold; };
 ```
 Now the lambda holds a reference to `threshold`, and `fn(10)` after `threshold = 100` evaluates `10 > 100` → `false` → prints `0`.
 

@@ -1,6 +1,6 @@
 # Student C++ Understanding Snapshot
 
-Last updated: 2026-04-21 (after Day 9)
+Last updated: 2026-04-22 (after Day 10)
 
 This file documents the student's current C++ understanding — what is solid, what has gaps, and what patterns have emerged in how they learn. It is intended to inform the creation of new project days.
 
@@ -10,7 +10,7 @@ This file documents the student's current C++ understanding — what is solid, w
 
 - **Primary language:** Python
 - **Goal:** NVIDIA DRIVE AV stack — C++ for localization, perception, sensor pipelines
-- **Days completed:** 1–9 (Hello Map, References & Pointers, Classes & Structs, STL Containers, RAII & Destructors, Smart Pointers, Move Semantics, Templates, Lambdas + std::algorithm)
+- **Days completed:** 1–10 (Hello Map, References & Pointers, Classes & Structs, STL Containers, RAII & Destructors, Smart Pointers, Move Semantics, Templates, Lambdas + std::algorithm, File Parsing)
 
 ---
 
@@ -42,6 +42,10 @@ This file documents the student's current C++ understanding — what is solid, w
 - Implements `LidarScanProcessor` class from scratch — owns vector, all five methods using algorithm + lambda pattern
 - Understands iterator vs pointer distinction (`&(*it)` to convert iterator to pointer)
 - Understands when `std::transform` in-place is safe (same input/output vector, element-wise)
+- `std::stringstream(line)` + `std::getline(ss, field, ',')` — applies the CSV field-splitting pattern fluently across multiple exercises without prompting
+- `try/catch std::invalid_argument` around `stof` in a parse loop — implemented correctly and independently
+- `std::map::insert({key, value})` — understood the operator[] default-construction trap when the compiler surfaced it and applied the fix correctly
+- `std::accumulate` with a binary lambda for summing a struct field — reached for the right tool independently
 
 ### Conceptual understanding
 
@@ -79,8 +83,10 @@ This file documents the student's current C++ understanding — what is solid, w
 - **Leak quantification:** correct on identifying leaks, struggles to reason about severity at scale (100Hz × 60s = 6,000 calls)
 - **unique_ptr ownership precision:** understands exclusive ownership but occasionally frames it as "only one entity uses it" rather than "one entity is solely responsible for cleanup." The distinction matters when designing components — exclusive ownership is about cleanup responsibility, not just access count.
 - **Strict weak ordering:** Knows to use `>` not `>=` in sort comparators but doesn't yet use the term "strict weak ordering" or explain that `comp(x,x)` must return `false`. Surface in Day 10 warm-up.
-- **std::transform output safety:** Correctly reasoned that in-place transform on the same vector is safe, but said a shorter output vector causes a "compile error" — it's undefined behavior (buffer overflow). `std::transform` does not resize output.
-- **Dangling reference framing (Q3):** Described `[&]` danger as "accidental mutation of many variables" rather than "lambda outliving the scope of captured variables." The lifetime angle is the real risk.
+- **std::transform output safety:** Fully resolved in Day 10 QR1 — correctly named UB, explained buffer overflow, confirmed compiler cannot catch it.
+- **Dangling reference framing:** Described `[&]` danger as "accidental mutation of many variables" rather than "lambda outliving the scope of captured variables." The lifetime angle is the real risk. Persists.
+- **std::optional:** Q4 unanswered — no exposure to `std::optional<T>` yet. Needs introduction: `std::nullopt` instead of `nullptr`, stack-allocated, "maybe" contract explicit in return type, preferred over raw pointer for "value or nothing" returns.
+- **try/catch placement in a parse loop:** Structure of try/catch is understood (Q3: 0.75), but placement nuance not yet solid — the `try` must be inside the `while(getline)` loop, not wrapping it. Placing it outside causes the loop to exit on the first bad line.
 - **Template conceptual vocabulary:** Can use templates correctly but doesn't yet use terms "type deduction," "instantiation," "most specific match" fluently in explanations. Mechanics ahead of vocabulary — typical pattern for this student.
 
 ### Vocabulary precision
@@ -127,17 +133,18 @@ This file documents the student's current C++ understanding — what is solid, w
 | 7   | Move Semantics            | Complete |
 | 8   | Templates                 | Complete |
 | 9   | Lambdas + std::algorithm  | Complete |
-| 10  | TBD                       | **Next** |
+| 10  | File Parsing              | Complete |
+| 11  | TBD                       | **Next** |
 
 
-**Coming into Day 10:** All lambda + algorithm mechanics solid. Carry-forward: strict weak ordering vocabulary (comp(x,x) must be false), std::transform output safety (shorter output = UB not compile error), and dangling reference framing (lifetime, not accidental mutation).
+**Coming into Day 11:** File parsing mechanics fully solid — ifstream, stringstream, stof/stoi, header skip, try/catch guard in parse loop. All four exercises passed. Carry-forward: `std::optional<T>` (unanswered Q4 — introduce early in Day 11), try/catch placement nuance (must be inside the while loop, not wrapping it), dangling reference lifetime framing still imprecise.
 
 ---
 
 ## Recommendations for Day 10 and beyond
 
-- **Strict weak ordering warm-up** — ask student to explain what "strict weak ordering" means and why `>=` in a sort comparator causes UB. They have the intuition, need the vocabulary.
-- **std::transform output safety** — revisit: what happens if output vector is shorter than input? Answer is UB (buffer overflow), not compile error.
+- **std::optional warm-up** — introduce `std::optional<T>` and `std::nullopt` early in Day 11. Student left Q4 blank — no prior exposure. Frame as the modern alternative to returning a raw pointer for "value or nothing."
+- **try/catch placement** — reinforce that the `try` block belongs inside the `while(getline)` loop, not outside it. The loop must continue past a bad line, not exit.
 - **Dangling reference lifetime framing** — when reviewing `[&]` captures, ask "what happens if the lambda is stored and called after the enclosing function returns?" rather than "what can go wrong?"
 - **Real-world context docs are highly motivating** — create a domain context doc for each new topic. Student explicitly stated this keeps energy up through syntax difficulty.
 - **Keep Python analogies available** — they land well
