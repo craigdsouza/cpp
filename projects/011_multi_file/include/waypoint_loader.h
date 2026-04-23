@@ -10,3 +10,11 @@
 //
 // Function declaration (signature only, no body):
 // std::vector<GPSWaypoint> load_waypoints(const std::string& path);
+
+#pragma once
+
+#include "gps_waypoint.h"
+#include <vector>
+#include <string>
+
+std::vector<GPSWaypoint> load_waypoints(const std::string& path);

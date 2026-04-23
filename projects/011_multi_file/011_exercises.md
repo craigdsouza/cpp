@@ -184,6 +184,17 @@ Correct output: all tiles printed, tile_003 found, tile_999 not found, count of 
 
 ---
 
+## Exercise Results — 2026-04-23
+
+| Exercise | Result | Note |
+|----------|--------|------|
+| Exercise 1 — Header/Source Split | Pass | `#pragma once`, declaration vs definition, initializer list, `for_each` + lambda all correct |
+| Exercise 2 — Separating a Function | Pass | Free function header/source split, transitive include pattern correct |
+| Exercise 3 — CMake | Pass | Both targets with `add_executable` + `target_include_directories(PRIVATE include)` |
+| Exercise 4 — Integration: Multi-File Tile System | Pass | All five files written from scratch; `emplace` fix, `map::find` + `end()` sentinel, `count_if` lambda |
+
+---
+
 ## Checkpoint
 
 You've passed Day 11 when you can:

@@ -14,3 +14,14 @@
 //     // Constructor declaration — just the signature, no body
 //     // GPSWaypoint(float lat, float lon, const std::string& name);
 // };
+
+#pragma once
+#include <string>
+
+struct GPSWaypoint { 
+    float lat_;
+    float lon_;
+    std::string name_;
+
+    GPSWaypoint(float lat,float lon,const std::string& name);
+};

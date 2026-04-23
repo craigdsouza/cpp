@@ -1,6 +1,6 @@
 # Student C++ Understanding Snapshot
 
-Last updated: 2026-04-22 (after Day 10)
+Last updated: 2026-04-23 (after Day 11)
 
 This file documents the student's current C++ understanding — what is solid, what has gaps, and what patterns have emerged in how they learn. It is intended to inform the creation of new project days.
 
@@ -10,7 +10,7 @@ This file documents the student's current C++ understanding — what is solid, w
 
 - **Primary language:** Python
 - **Goal:** NVIDIA DRIVE AV stack — C++ for localization, perception, sensor pipelines
-- **Days completed:** 1–10 (Hello Map, References & Pointers, Classes & Structs, STL Containers, RAII & Destructors, Smart Pointers, Move Semantics, Templates, Lambdas + std::algorithm, File Parsing)
+- **Days completed:** 1–11 (Hello Map, References & Pointers, Classes & Structs, STL Containers, RAII & Destructors, Smart Pointers, Move Semantics, Templates, Lambdas + std::algorithm, File Parsing, Multi-File Projects + CMake)
 
 ---
 
@@ -46,6 +46,11 @@ This file documents the student's current C++ understanding — what is solid, w
 - `try/catch std::invalid_argument` around `stof` in a parse loop — implemented correctly and independently
 - `std::map::insert({key, value})` — understood the operator[] default-construction trap when the compiler surfaced it and applied the fix correctly
 - `std::accumulate` with a binary lambda for summing a struct field — reached for the right tool independently
+- Splits a struct/class across header (declaration only, `#pragma once`) and source (definition with `ClassName::`) — applied correctly across four types without prompting
+- Understands why `main.cpp` includes only the header: the linker connects object files; `#include`-ing a `.cpp` would cause double compilation
+- Distinguishes member functions from free functions correctly — applied in exercises without prompting
+- Wrote a complete `CMakeLists.txt` from scratch with three targets, correct source lists, `target_include_directories(PRIVATE include)`
+- `std::map::emplace(key, value)` — reached for independently after `operator[]` caused a default-construction error
 
 ### Conceptual understanding
 
@@ -85,9 +90,12 @@ This file documents the student's current C++ understanding — what is solid, w
 - **Strict weak ordering:** Knows to use `>` not `>=` in sort comparators but doesn't yet use the term "strict weak ordering" or explain that `comp(x,x)` must return `false`. Surface in Day 10 warm-up.
 - **std::transform output safety:** Fully resolved in Day 10 QR1 — correctly named UB, explained buffer overflow, confirmed compiler cannot catch it.
 - **Dangling reference framing:** Described `[&]` danger as "accidental mutation of many variables" rather than "lambda outliving the scope of captured variables." The lifetime angle is the real risk. Persists.
-- **std::optional:** Q4 unanswered — no exposure to `std::optional<T>` yet. Needs introduction: `std::nullopt` instead of `nullptr`, stack-allocated, "maybe" contract explicit in return type, preferred over raw pointer for "value or nothing" returns.
+- **std::optional:** Introduced Day 11 QR1 (0.75) — core concepts correct (stack, ownership, "maybe" contract). Still missing: `std::nullopt` keyword, `->` access syntax on optional.
 - **try/catch placement in a parse loop:** Structure of try/catch is understood (Q3: 0.75), but placement nuance not yet solid — the `try` must be inside the `while(getline)` loop, not wrapping it. Placing it outside causes the loop to exit on the first bad line.
-- **Template conceptual vocabulary:** Can use templates correctly but doesn't yet use terms "type deduction," "instantiation," "most specific match" fluently in explanations. Mechanics ahead of vocabulary — typical pattern for this student.
+- **Template conceptual vocabulary:** Can use templates correctly but doesn't yet use terms "type deduction," "instantiation," "most specific match" fluently in explanations. Mechanics ahead of vocabulary — typical pattern for this student. Specifically: type safety per instantiation (each concrete type is independently type-checked) has appeared as a gap in Day 8, 9, and 11.
+- **`ClassName::` meaning:** Described as "tells the compiler where to look in headers" — incorrect. It is the scope resolution operator, assigning the definition to the class's scope. Without it, the function becomes a free function and causes a linker error.
+- **Linker error late-appearance reasoning:** Attributed to stale object files rather than the file being absent from `CMakeLists.txt`. The correct chain: file not in `add_executable` → never compiled → never linked → linker error the moment any code calls into it.
+- **`#include` vs Python import:** Understands text substitution and lack of selectivity; missing "no code runs" distinction — `#include` is purely textual, no module-level initialization equivalent.
 
 ### Vocabulary precision
 
@@ -134,16 +142,18 @@ This file documents the student's current C++ understanding — what is solid, w
 | 8   | Templates                 | Complete |
 | 9   | Lambdas + std::algorithm  | Complete |
 | 10  | File Parsing              | Complete |
-| 11  | TBD                       | **Next** |
+| 11  | Multi-File Projects + CMake | Complete |
+| 12  | TBD                         | **Next** |
 
 
-**Coming into Day 11:** File parsing mechanics fully solid — ifstream, stringstream, stof/stoi, header skip, try/catch guard in parse loop. All four exercises passed. Carry-forward: `std::optional<T>` (unanswered Q4 — introduce early in Day 11), try/catch placement nuance (must be inside the while loop, not wrapping it), dangling reference lifetime framing still imprecise.
+**Coming into Day 12:** Multi-file project structure fully solid — header/source split, `#pragma once`, `ClassName::` syntax, CMake with multiple targets, all applied independently across four types. Carry-forward: type safety per instantiation (three consecutive days missed), `ClassName::` as scope resolution not header lookup, linker error late-appearance reasoning (missing from CMakeLists.txt, not stale cache), `#include` "no code runs" distinction from Python import.
 
 ---
 
 ## Recommendations for Day 10 and beyond
 
-- **std::optional warm-up** — introduce `std::optional<T>` and `std::nullopt` early in Day 11. Student left Q4 blank — no prior exposure. Frame as the modern alternative to returning a raw pointer for "value or nothing."
+- **std::optional warm-up** — Day 11 QR1 scored 0.75. Student understands the concept but needs `std::nullopt` syntax and `result->field` access pattern in a warm-up exercise.
+- **Type safety per instantiation** — this has been a gap in Day 8, 9, and 11. Ask directly in Day 12 warm-up: "if you instantiate `sort<int>` and `sort<float>`, how does the compiler verify each is used correctly?"
 - **try/catch placement** — reinforce that the `try` block belongs inside the `while(getline)` loop, not outside it. The loop must continue past a bad line, not exit.
 - **Dangling reference lifetime framing** — when reviewing `[&]` captures, ask "what happens if the lambda is stored and called after the enclosing function returns?" rather than "what can go wrong?"
 - **Real-world context docs are highly motivating** — create a domain context doc for each new topic. Student explicitly stated this keeps energy up through syntax difficulty.

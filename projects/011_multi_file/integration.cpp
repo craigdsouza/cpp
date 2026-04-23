@@ -11,3 +11,26 @@
 //    e. Print the count of tiles with road_count > 5
 //
 // Build this target using CMake (add_executable in CMakeLists.txt)
+
+#include "tile_index.h"
+#include <iostream>
+
+int main(){
+    TileIndex t;
+    t.load("../010_file_parsing/data/map_tiles.csv");
+    t.print_all();
+    auto result = t.find("tile_003");
+    if(result!=nullptr){
+        std::cout << result->id_;
+    } else {
+        std::cout << "tile not found" << std::endl;
+    }
+    result = t.find("tile_999");
+    if(result!=nullptr){
+        std::cout << result->id_;
+    }else {
+        std::cout << "tile not found" << std::endl;
+    }
+    std::cout << t.count_above(5) << std::endl;
+
+}

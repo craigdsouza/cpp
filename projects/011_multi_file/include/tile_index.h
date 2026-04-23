@@ -10,3 +10,20 @@
 //     const MapTile* find(const std::string& id) const
 //     void print_all() const
 //     int count_above(int min_roads) const
+
+#pragma once
+#include "map_tile.h"
+#include <string>
+#include <map>
+
+class TileIndex{
+    private:
+        std::map<std::string, MapTile> tiles_;
+    
+    public:
+        TileIndex();
+        void load(const std::string& path);
+        const MapTile* find(const std::string& id) const;
+        void print_all() const;
+        int count_above(int min_roads) const;
+};

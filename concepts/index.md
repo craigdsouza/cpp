@@ -79,3 +79,11 @@
 |------|---------------|-------------------|
 | `010_file-io-and-parsing.md` | `std::ifstream`, checking `is_open()`, line-by-line reading with `std::getline`, skipping headers, `std::stringstream` for splitting CSV fields by delimiter, `std::stof` / `std::stoi` / `std::stod`. Full parsing pattern. | File won't open, `getline` isn't splitting correctly, `stof` throws, or you're unsure how to read a CSV |
 | `010_exceptions.md` | `try/catch` syntax, `std::invalid_argument` and `std::out_of_range` (thrown by `stof`/`stoi`), guarding a parse loop to skip bad lines, catching by `const&`, when NOT to use exceptions | You need to make a parser production-safe, a `stof` call is crashing on corrupt data, or you're unsure whether exceptions are the right tool |
+
+---
+
+## Day 11 — Multi-File Projects and CMake
+
+| File | What it covers | Reach for it when |
+|------|---------------|-------------------|
+| `011_multi-file-and-cmake.md` | Declaration vs definition, `#pragma once` vs include guards, `ClassName::` scope resolution in `.cpp` files, angle brackets vs quotes, the compile → object → link pipeline, CMake vocabulary (`add_executable`, `target_include_directories`, `PRIVATE`), build workflow | You get a "redefinition" or "undefined reference" error, a header isn't found, or you're writing/debugging a `CMakeLists.txt` |

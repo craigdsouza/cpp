@@ -15,3 +15,7 @@
 // The colon syntax is the initializer list — same as Day 3.
 // Left side of each pair: the member variable name.
 // Right side: the parameter value to initialize it with.
+
+#include "gps_waypoint.h"
+
+GPSWaypoint::GPSWaypoint(float lat, float lon, const std::string& name): lat_(lat),lon_(lon),name_(name){}

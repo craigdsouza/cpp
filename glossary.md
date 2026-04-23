@@ -222,6 +222,21 @@
 - chaining `->field` onto `std::max_element(...)` result to extract the value directly
 - `&(*it)` to return a raw pointer from a `std::max_element` / `std::find_if` iterator result
 
+### Multi-File Projects and Build Systems
+- `#pragma once` — include guard in a header file
+- header/source split — declaration in `.h`, definition in `.cpp`
+- `ClassName::method()` — scope resolution prefix on member function definitions in `.cpp`
+- `#include "user_header.h"` — quotes for user headers (vs angle brackets for stdlib)
+- `-I include` — add directory to compiler header search path
+- multi-file compilation — listing multiple `.cpp` files in one `g++` command
+- `add_executable(name files...)` — declare a CMake build target
+- `target_include_directories(target PRIVATE dir)` — add include path to a CMake target
+- `cmake -B build` — configure and generate build files
+- `cmake --build build` — compile using generated build files
+- `std::map::emplace(key, value)` — insert into map without requiring default constructor on value type
+- returning `&it->second` — return pointer to a map value from a const member function
+- returning `nullptr` for not-found from a `const T*` function
+
 ### Data Structures
 - Ring buffer with head/tail/size tracking
 - Modulo index wrapping (`(index + 1) % capacity`)

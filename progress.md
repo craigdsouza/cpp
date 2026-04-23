@@ -406,6 +406,43 @@ See [copy-vs-reference.md](./copy-vs-reference.md).
 
 ---
 
+## 2026-04-23 — Day 11: Multi-File Projects and CMake
+
+### Quiz Score
+5.5 / 7.0 — Solid on all core concepts; gaps in precision (scope resolution vs header lookup, pragma once mechanism) and one recurring carry-forward (type safety per instantiation).
+
+| Q | Score | Note |
+|---|-------|------|
+| QR1 | 0.75 | Stack vs heap, ownership, "maybe" contract present; missing nullopt syntax and `->` access pattern |
+| QR2 | 0.75 | Two valid benefits named; still missing type safety per instantiation (third time) |
+| Q1 | 0.75 | Free function consequence correct; `::` described as "finding the header" not scope resolution |
+| Q2 | 1.0 | Both bugs (quotes, -I flag) identified with correct reasoning |
+| Q3 | 0.75 | Error and cause correct; didn't explain pragma once mechanism |
+| Q4 | 0.75 | Two-phase pipeline correct; confused stale object files with file absent from CMakeLists.txt |
+| Q5 | 0.75 | Text substitution and selectivity correct; missing "no code runs" distinction |
+
+### Exercises
+| Exercise | Result |
+|----------|--------|
+| Exercise 1 — Header/Source Split | Pass |
+| Exercise 2 — Separating a Function | Pass |
+| Exercise 3 — CMake | Pass |
+| Exercise 4 — Integration: Multi-File Tile System | Pass |
+
+### Concepts Confirmed
+- Correctly splits a struct/class across header (declaration) and source (definition) — applied across GPSWaypoint, WaypointLoader, MapTile, TileIndex without prompting
+- Understands why `main.cpp` includes only the header, not the `.cpp` — the linker connects object files; `#include`-ing a `.cpp` would double-compile it
+- Understands member vs free function distinction — applied correctly (`load` is a member, `load_waypoints` is a free function)
+- Wrote a complete multi-file CMakeLists.txt from scratch with three targets, correct source lists, and `target_include_directories(PRIVATE include)`
+
+### Carry-Forward
+- **QR2 (0.75):** Type safety per instantiation still missing — templates generate one concrete version per type, each independently type-checked. This has appeared in Day 8, 9, and 11.
+- **Q1 (0.75):** `ClassName::` is the scope resolution operator — it assigns the definition to the class's scope, not to a header file. Without it, the function becomes a free function and causes a linker error ("undefined reference").
+- **Q4 (0.75):** Linker error late appearance — the file was never listed in `CMakeLists.txt`, so it was never compiled. Not a stale build issue.
+- **Q5 (0.75):** `#include` vs Python import — `#include` is purely textual (no code runs, no module initialization). Python `import` executes module-level code once and caches it.
+
+---
+
 # 2026-04-13 Microsoft Coursera C++ Course
 
 Installed C/C++ Extension pack
