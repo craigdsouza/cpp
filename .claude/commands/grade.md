@@ -2,6 +2,22 @@ Grade the student's quiz and exercises for the project specified in $ARGUMENTS (
 
 ---
 
+## Part 0 — Synthesize Chat Context
+
+Before grading, review the current conversation (everything the student and assistant said before `/grade` was invoked). Extract signals about the student's understanding that the quiz and code alone cannot reveal.
+
+Build a **Chat Insights** object with the following fields — you will reference these in Parts 3, 4, and 5:
+
+- **Demonstrated understanding**: Concepts the student *explained or reasoned about correctly in their own words*, without being prompted to do so. These count as evidence of genuine understanding even if the quiz answer was incomplete.
+- **Received understanding**: Concepts the student was confused about and then had explained to them by the assistant. These are *not* promotable to "solid" — but if the student then correctly paraphrased or applied the concept, they may qualify.
+- **Confusion signals**: Questions the student asked that revealed a missing foundation, or moments where the student's framing was wrong before correction. Note the specific misconception, not just the topic.
+- **Clarifying questions**: Questions that suggest the student understood the surface but not the depth — useful for shaping the "Coming into Day N+1" note.
+- **Applied mechanics**: Any C++ mechanics the student used or correctly described in conversation, beyond what appears in the `.cpp` files.
+
+Keep each field concise — bullet points, one line each. If the conversation contains no signal for a field, write "None."
+
+---
+
 ## Part 1 — Grade the Quiz
 
 1. Find the quiz file at `projects/<id>_*/` matching the argument (e.g. `002_ref_and_pointers_quiz.md`).
@@ -68,10 +84,10 @@ Read `progress.md`. Append a new dated entry at the end of the file in this form
 ...
 
 ### Concepts Confirmed
-[2–4 bullet points of what the student demonstrably understands based on their quiz answers — not aspirational, only what the graded answers actually show]
+[2–4 bullet points of what the student demonstrably understands. Draw from quiz answers (score 1.0) AND from the Chat Insights "Demonstrated understanding" field — concepts the student explained correctly in conversation count here even if the quiz answer was incomplete.]
 
 ### Carry-Forward
-[List quiz questions scored ≤ 0.5 and any failed exercises as one-line items — these will be picked up by /project for the next day's warm-up. Questions scored 0.75 are NOT listed here. If nothing qualifies, write "None — clean sweep."]
+[List quiz questions scored ≤ 0.5 and any failed exercises as one-line items. Also include any "Confusion signals" from the Chat Insights that were NOT resolved by the end of the conversation. Questions scored 0.75 and "Clarifying questions" that got answered are NOT listed here. If nothing qualifies, write "None — clean sweep."]
 ```
 
 ---
@@ -84,11 +100,11 @@ Apply the following updates:
 
 1. **Update "Last updated"** to today's date and day number.
 
-2. **Promote concepts to "What is solid"** if quiz answers or exercises this session demonstrated clear understanding — correct answer + complete reasoning (score 1.0), or correct code written without prompting.
+2. **Promote concepts to "What is solid"** if quiz answers or exercises this session demonstrated clear understanding — correct answer + complete reasoning (score 1.0), or correct code written without prompting. Also promote concepts from the Chat Insights "Demonstrated understanding" field where the student explained or applied the concept correctly in their own words.
 
-3. **Remove gaps that are now closed** — if a gap listed under "Known gaps" was addressed this session (correct answer on a previously missed concept, or demonstrated in an exercise), move it to solid or remove it.
+3. **Remove gaps that are now closed** — if a gap listed under "Known gaps" was addressed this session (correct answer on a previously missed concept, demonstrated in an exercise, or correctly paraphrased in conversation after it was explained), move it to solid or remove it. Use the Chat Insights "Received understanding" field to check: if the student later showed they internalized it, close the gap; if they only passively acknowledged the explanation, leave it open.
 
-4. **Add new gaps** surfaced this session — any concept where the student scored 0.0 or 0.5, showed confusion, or asked a clarifying question that revealed a missing foundation. Note *what specifically* was missing, not just the topic.
+4. **Add new gaps** surfaced this session — any concept where the student scored 0.0 or 0.5, showed confusion, or asked a clarifying question that revealed a missing foundation. Also include "Confusion signals" from the Chat Insights that were not resolved. Note *what specifically* was missing, not just the topic.
 
 5. **Update "Curriculum position"** — mark the just-completed day as Complete and update the "Next" row.
 
@@ -108,9 +124,11 @@ Read the **Practiced Mechanics** section of `glossary.md`.
 
 For each exercise that **Passed** this session, scan the corresponding `.cpp` file and identify any mechanics the student implemented that are not yet listed in the Practiced Mechanics section.
 
+Also check the Chat Insights "Applied mechanics" field for any mechanics the student correctly described or used in conversation that do not appear in the `.cpp` files.
+
 Add any new mechanics under the appropriate category. Use the same concise format as existing entries (e.g. `- modulo index wrapping (\`(index + 1) % N\`)`).
 
-Do not remove existing entries. Do not duplicate existing entries. Only add mechanics that were genuinely exercised — not ones merely mentioned in comments or scaffold.
+Do not remove existing entries. Do not duplicate existing entries. Only add mechanics that were genuinely exercised or correctly demonstrated — not ones merely mentioned in comments, scaffold, or where the student showed confusion.
 
 ---
 

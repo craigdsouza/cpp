@@ -443,6 +443,41 @@ See [copy-vs-reference.md](./copy-vs-reference.md).
 
 ---
 
+## 2026-04-24 — Day 12: Road Graph Fundamentals
+
+### Quiz Score
+5.0 / 6.0 — Strong on graph fundamentals and BFS mechanics; QR1 carry-forward finally closed with nuanced pushback; gap in DFS visit order trace.
+
+| Q | Score | Note |
+|---|-------|------|
+| QR1 | 1.0 | Maintainability + zero-cost named; correctly challenged "type safety per instantiation" framing |
+| Q1 | 1.0 | Both disadvantages correct with complexity notation; string ID limitation not mentioned (bonus only) |
+| Q2 | 0.75 | Visit order and FIFO reasoning correct; explicitly skipped step-by-step trace |
+| Q3 | 0.5 | DFS named correctly; visit order left blank |
+| Q4 | 1.0 | Infinite loop mechanism explained completely and correctly |
+| Q5 | 0.75 | (a) stof + "abc" correct, missed empty to_id; (b) and (c) both correct |
+
+### Exercises
+
+| Exercise | Result |
+|----------|--------|
+| Exercise 1 — Road Node and Edge Types | Pass |
+| Exercise 2 — RoadGraph Class and Adjacency List | Pass |
+| Exercise 3 — Load from CSV + BFS | Pass |
+| Exercise 4 — Integration: Road Graph Analysis | Pass |
+
+### Concepts Confirmed
+- Adjacency list representation — correctly chose and implemented `unordered_map<string, vector<Edge>>`; articulated O(N²) vs O(N+E) tradeoff with complexity notation unprompted
+- BFS mechanics — implemented from scratch: queue, visited set, mark-at-push discipline, early return for unknown start node
+- Encapsulation instinct — independently decided to add `most_connected()` as a class method rather than exposing `adj_`; articulated the "internals leak" argument unprompted
+- QR1 carry-forward closed — correctly named maintainability and zero-cost; pushed back on the "type safety per instantiation" framing and was validated by the assistant
+
+### Carry-Forward
+- **Q3 (0.5):** DFS visit order — with a stack, the last-pushed neighbor is processed first. On A→[B,C], C pushed last so processed first. Visit order: A, C, E, D, B (order depends on push sequence).
+- **Q2 (0.75):** Practice tracing BFS step-by-step by hand — explicitly skipped during the quiz.
+
+---
+
 # 2026-04-13 Microsoft Coursera C++ Course
 
 Installed C/C++ Extension pack

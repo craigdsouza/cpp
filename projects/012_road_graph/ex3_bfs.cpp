@@ -14,21 +14,33 @@
 
 int main() {
     // Create a RoadGraph and load from "data/road_edges.csv"
-    // RoadGraph g;
-    // g.load("data/road_edges.csv");
+    RoadGraph g;
+    g.load("data/road_edges.csv");
 
     // Print node count and edge count
+    std::cout << "Nodes: " << g.node_count() << "\n";                           
+    std::cout << "Edges: " << g.edge_count() << "\n"; 
 
     // Run BFS from "MARKET_4TH"
-    // auto visit_order = g.bfs("MARKET_4TH");
+    auto visit_order = g.bfs("MARKET_4TH");
 
     // Print the BFS visit order using std::for_each + lambda
     // Format: "BFS from MARKET_4TH: A -> B -> C -> ..."
     // Hint: print each element with a separator, handle the last element specially
     //       or just print each one followed by " -> "
+    std::cout << "BFS from MARKET_4TH: ";
+    for (std::size_t i = 0; i < visit_order.size(); ++i) {
+        std::cout << visit_order[i];
+        if (i + 1 < visit_order.size()) std::cout << " -> ";
+    }
+    std::cout << "\n";
 
     // Try BFS from a node that doesn't exist ("FAKE_NODE")
     // print "not found" if the result is empty
 
+    auto visit_order_fake = g.bfs("FAKE_NODE");
+    if (visit_order_fake.empty()){
+        std::cout<< "not found" << std::endl;
+    }
     return 0;
 }

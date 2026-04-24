@@ -144,6 +144,17 @@ Build with CMake. Expected output listed in the scaffold comments of `integratio
 
 ---
 
+## Exercise Results — 2026-04-24
+
+| Exercise | Result | Note |
+|----------|--------|------|
+| Exercise 1 — Road Node and Edge Types | Pass | Header/source split correct; for_each + lambda print implemented |
+| Exercise 2 — RoadGraph Class and Adjacency List | Pass | All five methods implemented and verified working |
+| Exercise 3 — Load from CSV + BFS | Pass | load() and bfs() both correct; fake node path tested |
+| Exercise 4 — Integration: Road Graph Analysis | Pass | All 6 queries implemented from scratch including most_connected() and count_nodes_with_degree() |
+
+---
+
 ## Checkpoint
 
 You've passed Day 12 when you can:

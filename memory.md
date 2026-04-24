@@ -1,6 +1,6 @@
 # Student C++ Understanding Snapshot
 
-Last updated: 2026-04-23 (after Day 11)
+Last updated: 2026-04-24 (after Day 12)
 
 This file documents the student's current C++ understanding — what is solid, what has gaps, and what patterns have emerged in how they learn. It is intended to inform the creation of new project days.
 
@@ -10,7 +10,7 @@ This file documents the student's current C++ understanding — what is solid, w
 
 - **Primary language:** Python
 - **Goal:** NVIDIA DRIVE AV stack — C++ for localization, perception, sensor pipelines
-- **Days completed:** 1–11 (Hello Map, References & Pointers, Classes & Structs, STL Containers, RAII & Destructors, Smart Pointers, Move Semantics, Templates, Lambdas + std::algorithm, File Parsing, Multi-File Projects + CMake)
+- **Days completed:** 1–12 (Hello Map, References & Pointers, Classes & Structs, STL Containers, RAII & Destructors, Smart Pointers, Move Semantics, Templates, Lambdas + std::algorithm, File Parsing, Multi-File Projects + CMake, Road Graph Fundamentals)
 
 ---
 
@@ -51,6 +51,12 @@ This file documents the student's current C++ understanding — what is solid, w
 - Distinguishes member functions from free functions correctly — applied in exercises without prompting
 - Wrote a complete `CMakeLists.txt` from scratch with three targets, correct source lists, `target_include_directories(PRIVATE include)`
 - `std::map::emplace(key, value)` — reached for independently after `operator[]` caused a default-construction error
+- Adjacency list as `unordered_map<string, vector<Edge>>` — implemented correctly, iterates with `pair.first`/`pair.second`
+- BFS with `std::queue` + `std::unordered_set` — implemented from scratch, mark-at-push discipline correct, early return for unknown start
+- `std::pair<T1,T2>` as return type for two values — applied after guidance
+- `std::find` on a vector with `begin/end + != end()` idiom — applied correctly
+- `queue.front()` + `queue.pop()` as separate operations — applied correctly
+- Encapsulation reasoning — independently chose to add `most_connected()` and `count_nodes_with_degree()` as class methods rather than exposing `adj_`
 
 ### Conceptual understanding
 
@@ -92,10 +98,11 @@ This file documents the student's current C++ understanding — what is solid, w
 - **Dangling reference framing:** Described `[&]` danger as "accidental mutation of many variables" rather than "lambda outliving the scope of captured variables." The lifetime angle is the real risk. Persists.
 - **std::optional:** Introduced Day 11 QR1 (0.75) — core concepts correct (stack, ownership, "maybe" contract). Still missing: `std::nullopt` keyword, `->` access syntax on optional.
 - **try/catch placement in a parse loop:** Structure of try/catch is understood (Q3: 0.75), but placement nuance not yet solid — the `try` must be inside the `while(getline)` loop, not wrapping it. Placing it outside causes the loop to exit on the first bad line.
-- **Template conceptual vocabulary:** Can use templates correctly but doesn't yet use terms "type deduction," "instantiation," "most specific match" fluently in explanations. Mechanics ahead of vocabulary — typical pattern for this student. Specifically: type safety per instantiation (each concrete type is independently type-checked) has appeared as a gap in Day 8, 9, and 11.
+- **Template conceptual vocabulary:** Can use templates correctly but doesn't yet use terms "type deduction," "instantiation," "most specific match" fluently in explanations. Mechanics ahead of vocabulary — typical pattern for this student. Note: "type safety per instantiation" framing now resolved — student correctly challenged it in Day 12 and assistant validated that the real value is maintainability + zero-cost for unused types.
 - **`ClassName::` meaning:** Described as "tells the compiler where to look in headers" — incorrect. It is the scope resolution operator, assigning the definition to the class's scope. Without it, the function becomes a free function and causes a linker error.
 - **Linker error late-appearance reasoning:** Attributed to stale object files rather than the file being absent from `CMakeLists.txt`. The correct chain: file not in `add_executable` → never compiled → never linked → linker error the moment any code calls into it.
 - **`#include` vs Python import:** Understands text substitution and lack of selectivity; missing "no code runs" distinction — `#include` is purely textual, no module-level initialization equivalent.
+- **DFS visit order:** Named DFS correctly in Day 12 Q3 but couldn't give the visit order. With a stack, last-pushed neighbor is processed first. On A→[B,C], pushing B then C means C is popped first — visit order: A, C, E, D, B. Revisit in Day 13 warm-up.
 
 ### Vocabulary precision
 
@@ -143,10 +150,11 @@ This file documents the student's current C++ understanding — what is solid, w
 | 9   | Lambdas + std::algorithm  | Complete |
 | 10  | File Parsing              | Complete |
 | 11  | Multi-File Projects + CMake | Complete |
-| 12  | TBD                         | **Next** |
+| 12  | Road Graph Fundamentals     | Complete |
+| 13  | TBD                         | **Next** |
 
 
-**Coming into Day 12:** Multi-file project structure fully solid — header/source split, `#pragma once`, `ClassName::` syntax, CMake with multiple targets, all applied independently across four types. Carry-forward: type safety per instantiation (three consecutive days missed), `ClassName::` as scope resolution not header lookup, linker error late-appearance reasoning (missing from CMakeLists.txt, not stale cache), `#include` "no code runs" distinction from Python import.
+**Coming into Day 13:** Road graph solid — adjacency list, BFS, CSV load, multi-file CMake all applied correctly. Encapsulation reasoning strong (class method vs exposing internals — applied unprompted). Carry-forward: DFS visit order (Q3 blank), step-by-step BFS trace by hand (skipped in quiz). Persistent gaps still open: `ClassName::` scope resolution meaning, `#include` vs Python import "no code runs" distinction, dangling reference lifetime framing, `std::optional` nullopt/arrow syntax.
 
 ---
 

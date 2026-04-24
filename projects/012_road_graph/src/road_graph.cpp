@@ -2,50 +2,130 @@
 // Implement all RoadGraph methods using RoadGraph:: prefix.
 //
 // Includes needed:
-// #include "road_graph.h"
-// #include <iostream>
-// #include <fstream>      // Exercise 3: load()
-// #include <sstream>      // Exercise 3: load()
-// #include <stdexcept>    // Exercise 3: try/catch
-// #include <algorithm>    // std::for_each
-//
+#include "road_graph.h"
+#include "road_types.h"
+#include <cstddef>
+#include <iostream>
+#include <fstream>      // Exercise 3: load()
+#include <sstream>      // Exercise 3: load()
+#include <stdexcept>    // Exercise 3: try/catch
+#include <algorithm>    // std::for_each
+#include <map>
+
 // --- Exercise 2: implement these four methods ---
-//
-// void RoadGraph::add_node(const RoadNode& node)
-//   Insert node into nodes_ map using node.id as the key
-//   Also insert an empty vector into adj_ for this node (so node_count includes nodes with no outgoing edges)
-//
-// void RoadGraph::add_edge(const std::string& from, const std::string& to, float dist)
-//   Push an Edge(to, dist) onto adj_[from]
-//
-// std::size_t RoadGraph::node_count() const
-//   Return nodes_.size()
-//
-// std::size_t RoadGraph::edge_count() const
-//   Iterate adj_ with for_each, sum up the size of each edge vector
-//   Hint: capture a counter by reference in the lambda
-//
-// void RoadGraph::print() const
-//   For each entry in adj_ (pair.first = node id, pair.second = vector<Edge>):
-//     Print "NODE_ID:" then for each edge print "  -> TO_ID (X.XX km)"
-//
+
+void RoadGraph::add_node(const RoadNode& node){
+    nodes_.emplace(node.id_,node);
+    adj_.emplace(node.id_,std::vector<Edge>{});  // could also use .try_emplace()
+}
+
+void RoadGraph::add_edge(const std::string& from, const std::string& to, float dist){
+    adj_[from].push_back(Edge(to,dist));
+}
+
+std::size_t RoadGraph::node_count() const{
+    return nodes_.size();
+}
+
+std::size_t RoadGraph::edge_count() const {
+    std::size_t count = 0;
+    std::for_each(adj_.begin(),adj_.end(),[&count](const auto& pair){
+        count += pair.second.size();
+    });
+    return count;
+}
+
+std::pair<std::string,size_t> RoadGraph::most_connected() const {
+    std::string most_connected_id;
+    std::size_t most_connected_count=0;
+    for (const auto& pair:adj_){
+        if(pair.second.size() > most_connected_count){
+            most_connected_count = pair.second.size();
+            most_connected_id = pair.first;
+        } else {}
+    }
+    return {most_connected_id,most_connected_count};
+}
+
+std::size_t RoadGraph::count_nodes_with_degree(std::size_t degree) const{
+    return std::count_if(adj_.begin(),adj_.end(),[degree](const auto& pair){
+        return pair.second.size() == degree;
+    });
+}
+
+void RoadGraph::print() const{
+    std::for_each(adj_.begin(),adj_.end(),[](const auto& pair){
+        std::cout << "NODE_ID:" << pair.first << std::endl;
+        std::for_each(pair.second.begin(),pair.second.end(),[](const auto& edge){
+            std::cout << "  -> " << edge.to_id_ << " (" << edge.distance_km_ << " km)" << std::endl;
+        });
+    });
+}
+
 // --- Exercise 3: implement these two methods ---
-//
-// void RoadGraph::load(const std::string& path)
-//   Open with std::ifstream, skip header row with std::getline
-//   For each line: parse from_id, to_id, distance_km using stringstream + getline(ss, field, ',')
-//   Wrap stof in try/catch std::invalid_argument — skip malformed lines
-//   Register nodes that don't exist yet: if nodes_.find(from_id) == nodes_.end(), add_node with dummy lat/lon (0,0)
-//   Call add_edge(from_id, to_id, dist)
-//
-// std::vector<std::string> RoadGraph::bfs(const std::string& start_id) const
-//   Return the BFS visit order from start_id as a vector of node IDs
-//   Use std::queue<std::string> for the frontier
-//   Use std::unordered_set<std::string> for visited nodes
-//   Standard BFS loop:
-//     push start_id to queue, mark visited
-//     while queue not empty:
-//       current = queue.front(); queue.pop()
-//       add current to result vector
-//       for each Edge in adj_.at(current): if not visited, push to queue and mark visited
-//   Return result (empty if start_id not in graph)
+
+void RoadGraph::load(const std::string& path){
+    std::ifstream file(path);
+    if(!file.is_open()){
+        std::cerr << "Error - could not open file" << path << std::endl;
+        return;
+    }
+    std::string line, header;
+
+    std::getline(file, header);
+    while(std::getline(file,line)){
+        std::stringstream ss(line);
+        std::string from_id, to_id, distance_km_str;
+        std::getline(ss,from_id,',');
+        std::getline(ss,to_id,',');
+        std::getline(ss,distance_km_str);
+        try{
+            float distance_km = std::stof(distance_km_str);
+            if(nodes_.find(from_id)==nodes_.end()){
+                add_node(RoadNode(from_id,0.0f,0.0f));
+            }
+            add_edge(from_id, to_id, distance_km);
+        } catch(const std::invalid_argument& error){
+            std::cerr << "Invalid distance found, record skipped" << std::endl;
+        }
+    }
+}
+
+std::vector<std::string> RoadGraph::bfs(const std::string& start_id) const{
+//   push start → mark visited
+//   while queue not empty:
+//       current = front; pop
+//       add current to result
+//       for each neighbor:
+//           if not visited: push + mark visited
+
+//  Return the BFS visit order from start_id as a vector of node IDs
+    std::vector<std::string> result;
+//  Use std::queue<std::string> for the frontier
+    std::queue<std::string> frontier;
+//  Use std::unordered_set<std::string> for visited nodes
+    std::unordered_set<std::string> visited;
+//  Standard BFS loop:
+//  push start_id to frontier, mark visited
+    if(adj_.find(start_id) == adj_.end()) return {};
+    frontier.push(start_id);
+    visited.insert(start_id);
+//  while frontier (queue) not empty:
+    while (!frontier.empty()){
+//    current = front; pop        
+      std::string current = frontier.front(); 
+      frontier.pop();
+//    add current to result
+      result.push_back(current);
+      const std::vector<Edge>& current_edges = adj_.at(current);
+//    for each neighbor:
+      for (auto& edge: current_edges){
+//      if not visited: push + mark visited
+        if (visited.find(edge.to_id_)== visited.end()){
+            visited.insert(edge.to_id_);
+            frontier.push(edge.to_id_);
+        }
+      }
+    }
+    return result;
+}

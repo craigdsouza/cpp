@@ -4,3 +4,6 @@
   teams.
 - GTC (GPU Technology Conference) talks — NVIDIA puts all GTC sessions on their site. Search "HD mapping" or "map building DRIVE" 
   — these are the most technically dense, given by the engineers who built it.
+- NVIDIA Learn - https://www.nvidia.com/en-in/learn/
+- NVIDIA Dev Prog - https://developer.nvidia.com/join-nvidia-developer-program
+- NVIDIA Physical AI - https://docs.nvidia.com/learning/physical-ai/

@@ -87,3 +87,11 @@
 | File | What it covers | Reach for it when |
 |------|---------------|-------------------|
 | `011_multi-file-and-cmake.md` | Declaration vs definition, `#pragma once` vs include guards, `ClassName::` scope resolution in `.cpp` files, angle brackets vs quotes, the compile → object → link pipeline, CMake vocabulary (`add_executable`, `target_include_directories`, `PRIVATE`), build workflow | You get a "redefinition" or "undefined reference" error, a header isn't found, or you're writing/debugging a `CMakeLists.txt` |
+
+---
+
+## Day 12 — Graphs and BFS
+
+| File | What it covers | Reach for it when |
+|------|---------------|-------------------|
+| `012_graphs-and-bfs.md` | Graph fundamentals (nodes, edges, directed/undirected, weighted, sparse/dense), adjacency list vs matrix with complexity table, BFS algorithm step-by-step with worked example, `std::queue` and `std::unordered_set` API and gotchas, route planning theory (BFS → Dijkstra → A*), how DRIVE uses road graphs for reachability and map tile pre-loading | You're confused about adjacency list structure, BFS visit order, why the visited set is required, or how today's work connects to real routing algorithms |

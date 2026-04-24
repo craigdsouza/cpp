@@ -237,6 +237,17 @@
 - returning `&it->second` — return pointer to a map value from a const member function
 - returning `nullptr` for not-found from a `const T*` function
 
+### Graphs and BFS
+- `std::queue<T>` — FIFO frontier for BFS (`push`, `front`, `pop`, `empty`)
+- `std::unordered_set<T>` — O(1) visited tracking (`insert`, `find() == end()`)
+- `queue.front()` + `queue.pop()` — separate peek and remove (unlike vector's combined pop_back)
+- BFS implementation — queue frontier + unordered_set visited + mark-at-push discipline
+- `adj_.at(key)` — const-safe map access (vs `operator[]` which is non-const, can't use in `const` method)
+- `std::pair<T1,T2>` as return type for two values (`.first`, `.second`)
+- `std::find(begin, end, value) != end()` — linear search in a vector
+- graph query methods (`most_connected()`, `count_nodes_with_degree()`) — encapsulated to avoid exposing private adjacency list
+- `nodes_.find(id) == nodes_.end()` — check before registering a new node from CSV data
+
 ### Data Structures
 - Ring buffer with head/tail/size tracking
 - Modulo index wrapping (`(index + 1) % capacity`)
