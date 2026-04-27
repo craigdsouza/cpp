@@ -45,6 +45,7 @@
 | 9   | 2026-04-21 | Lambdas + std::algorithm — captures, sort, find_if, transform         | 4/4 pass     | 5.5/7.0   |
 | 10  | 2026-04-22 | File Parsing + Real Data — ifstream, stringstream, CSV, try/catch     | 4/4 pass     | 4.25/6.0  |
 | 11  | 2026-04-23 | CMake + Multi-File Projects — header/source split, linking, CMake     | 4/4 pass     | 5.5/7.0   |
+| 12  | 2026-04-24 | Road Graph Fundamentals — adjacency list, BFS, CSV load, unordered_set | 4/4 pass     | 5.0/6.0   |
 
 
 **Trajectory:** 100% exercise pass rate across Days 6–11 (24/24 exercises). Quiz scores stabilizing in the 4–6.75 range. Mechanical fluency is strong and consistent — the student writes multi-file C++ with CMake without scaffolding. One persistent conceptual gap: type safety per instantiation (carried forward from Days 8, 9, and 11). "Why" reasoning has improved significantly since Day 7.

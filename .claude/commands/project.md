@@ -268,8 +268,8 @@ Structure:
 **Quiz question guidelines:**
 - Test *reasoning*, not just recall — ask "why" and "when", not only "what"
 - Use realistic AV/mapping scenarios: tile nodes, sensor readings, map updates, vehicle state, etc.
-- Mix question types: choose the right type (`T`, `T&`, `T*`, etc.), spot the bug, explain the concept, predict the output
-- Each question should be answerable in 2–5 sentences; avoid yes/no questions
+- Every question must be answerable with a short narrative response (2–5 sentences). Do NOT write questions that require: writing or completing code, tracing algorithm execution step by step, or computing output by hand. "Spot the bug and explain why it's wrong" is fine; "write the corrected code" is not.
+- Avoid yes/no questions
 
 ---
 

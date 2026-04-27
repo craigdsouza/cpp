@@ -248,6 +248,19 @@
 - graph query methods (`most_connected()`, `count_nodes_with_degree()`) — encapsulated to avoid exposing private adjacency list
 - `nodes_.find(id) == nodes_.end()` — check before registering a new node from CSV data
 
+### Dijkstra's Algorithm
+- `std::priority_queue<T, std::vector<T>, std::greater<T>>` — min-heap (smallest element on top)
+- `pq.top()` + `pq.pop()` — separate peek and remove on priority queue (same split as `std::queue`)
+- `std::numeric_limits<float>::infinity()` from `<limits>` — float infinity sentinel for uninitialised distances
+- `using Entry = std::pair<float, std::string>` — local type alias to name a recurring pair type
+- structured bindings `auto [a, b] = pair` — destructure a pair into named variables
+- Dijkstra's loop — dist map init, min-heap seed, stale-skip (`d > dist[current]`), neighbor relaxation, return after loop
+- `prev` map (`unordered_map<string,string>`) — record how each node was reached during relaxation
+- path back-walk — `for (at = end; at != start; at = prev[at])` to reconstruct path in reverse
+- `std::reverse(v.begin(), v.end())` — reverse a vector in-place after back-walk reconstruction
+- `v.back()` — access last element of a sorted vector (e.g. farthest node after ascending sort)
+- `std::iomanip` formatting — `std::setw`, `std::fixed`, `std::setprecision` for aligned numeric output
+
 ### Data Structures
 - Ring buffer with head/tail/size tracking
 - Modulo index wrapping (`(index + 1) % capacity`)

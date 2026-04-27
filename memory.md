@@ -1,6 +1,6 @@
 # Student C++ Understanding Snapshot
 
-Last updated: 2026-04-24 (after Day 12)
+Last updated: 2026-04-27 (after Day 13)
 
 This file documents the student's current C++ understanding — what is solid, what has gaps, and what patterns have emerged in how they learn. It is intended to inform the creation of new project days.
 
@@ -57,6 +57,12 @@ This file documents the student's current C++ understanding — what is solid, w
 - `std::find` on a vector with `begin/end + != end()` idiom — applied correctly
 - `queue.front()` + `queue.pop()` as separate operations — applied correctly
 - Encapsulation reasoning — independently chose to add `most_connected()` and `count_nodes_with_degree()` as class methods rather than exposing `adj_`
+- `std::priority_queue<T, std::vector<T>, std::greater<T>>` — min-heap declaration with custom comparator; applied correctly
+- `pq.top()` + `pq.pop()` — separate peek and remove (same split as `std::queue`); understood without prompting
+- `std::numeric_limits<float>::infinity()` — float infinity sentinel for distance initialization
+- Structured bindings `auto [a, b] = pair` — applied consistently across all Day 13 exercises
+- Dijkstra's algorithm — implemented from scratch: dist map, min-heap, stale skip, neighbor relaxation; `prev` map for path reconstruction; `std::reverse` to recover path
+- `std::iomanip` (`std::setw`, `std::fixed`, `std::setprecision`) — used correctly in output formatting
 
 ### Conceptual understanding
 
@@ -151,10 +157,11 @@ This file documents the student's current C++ understanding — what is solid, w
 | 10  | File Parsing              | Complete |
 | 11  | Multi-File Projects + CMake | Complete |
 | 12  | Road Graph Fundamentals     | Complete |
-| 13  | TBD                         | **Next** |
+| 13  | Dijkstra's Shortest Path    | Complete |
+| 14  | TBD                         | **Next** |
 
 
-**Coming into Day 13:** Road graph solid — adjacency list, BFS, CSV load, multi-file CMake all applied correctly. Encapsulation reasoning strong (class method vs exposing internals — applied unprompted). Carry-forward: DFS visit order (Q3 blank), step-by-step BFS trace by hand (skipped in quiz). Persistent gaps still open: `ClassName::` scope resolution meaning, `#include` vs Python import "no code runs" distinction, dangling reference lifetime framing, `std::optional` nullopt/arrow syntax.
+**Coming into Day 14:** Dijkstra's algorithm solid — implemented from scratch with min-heap, stale skip, and path reconstruction. Priority queue mechanics understood. All exercises passed, all quiz questions scored 0.75 (no carry-forward). Persistent gaps still open: `ClassName::` scope resolution meaning, `#include` vs Python import "no code runs" distinction, dangling reference lifetime framing, `std::optional` nullopt/arrow syntax. Structural brace-scope confusion (placing `return` or reconstruction inside loops) appeared twice this session — worth watching in Day 14.
 
 ---
 

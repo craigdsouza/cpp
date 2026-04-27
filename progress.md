@@ -478,6 +478,36 @@ See [copy-vs-reference.md](./copy-vs-reference.md).
 
 ---
 
+## 2026-04-27 — Day 13: Dijkstra's Shortest Path
+
+### Quiz Score
+2.25 / 3.0 — Solid across all three questions; each scored 0.75 with the right core insight present but missing one precision detail per question.
+
+| Q | Score | Note |
+|---|-------|------|
+| Q1 | 0.75 | Correct reasoning; missing concrete road graph example the question asked for |
+| Q2 | 0.75 | Correct line, placement, and stale entry explanation; re-relaxation cascade not fully articulated |
+| Q4 | 0.75 | Correct + O(N²) intuition; missing explicit complexity notation |
+
+### Exercises
+| Exercise | Result |
+|----------|--------|
+| Exercise 1 — Priority Queue Basics | Pass |
+| Exercise 2 — Dijkstra's Distance Map | Pass |
+| Exercise 3 — Path Reconstruction | Pass |
+| Exercise 4 — Integration: Route Planner | Pass |
+
+### Concepts Confirmed
+- Dijkstra's algorithm implemented from scratch: dist initialization, min-heap seeding, stale skip, neighbor relaxation, return after loop — all correct without prompting
+- Path reconstruction: `prev` map updated on relaxation, unreachability check via `infinity()`, `std::reverse` applied correctly
+- `std::priority_queue` with `std::greater<Entry>`: declared correctly, `top()`/`pop()` split understood, tie-breaking observed
+- Stale entry mechanism: explained correctly in own words including bidirectional edge case — Q2 demonstrates genuine understanding, not just recitation
+
+### Carry-Forward
+None — clean sweep. All questions scored 0.75 (partial credit, not carried forward per rubric). All exercises passed.
+
+---
+
 # 2026-04-13 Microsoft Coursera C++ Course
 
 Installed C/C++ Extension pack
