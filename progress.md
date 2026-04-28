@@ -508,6 +508,39 @@ None — clean sweep. All questions scored 0.75 (partial credit, not carried for
 
 ---
 
+## 2026-04-28 — Day 14: GeoJSON Road Parsing
+
+### Quiz Score
+3.5 / 5.0 — Solid on API mechanics and ghost-key safety; one genuine conceptual gap on Euclidean-vs-Haversine at city scale (degree non-equivalence missed).
+
+| Q | Score | Note |
+|---|-------|------|
+| QR1 | 0.75 | FIFO/LIFO and example correct; missing "last-pushed drives depth-first" mechanism and explicit backtracking framing |
+| Q1 | 0.75 | Correct edge count (4 directed); "polygon" explanation wrong; missing "intermediate node absent from graph" as the key routing consequence |
+| Q2 | 0.75 | Ghost-key behavior and vocabulary correct; missing specific exception type (`json::out_of_range`) and failure mode of `.get<string>()` on null |
+| Q3 | 0.5 | Correct that Haversine matters at long range; wrong that city-scale Euclidean is fine — degree non-equivalence (1° lon ≈ 87 km at 38°N) distorts distances regardless of path length |
+| Q4 | 0.75 | All three key points present; thin reasoning; missing DRIVE safety-critical framing |
+
+### Exercises
+| Exercise | Result |
+|----------|--------|
+| Exercise 1 — JSON Basics with nlohmann | Pass |
+| Exercise 2 — GeoJSON Structure Exploration | Pass |
+| Exercise 3 — Build RoadGraph from GeoJSON | Pass |
+| Exercise 4 — Integration: Route Planner on Real OSM Data | Pass |
+
+### Concepts Confirmed
+- nlohmann/json API: `.at("key").get<T>()` safe access, `.contains()` guard before optional fields, `.at()` vs `[]` ghost-key distinction — applied fluently across all exercises
+- GeoJSON structure: FeatureCollection → Feature → geometry/properties hierarchy, coordinates as `[lon, lat]` — navigated correctly in code
+- `std::ostringstream` with `std::fixed`/`std::setprecision` — implemented for stable coord_to_id string formatting
+- One-way edge detection via `std::find_if` on reverse edge list — correct use of iterator + end() sentinel
+
+### Carry-Forward
+- **Q3 (0.5):** Euclidean on raw degrees is wrong even at city scale — 1° of longitude at 38°N ≈ 87 km, not 111 km. The 22% degree non-equivalence distorts east-west vs north-south distances regardless of path length. This is distinct from Earth's curvature (which only matters at 10+ km).
+- **Q1 (gap):** When only endpoints of a LineString are connected, the intermediate intersection node disappears from the graph entirely — it's not just a distance error, the node becomes unreachable to routing.
+
+---
+
 # 2026-04-13 Microsoft Coursera C++ Course
 
 Installed C/C++ Extension pack

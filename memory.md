@@ -1,6 +1,6 @@
 # Student C++ Understanding Snapshot
 
-Last updated: 2026-04-27 (after Day 13)
+Last updated: 2026-04-28 (after Day 14)
 
 This file documents the student's current C++ understanding — what is solid, what has gaps, and what patterns have emerged in how they learn. It is intended to inform the creation of new project days.
 
@@ -10,7 +10,7 @@ This file documents the student's current C++ understanding — what is solid, w
 
 - **Primary language:** Python
 - **Goal:** NVIDIA DRIVE AV stack — C++ for localization, perception, sensor pipelines
-- **Days completed:** 1–12 (Hello Map, References & Pointers, Classes & Structs, STL Containers, RAII & Destructors, Smart Pointers, Move Semantics, Templates, Lambdas + std::algorithm, File Parsing, Multi-File Projects + CMake, Road Graph Fundamentals)
+- **Days completed:** 1–14 (Hello Map, References & Pointers, Classes & Structs, STL Containers, RAII & Destructors, Smart Pointers, Move Semantics, Templates, Lambdas + std::algorithm, File Parsing, Multi-File Projects + CMake, Road Graph Fundamentals, Dijkstra's Shortest Path, GeoJSON Road Parsing)
 
 ---
 
@@ -63,6 +63,13 @@ This file documents the student's current C++ understanding — what is solid, w
 - Structured bindings `auto [a, b] = pair` — applied consistently across all Day 13 exercises
 - Dijkstra's algorithm — implemented from scratch: dist map, min-heap, stale skip, neighbor relaxation; `prev` map for path reconstruction; `std::reverse` to recover path
 - `std::iomanip` (`std::setw`, `std::fixed`, `std::setprecision`) — used correctly in output formatting
+- `std::ostringstream` — streams values into an in-memory string buffer; `.str()` extracts the result; used for coord_to_id stable formatting
+- `nlohmann::json::parse(stream)` + `.at("key").get<T>()` — safe JSON access pattern with explicit type extraction; `.contains()` before optional field access
+- Ghost-key distinction: `.at()` throws `json::out_of_range` on missing key; `[]` silently inserts null — applied correctly with `.contains()` guard
+- `std::numeric_limits<double>::max()` / `lowest()` — correct sentinel initialisation for min/max tracking; knows `min()` is not the most negative value
+- `static` helper functions in `.cpp` — internal-linkage helpers (`coord_to_id`, `haversine_km`) used correctly
+- One-way edge detection via `std::find_if` on `std::vector<Edge>` — iterator + `end()` sentinel guard applied correctly
+- C++17 structured binding capture limitation — `[&from_id]` fails; `[&]` required when lambda captures from `auto& [k, v]`
 
 ### Conceptual understanding
 
@@ -158,10 +165,11 @@ This file documents the student's current C++ understanding — what is solid, w
 | 11  | Multi-File Projects + CMake | Complete |
 | 12  | Road Graph Fundamentals     | Complete |
 | 13  | Dijkstra's Shortest Path    | Complete |
-| 14  | TBD                         | **Next** |
+| 14  | GeoJSON Road Parsing        | Complete |
+| 15  | P1 Algorithms (Dijkstra's + A* on real OSM) | **Next** |
 
 
-**Coming into Day 14:** Dijkstra's algorithm solid — implemented from scratch with min-heap, stale skip, and path reconstruction. Priority queue mechanics understood. All exercises passed, all quiz questions scored 0.75 (no carry-forward). Persistent gaps still open: `ClassName::` scope resolution meaning, `#include` vs Python import "no code runs" distinction, dangling reference lifetime framing, `std::optional` nullopt/arrow syntax. Structural brace-scope confusion (placing `return` or reconstruction inside loops) appeared twice this session — worth watching in Day 14.
+**Coming into Day 15:** nlohmann/json API solid — `.at().get<T>()`, `.contains()` guard, ghost-key distinction all applied fluently. `load_geojson()` implemented correctly: coordinate extraction, node deduplication, Haversine distances, one-way handling. All four exercises passed. One carry-forward gap: Euclidean on raw degrees is wrong even at city scale due to degree non-equivalence (22% error on longitude at SF's latitude) — student thought it was fine for sub-km routing. Persistent older gaps still open: `ClassName::` scope resolution, `#include` vs Python import, dangling reference lifetime framing, `std::optional` syntax.
 
 ---
 

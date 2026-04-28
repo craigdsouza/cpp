@@ -95,3 +95,11 @@
 | File | What it covers | Reach for it when |
 |------|---------------|-------------------|
 | `012_graphs-and-bfs.md` | Graph fundamentals (nodes, edges, directed/undirected, weighted, sparse/dense), adjacency list vs matrix with complexity table, BFS algorithm step-by-step with worked example, `std::queue` and `std::unordered_set` API and gotchas, route planning theory (BFS → Dijkstra → A*), how DRIVE uses road graphs for reachability and map tile pre-loading | You're confused about adjacency list structure, BFS visit order, why the visited set is required, or how today's work connects to real routing algorithms |
+
+---
+
+## Day 14 — GeoJSON Parsing
+
+| File | What it covers | Reach for it when |
+|------|---------------|-------------------|
+| `014_trigonometry.md` | `<cmath>` trig functions (`sin`, `cos`, `atan2`, `sqrt`), degrees-to-radians conversion, full Haversine implementation for GPS great-circle distance, why `atan2` is preferred over `acos` | You need to compute distances between GPS coordinates, use any trig function in C++, or recall why Euclidean distance fails on coordinates |

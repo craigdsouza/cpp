@@ -33,20 +33,24 @@ int main() {
     // TODO: parse the raw string into a json object
     //   nlohmann::json feature = nlohmann::json::parse(raw);
     //   (or use the alias: using json = nlohmann::json; then json feature = ...)
+    using json = nlohmann::json;
+    json feature = json::parse(raw);
 
     // TODO: print the road name from properties
     //   access with .at("properties").at("name").get<std::string>()
+    std::cout << feature.at("properties").at("name").get<std::string>();
 
     // TODO: print the geometry type
     //   access with .at("geometry").at("type").get<std::string>()
+    std::cout << feature.at("geometry").at("type").get<std::string>();
 
     // TODO: iterate coordinates and print each [lon, lat] pair with its index
-    //   auto coords = feature.at("geometry").at("coordinates");
-    //   for (size_t i = 0; i < coords.size(); i++) {
-    //       double lon = coords[i][0].get<double>();
-    //       double lat = coords[i][1].get<double>();
-    //       std::cout << "  [" << i << "] lon=" << lon << " lat=" << lat << "\n";
-    //   }
+    auto coords = feature.at("geometry").at("coordinates");
+    for (size_t i = 0; i < coords.size(); i++) {
+        double lon = coords[i][0].get<double>();
+        double lat = coords[i][1].get<double>();
+        std::cout << "  [" << i << "] lon=" << lon << " lat=" << lat << "\n";
+    }
 
     // Expected output:
     //   Name: Market Street

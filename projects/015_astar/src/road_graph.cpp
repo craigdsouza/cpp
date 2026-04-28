@@ -147,76 +147,50 @@ float RoadGraph::path_distance(const std::vector<std::string>& path) const {
 }
 
 // ---------------------------------------------------------------------------
-// Day 14 helpers — implement these (called by load_geojson below)
+// Day 14 helpers + method — pre-implemented
 // ---------------------------------------------------------------------------
 
-// Convert a (lat, lon) pair to a stable 4-decimal-place string node ID.
-// Use std::ostringstream with std::fixed and std::setprecision(4).
-// Format: "lat_lon"  e.g. "37.7856_-122.4076"
 static std::string coord_to_id(double lat, double lon) {
-    // TODO: implement using std::ostringstream, std::fixed, std::setprecision(4)
     std::ostringstream oss;
     oss << std::fixed << std::setprecision(4) << lat << "_" << lon;
     return oss.str();
 }
 
-// Great-circle distance between two (lat, lon) pairs, in kilometres.
-// Formula (from exercises background):
-//   a = sin²(Δlat/2) + cos(lat1)·cos(lat2)·sin²(Δlon/2)
-//   distance = 2·R·atan2(√a, √(1−a))   where R = 6371.0 km
-// Convert degrees to radians: degrees * M_PI / 180.0
-// C++ functions: std::sin, std::cos, std::atan2, std::sqrt — all from <cmath>
 static float haversine_km(double lat1, double lon1, double lat2, double lon2) {
-    // TODO: implement
     const double PI = M_PI;
-    double to_rad = PI/180.0;
+    double to_rad = PI / 180.0;
     double lat1r = lat1 * to_rad;
     double lat2r = lat2 * to_rad;
-    double dlat = (lat2-lat1)* to_rad;
-    double dlon = (lon2-lon1)* to_rad;
-
-    double a = std::sin(dlat/2) * std::sin(dlat/2) + std::cos(lat1r) * std::cos(lat2r)
-           * std::sin(dlon/2) * std::sin(dlon/2);
-
+    double dlat  = (lat2 - lat1) * to_rad;
+    double dlon  = (lon2 - lon1) * to_rad;
+    double a = std::sin(dlat/2) * std::sin(dlat/2)
+             + std::cos(lat1r) * std::cos(lat2r)
+             * std::sin(dlon/2) * std::sin(dlon/2);
     double c = 2.0 * std::atan2(std::sqrt(a), std::sqrt(1.0 - a));
-    return 6371.0 * c;  // kilometres
+    return static_cast<float>(6371.0 * c);
 }
 
-// ---------------------------------------------------------------------------
-// Day 14 method — implement this
-// ---------------------------------------------------------------------------
-
 void RoadGraph::load_geojson(const std::string& path) {
-    // Step 1: open file — std::ifstream f(path); check f.is_open()
-    //         parse JSON — nlohmann::json data = nlohmann::json::parse(f);
-    //         wrap in try/catch for nlohmann::json::parse_error
     std::ifstream f(path);
-    if (!f.is_open()) {
-        std::cerr << "Error: cannot open " << path << "\n";
-        return;
-    }
+    if (!f.is_open()) { std::cerr << "Error: cannot open " << path << "\n"; return; }
     using json = nlohmann::json;
     json data;
     try {
         data = json::parse(f);
-    } catch (const nlohmann::json::exception& e) {
-        std::cerr << "JSON parse error: " << e.what() << "\n";
-        return;
+    } catch (const json::exception& e) {
+        std::cerr << "JSON parse error: " << e.what() << "\n"; return;
     }
-
-    // Step 2: iterate features — for (const auto& feature : data.at("features"))
-    for (const auto& feature:data.at("features")){
+    for (const auto& feature : data.at("features")) {
         bool one_way = feature.at("properties").contains("oneway")
-                        && feature.at("properties").at("oneway").get<std::string>() == "yes";
+                    && feature.at("properties").at("oneway").get<std::string>() == "yes";
         auto coords = feature.at("geometry").at("coordinates");
-
-        for (size_t i=0; i<coords.size()-1;i++){
+        for (std::size_t i = 0; i < coords.size() - 1; i++) {
             double lon0 = coords[i][0].get<double>();
             double lat0 = coords[i][1].get<double>();
             double lon1 = coords[i+1][0].get<double>();
             double lat1 = coords[i+1][1].get<double>();
-            std::string id0 = coord_to_id(lat0,lon0);
-            std::string id1 = coord_to_id(lat1,lon1);
+            std::string id0 = coord_to_id(lat0, lon0);
+            std::string id1 = coord_to_id(lat1, lon1);
             if (nodes_.find(id0) == nodes_.end()) add_node(RoadNode(id0, lat0, lon0));
             if (nodes_.find(id1) == nodes_.end()) add_node(RoadNode(id1, lat1, lon1));
             float dist = haversine_km(lat0, lon0, lat1, lon1);
@@ -226,5 +200,45 @@ void RoadGraph::load_geojson(const std::string& path) {
     }
 }
 
-        
+// ---------------------------------------------------------------------------
+// Day 15 methods — implement these
+// ---------------------------------------------------------------------------
 
+// heuristic(from_id, to_id)
+//   Returns the Haversine distance between the two nodes.
+//   Steps:
+//     1. Look up nodes_.at(from_id) and nodes_.at(to_id) to get their RoadNode structs
+//     2. Call haversine_km(a.lat_, a.lon_, b.lat_, b.lon_) and return the result
+float RoadGraph::heuristic(const std::string& from_id, const std::string& to_id) const {
+    // TODO: implement
+    (void)from_id; (void)to_id;
+    return 0.0f;
+}
+
+// a_star(start_id, end_id)
+//   A* search: same structure as shortest_path() but uses f = g + h as priority.
+//
+//   Step 1: initialise g map — all nodes → infinity, start_id → 0.0f
+//           return {} if start_id not in adj_
+//   Step 2: declare prev map (unordered_map<string,string>) for path reconstruction
+//   Step 3: declare min-heap: using Entry = std::pair<float, std::string>;
+//           push {heuristic(start_id, end_id), start_id}   ← f = 0 + h
+//   Step 4: loop while pq not empty:
+//             pop (f, current)
+//             if current == end_id: break   ← early termination
+//             if f > g[current] + heuristic(current, end_id): continue   ← stale skip
+//             for each edge in adj_.at(current):
+//               float tentative_g = g[current] + edge.distance_km_
+//               if tentative_g < g[edge.to_id_]:
+//                 g[edge.to_id_] = tentative_g
+//                 prev[edge.to_id_] = current
+//                 float new_f = tentative_g + heuristic(edge.to_id_, end_id)
+//                 pq.push({new_f, edge.to_id_})
+//   Step 5: reconstruct path — same as shortest_path():
+//             if g[end_id] == infinity → return {}
+//             back-walk prev from end_id to start_id, push_back each node, std::reverse
+std::vector<std::string> RoadGraph::a_star(const std::string& start_id, const std::string& end_id) const {
+    // TODO: implement
+    (void)start_id; (void)end_id;
+    return {};
+}

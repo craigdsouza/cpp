@@ -257,6 +257,27 @@
 - Dijkstra's loop — dist map init, min-heap seed, stale-skip (`d > dist[current]`), neighbor relaxation, return after loop
 - `prev` map (`unordered_map<string,string>`) — record how each node was reached during relaxation
 - path back-walk — `for (at = end; at != start; at = prev[at])` to reconstruct path in reverse
+
+### JSON Parsing (Day 14)
+- `nlohmann::json::parse(stream)` — parse JSON from a `std::ifstream` directly
+- `nlohmann::json::parse(string)` — parse JSON from a raw string literal (`R"(...)"`)
+- `.at("key").get<T>()` — safe field access with explicit C++ type extraction (`<std::string>`, `<double>`, etc.)
+- `.at("key").contains("subkey")` — check existence of an optional field before accessing it
+- `using json = nlohmann::json` — type alias to avoid repeating the namespace
+- range-for over `json` array — `for (const auto& feature : data.at("features"))`
+- `coords[i][0].get<double>()` — index into a JSON array and extract a typed value
+- `json data;` declared before `try`, assigned inside `try` — scope fix for try-block variable lifetime
+- `catch (std::exception& e)` — catch by reference (avoids exception object slicing)
+
+### GeoJSON and Geospatial (Day 14)
+- `std::ostringstream` — build a string by streaming values into an in-memory buffer; `.str()` extracts result
+- `std::fixed` + `std::setprecision(N)` on `ostringstream` — control decimal precision for stable string IDs
+- `static` helper function in `.cpp` — internal-linkage function; not visible outside the translation unit
+- `std::numeric_limits<double>::lowest()` — most negative double; correct sentinel for a max-tracker (not `min()`)
+- Haversine distance — `std::sin`, `std::cos`, `std::atan2`, `std::sqrt` from `<cmath>`; degrees-to-radians conversion with `M_PI`
+- `M_PI` from `<cmath>` — mathematical constant π
+- `[&]` capture when lambda captures a structured binding variable — `[&from_id]` fails in C++17; `[&]` required
+- `std::find_if` on `std::vector<Edge>` — search for an edge matching a predicate; `!= end()` as found-check
 - `std::reverse(v.begin(), v.end())` — reverse a vector in-place after back-walk reconstruction
 - `v.back()` — access last element of a sorted vector (e.g. farthest node after ascending sort)
 - `std::iomanip` formatting — `std::setw`, `std::fixed`, `std::setprecision` for aligned numeric output

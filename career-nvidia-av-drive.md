@@ -86,7 +86,7 @@
 
 **What:** Ingest OpenStreetMap GeoJSON exports, build a road network graph, run shortest-path queries (Dijkstra's, A*).
 
-**Why it matters:** The DRIVE Mapping team builds "scalable map-building workflows." This is the exact pipeline shape — raw spatial data → structured graph. Your GIS background gives you a head start on coordinate handling that most C++ engineers won't have.
+**Why it matters:** The DRIVE Mapping team builds "scalable map-building workflows." This is the exact pipeline shape — raw spatial data → structured graph → shortest route and distance. Latency matters. Given a particular graph, the assignment requires computing shortest path in the least possible time.  
 
 **Deliverables:**
 
@@ -94,6 +94,9 @@
 - Dijkstra's and A* on the road graph
 - Python script that visualizes routes on a Folium/Leaflet map
 - README documenting coordinate system handling
+- Bonus challenges 
+1) Determine how latency changes with growing size of the graph? 
+2) Change the types involved to accomodate dynamic weights of edges. If a car receives RT updates on edge weights, dynamically update route on this basis.
 
 **C++ skills:** STL containers, file I/O, graph algorithms, smart pointers, CMake
 
