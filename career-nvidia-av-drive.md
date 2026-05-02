@@ -3,7 +3,7 @@
 **Target Role:** Software Engineer, DRIVE Mapping Team (JR2014851)
 **Your Current Level:** 4.0/10
 **Date Created:** March 25, 2026
-**Last Updated:** 2026-04-23
+**Last Updated:** 2026-04-28
 
 ---
 
@@ -36,37 +36,36 @@
 ### Last 7 Curriculum Days
 
 
-| Day | Date       | Topic                                                                 | Exercises    | Quiz      |
-| --- | ---------- | --------------------------------------------------------------------- | ------------ | --------- |
-| 5   | 2026-04-03 | RAII & Destructors — destructor timing, stack unwinding, TileBuffer   | 6/6 pass     | 4.0/6.0   |
-| 6   | 2026-04-15 | Smart Pointers — unique_ptr, shared_ptr, move, factory functions      | 5/5 pass     | 6.75/7.0  |
-| 7   | 2026-04-17 | Move Semantics — rvalue refs, move constructor, move assignment, NRVO | 5/5 pass     | 4.0/5.0   |
-| 8   | 2026-04-20 | Templates — function/class templates, specialization, non-type params | 5/5 pass     | 3.75/6.0  |
-| 9   | 2026-04-21 | Lambdas + std::algorithm — captures, sort, find_if, transform         | 4/4 pass     | 5.5/7.0   |
-| 10  | 2026-04-22 | File Parsing + Real Data — ifstream, stringstream, CSV, try/catch     | 4/4 pass     | 4.25/6.0  |
-| 11  | 2026-04-23 | CMake + Multi-File Projects — header/source split, linking, CMake     | 4/4 pass     | 5.5/7.0   |
-| 12  | 2026-04-24 | Road Graph Fundamentals — adjacency list, BFS, CSV load, unordered_set | 4/4 pass     | 5.0/6.0   |
+| Day | Date       | Topic                                                                    | Exercises    | Quiz       |
+| --- | ---------- | ------------------------------------------------------------------------ | ------------ | ---------- |
+| 8   | 2026-04-20 | Templates — function/class templates, specialization, non-type params    | 5/5 pass     | 3.75/6.0   |
+| 9   | 2026-04-21 | Lambdas + std::algorithm — captures, sort, find_if, transform            | 4/4 pass     | 5.5/7.0    |
+| 10  | 2026-04-22 | File Parsing + Real Data — ifstream, stringstream, CSV, try/catch        | 4/4 pass     | 4.25/6.0   |
+| 11  | 2026-04-23 | CMake + Multi-File Projects — header/source split, linking, CMake        | 4/4 pass     | 5.5/7.0    |
+| 12  | 2026-04-24 | Road Graph Fundamentals — adjacency list, BFS, CSV load, unordered_set   | 4/4 pass     | 5.0/6.0    |
+| 13  | 2026-04-27 | Dijkstra's Shortest Path — priority_queue, dist map, path reconstruction  | 4/4 pass     | 2.25/3.0   |
+| 14  | 2026-04-28 | GeoJSON Road Parsing — nlohmann/json, GeoJSON structure, haversine_km    | 4/4 pass     | 3.5/5.0    |
 
 
-**Trajectory:** 100% exercise pass rate across Days 6–11 (24/24 exercises). Quiz scores stabilizing in the 4–6.75 range. Mechanical fluency is strong and consistent — the student writes multi-file C++ with CMake without scaffolding. One persistent conceptual gap: type safety per instantiation (carried forward from Days 8, 9, and 11). "Why" reasoning has improved significantly since Day 7.
+**Trajectory:** 100% exercise pass rate across Days 6–14 (36/36 exercises). Quiz scores in the 3.5–6.75 range; "why" reasoning has improved since Day 7 but depth gaps persist (DFS visit order, degree non-equivalence). Mechanical fluency is strong — writing multi-file C++ with CMake and real geospatial data pipelines without scaffolding. Type safety per instantiation gap (Days 8, 9, 11) now closed. Current carry-forwards: DFS visit order trace, Euclidean-vs-Haversine at city scale.
 
 ---
 
 ### Next 7 Curriculum Days
 
 
-| Day | Target Date | Topic                                   | Key Concepts                                                                                  | Real Data?                    |
-| --- | ----------- | --------------------------------------- | --------------------------------------------------------------------------------------------- | ----------------------------- |
-| 12  | Fri Apr 24  | Road Graph Fundamentals                 | adjacency list, BFS, CSV edge loading, unordered_set visited tracking                         | Yes — road edge CSV           |
-| 13  | Mon Apr 27  | Graph Algorithms                        | Dijkstra's shortest path, priority_queue, path reconstruction                                 | Yes                           |
-| 14  | Tue Apr 28  | P1 Setup + GeoJSON Parsing              | create P1 repo, integrate nlohmann/json, parse real OSM GeoJSON into RoadGraph adjacency list | **Yes — real OSM data**       |
-| 15  | Wed Apr 29  | P1 Algorithms                           | port Dijkstra's + implement A* in P1 codebase, test on real SF road data                      | Yes                           |
-| 16  | Thu Apr 30   | P1 Python Visualization                 | Folium/Leaflet route visualization, WGS84 coordinate handling, export from C++ graph          | Yes                           |
-| 17  | Fri May 1   | P1 Polish                               | README, edge case handling, coordinate transform docs, query benchmarks                       | Yes                           |
+| Day | Target Date | Topic                                   | Key Concepts                                                                                   | Real Data?                    |
+| --- | ----------- | --------------------------------------- | ---------------------------------------------------------------------------------------------- | ----------------------------- |
+| 15  | Wed Apr 29  | A* Search Algorithm                     | A* heuristic (Haversine), g+h priority, early termination, std::chrono benchmarking, JSON export | **Yes — real SF data**      |
+| 16  | Thu Apr 30  | P1 Python Visualization                 | Folium/Leaflet route visualization, WGS84 coordinate handling, routes.json from C++ graph     | Yes                           |
+| 17  | Fri May 1   | P1 Polish                               | README, edge case handling, coordinate transform docs, A* vs Dijkstra benchmarks               | Yes                           |
 | 18  | Mon May 2   | P1 Complete — GitHub Push               | final review, clean CMake build, portfolio write-up, push to `autonomous-stack-projects/`     | **Yes — P1 done**             |
+| 19  | Tue May 5   | Concurrency Fundamentals                | std::thread, std::mutex, std::condition_variable, producer-consumer pattern                    | No                            |
+| 20  | Wed May 6   | Networking + gRPC Intro                 | gRPC basics, .proto file authoring, code generation, client-server pattern                     | No                            |
+| 21  | Thu May 7   | Protocol Buffers                        | protobuf schema design, serialization, why faster than JSON, nested message types              | No                            |
 
 
-**Note on Project 1:** Days 12–13 build the C++ core in the learning repo (exercises). Days 14–17 apply that code to real OSM GeoJSON in the actual P1 repo. Day 18 is the finish line: clean build, README, GitHub push. Inheritance, concurrency, and networking (originally planned for Days 14–17) are postponed to after P1 is shipped — they feed P2 and P3, not P1.
+**Note on Project 1:** Days 12–14 built the C++ core in the learning repo (road graph, Dijkstra's, GeoJSON parsing). Days 15–17 complete the algorithms (A*), Python visualization, and polish — all still in the learning repo. Day 18 is the finish line: clean standalone build, README, GitHub push to `autonomous-stack-projects/`. Inheritance, concurrency, and networking (Days 19+) feed P2 and P3.
 
 ---
 
@@ -277,9 +276,9 @@
 
 | Dates           | C++ Curriculum + DL                                                          | Project Milestone | Target Date | Status             |
 | --------------- | ---------------------------------------------------------------------------- | ----------------- | ----------- | ------------------ |
-| Mar 25 – Apr 15 | Days 1–6: types → smart pointers                                             | P1 start (Apr 15) | Apr 15      | **Done / Started** |
-| Apr 17–25       | Days 7–13: move semantics, templates, lambdas, real data, CMake, graph algos | P1 active         | —           | **In Progress**    |
-| Apr 28 – May 5  | Days 14–18: P1 GeoJSON parsing, Dijkstra's/A*, Python viz, polish, push      | **P1 complete**   | **May 5**   | Upcoming           |
+| Mar 25 – Apr 15 | Days 1–6: types → smart pointers                                             | P1 start (Apr 15) | Apr 15      | **Done**           |
+| Apr 17–28       | Days 7–14: move semantics, templates, lambdas, real data, CMake, graph algos, GeoJSON parsing | P1 core built | —      | **Done**           |
+| Apr 29 – May 5  | Days 15–18: A* algorithm, Python viz, polish, push                           | **P1 complete**   | **May 5**   | **In Progress**    |
 | May 5–16        | Days 19–28: concurrency, networking, gRPC, protobuf                          | **P2 complete**   | **May 26**  | Upcoming           |
 | May 19 – Jun 6  | Days 29–38: serialization, inference runtimes + DL: PyTorch basics, CNNs     | **P3 complete**   | **Jun 16**  | Upcoming           |
 | Jun 9–27        | C++: ONNX/TensorRT + DL: object detection fine-tuning (KITTI/nuScenes)       | **P4 complete**   | **Jul 7**   | Upcoming           |
